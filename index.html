@@ -109,7 +109,8 @@
                 <p class="text-xs text-gray-400">Paste a YouTube link to generate a vertical clip, then preview or download your MP4.</p>
             </div>
 
-            <form id="clip-form" onsubmit="handleGenerateClip(event)" class="space-y-4">
+            <!-- Form with return false to prevent page jumps -->
+            <form id="clip-form" onsubmit="handleGenerateClip(event); return false;" class="space-y-4">
                 <div>
                     <label class="block text-xs font-mono text-gray-300 mb-1">Video URL</label>
                     <div class="flex gap-2">
@@ -152,30 +153,4 @@
                 <h3 class="text-base font-bold text-white">AI Hook Detection</h3>
                 <p class="text-xs text-gray-400 leading-relaxed">Advanced language models analyze transcripts to isolate peak reactions and highest-converting viral hooks.</p>
             </div>
-            <div class="glass-panel p-6 rounded-2xl border border-gray-800 space-y-3">
-                <div class="w-10 h-10 rounded-xl bg-brand-purple/10 text-brand-purple flex items-center justify-center">
-                    <i data-lucide="maximize-2" class="w-5 h-5"></i>
-                </div>
-                <h3 class="text-base font-bold text-white">Speaker Face-Tracking</h3>
-                <p class="text-xs text-gray-400 leading-relaxed">Automatically crops 16:9 streams into 9:16 vertical video while keeping active speakers centered perfectly.</p>
-            </div>
-            <div class="glass-panel p-6 rounded-2xl border border-gray-800 space-y-3">
-                <div class="w-10 h-10 rounded-xl bg-pink-500/10 text-pink-400 flex items-center justify-center">
-                    <i data-lucide="type" class="w-5 h-5"></i>
-                </div>
-                <h3 class="text-base font-bold text-white">Dynamic Animated Captions</h3>
-                <p class="text-xs text-gray-400 leading-relaxed">Burns eye-catching, word-by-word animated captions proven to skyrocket retention on TikToks, Shorts & Reels.</p>
-            </div>
-        </section>
-
-        <!-- Pricing Section -->
-        <section id="pricing" class="space-y-8 max-w-5xl mx-auto pt-8">
-            <div class="text-center space-y-2">
-                <span class="text-xs font-mono text-brand-purple uppercase">Simple Pricing Plans</span>
-                <h2 class="text-3xl font-extrabold text-white">Ready to Grow Your Channel?</h2>
-                <p class="text-gray-400 text-xs">Choose a plan below. Cancel anytime.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Plan 1 -->
-                <div class="glass-panel rounded-2
+            <div class="glass-panel p-6 rounded-2xl border border-gray-800 space-y-
