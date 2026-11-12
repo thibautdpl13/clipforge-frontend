@@ -1,88 +1,226 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClipForge AI - Automated Short-Form Clipping</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-950 text-white min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+<body class="bg-[#090d16] text-white min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
 
-    <!-- Top Navigation Bar -->
-    <header class="w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
-        <div class="flex items-center space-x-3">
-            <div class="w-9 h-9 bg-gradient-to-tr from-indigo-600 to-purple-500 rounded-lg flex items-center justify-center font-bold text-lg shadow-lg shadow-indigo-500/20">CF</div>
-            <span class="font-bold text-lg tracking-wider bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">CLIPFORGE AI</span>
-            <span class="text-[10px] bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2 py-0.5 rounded-full font-medium">SaaS</span>
-        </div>
-        <div class="flex items-center space-x-4">
-            <a href="#billing" class="text-xs text-slate-400 hover:text-white transition duration-150 hidden sm:block">Manage Subscription / Billing</a>
-            <a href="#workflow" class="text-xs bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-90 px-4 py-2 rounded-full font-medium transition shadow-md shadow-indigo-600/20">Get Started</a>
+    <!-- Defined Top Navigation Bar -->
+    <header class="sticky top-0 z-50 w-full bg-[#090d16]/85 backdrop-blur-md border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <!-- Brand & Scissors Logo -->
+            <a href="#" class="flex items-center space-x-3">
+                <div class="w-9 h-9 bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 rounded-lg flex items-center justify-center shadow-lg shadow-indigo-500/25">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="6" cy="6" r="3"></circle>
+                        <circle cx="6" cy="18" r="3"></circle>
+                        <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
+                        <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
+                        <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
+                    </svg>
+                </div>
+                <span class="font-bold text-lg tracking-wider text-white">CLIPFORGE AI</span>
+                <span class="text-[10px] uppercase tracking-widest bg-slate-800 text-slate-300 border border-slate-700 px-2 py-0.5 rounded-md font-semibold">SaaS</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-400">
+                <a href="#workflow" class="hover:text-white transition">Clip Generator</a>
+                <a href="#pricing" class="hover:text-white transition">Pricing & Resolutions</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center space-x-4">
+                <a href="#pricing" class="text-xs sm:text-sm text-slate-300 hover:text-white transition font-medium hidden sm:inline-block">Manage Subscription / Billing</a>
+                <a href="#workflow" class="text-xs sm:text-sm bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 px-4 py-2 rounded-full font-semibold transition shadow-md shadow-indigo-600/25">Get Started</a>
+            </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <main class="w-full max-w-4xl mx-auto px-6 py-12 flex flex-col items-center text-center my-auto">
-        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-indigo-400 text-xs font-medium mb-8 shadow-sm">
-            <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
+    <!-- Hero & Generator Section -->
+    <main class="w-full max-w-5xl mx-auto px-6 pt-16 pb-20 flex flex-col items-center text-center">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-cyan-400 text-xs font-mono mb-8 shadow-sm">
             <span>Automated Short-Form AI Clipping for TikToks, Shorts & Reels</span>
         </div>
 
-        <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
+        <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 leading-[1.12]">
             Turn Long Videos & Streams Into <br>
-            <span class="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-500 bg-clip-text text-transparent">Viral TikToks, Shorts & Reels Automatically</span>
+            <span class="bg-gradient-to-r from-cyan-400 via-indigo-400 to-pink-500 bg-clip-text text-transparent">Viral TikToks, Shorts & Reels Automatically</span>
         </h1>
 
-        <p class="text-slate-400 text-sm sm:text-base max-w-xl mb-10 leading-relaxed">
+        <p class="text-slate-400 text-sm sm:text-base max-w-2xl mb-12 leading-relaxed">
             Paste any YouTube link or stream URL. Our AI finds high-energy moments, tracks active speakers, generates animated captions, and exports vertical videos for TikToks, Shorts & Reels in seconds.
         </p>
 
-        <!-- Interactive Workflow Box -->
-        <div id="workflow" class="w-full max-w-md bg-slate-900/80 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-slate-800 text-left">
-            <form id="clipForm" class="space-y-4">
+        <!-- Interactive Generator Box -->
+        <div id="workflow" class="w-full max-w-lg bg-slate-900/90 backdrop-blur-md p-6 sm:p-8 rounded-2xl shadow-2xl border border-slate-800 text-left">
+            <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">YouTube Video URL</label>
+                    <label for="videoUrl" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">YouTube Video URL</label>
                     <input 
                         type="url" 
                         id="videoUrl" 
-                        required 
                         placeholder="https://www.youtube.com/watch?v=..." 
-                        class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-white placeholder-slate-600 text-sm transition"
+                        class="w-full px-4 py-3.5 bg-[#090d16] border border-slate-700/80 rounded-xl focus:outline-none focus:border-indigo-500 text-white placeholder-slate-600 text-sm transition"
                     >
                 </div>
                 <button 
-                    type="submit" 
+                    type="button" 
                     id="generateBtn" 
-                    class="w-full py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 font-semibold rounded-xl transition duration-200 text-sm shadow-lg shadow-indigo-600/25 flex items-center justify-center space-x-2"
+                    onclick="generateClip()"
+                    class="w-full py-3.5 bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 hover:opacity-95 font-semibold rounded-xl transition duration-200 text-sm shadow-lg shadow-indigo-600/25 flex items-center justify-center space-x-2 cursor-pointer"
                 >
                     <span>Generate Clip</span>
                 </button>
-            </form>
+            </div>
 
-            <div id="statusMessage" class="mt-4 text-center text-xs text-slate-400 leading-relaxed min-h-[2rem] flex items-center justify-center"></div>
+            <div id="statusMessage" class="mt-4 text-center text-xs text-slate-400 leading-relaxed min-h-[1.5rem] flex items-center justify-center"></div>
         </div>
     </main>
 
+    <!-- Pricing Plans Section -->
+    <section id="pricing" class="w-full max-w-6xl mx-auto px-6 py-20 border-t border-slate-800/80">
+        <div class="text-center max-w-2xl mx-auto mb-14">
+            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">Simple Monthly Clip Limits</h2>
+            <p class="text-slate-400 text-sm sm:text-base">
+                No confusing credit math or upload hour caps. Pay strictly for how many finished vertical clips you generate per month and your maximum export resolution.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Free / Starter Tier -->
+            <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-8 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold text-white">Starter</h3>
+                        <span class="text-xs font-mono bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md">720p HD</span>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-4xl font-extrabold">$0</span>
+                        <span class="text-slate-400 text-sm">/ month</span>
+                    </div>
+                    <ul class="space-y-3.5 text-sm text-slate-300 border-t border-slate-800 pt-6">
+                        <li class="flex items-center space-x-2.5">
+                            <span class="text-cyan-400 font-bold">✓</span>
+                            <span><strong>5 generated clips</strong> per month</span>
+                        </li>
+                        <li class="flex items-center space-x-2.5">
+                            <span class="text-cyan-400 font-bold">✓</span>
+                            <span><strong>720p (1280×720)</strong> vertical MP4 export</span>
+                        </li>
+                        <li class="flex items-center space-x-2.5">
+                            <span class="text-cyan-400 font-bold">✓</span>
+                            <span>30 fps standard frame rate</span>
+                        </li>
+                        <li class="flex items-center space-x-2.5">
+                            <span class="text-cyan-400 font-bold">✓</span>
+                            <span>1080×1920 9:16 auto-crop framing</span>
+                        </li>
+                    </ul>
+                </div>
+                <a href="#workflow" class="mt-8 block w-full text-center py-3 rounded-xl border border-slate-700 hover:border-slate-500 text-sm font-semibold transition">
+                    Start Free
+                </a>
+            </div>
+
+            <!-- Creator Tier (Highlighted) -->
+            <div class="bg-slate-900 border-2 border-indigo-500 rounded-2xl p-8 flex flex-col justify-between relative shadow-2xl shadow-indigo-500/10">
+                <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+                    Most Popular
+                </div>
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold text-white">Creator</h3>
+                        <span class="text-xs font-mono bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2.5 py-1 rounded-md">1080p Full HD</span>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-4xl font-extrabold">$19</span>
+                        <span class="text-slate-400 text-sm">/ month</span>
+                    </div>
+                    <ul class="space-y-3.5 text-sm text-slate-200 border-t border-slate-800 pt-6">
+                        <li class="flex items-center space-x-2.5">
+                            <span class="text-indigo-400 font-bold">✓</span>
+                            <span><strong>50 generated clips</strong> per month</span>
+                        </li>
+                        <li class="flex items-center space-x-2.5">
+                            <span class="text-indigo-400 font-bold">✓</span>
+                            <span><strong>1080p (1080×1920)</strong> crisp Full HD export</span>
+                        </li>
+                        <li class="flex items-center space-x-2.5">
+                            <span class="text-indigo-400 font-bold">✓</span>
+                            <span>Up to 60 fps smooth playback</span>
+                        </li>
+                        <li class="flex items-center space-x-2.5">
+                            <span class="text-indigo-400 font-bold">✓</span>
+                            <span>No ClipForge watermark on exports</span>
+                        </li>
+                    </ul>
+                </div>
+                <button type="button" class="mt-8 w-full py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:opacity-90 text-sm font-semibold transition shadow-lg shadow-indigo-600/25 cursor-pointer">
+                    Upgrade to Creator
+                </button>
+            </div>
+
+            <!-- Studio / Pro Tier -->
+            <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-8 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold text-white">Studio</h3>
+                        <span class="text-xs font-mono bg-pink-500/15 text-pink-300 border border-pink-500/30 px-2.5 py-1 rounded-md">4K Ultra HD</span>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-4xl font-extrabold">$49</span>
+                        <span class="text-slate-400 text-sm">/ month</span>
+                    </div>
+                    <ul class="space-y-3.5 text-sm text-slate-300 border-t border-slate-800 pt-6">
+                        <li class="flex items-center space-x-2.5">
+                            <span class="text-pink-400 font-bold">✓</span>
+                            <span><strong>200 generated clips</strong> per month</span>
+                        </li>
+                        <li class="flex items-center space-x-2.5">
+                            <span class="text-pink-400 font-bold">✓</span>
+                            <span><strong>4K (2160×3840)</strong> maximum resolution export</span>
+                        </li>
+                        <li class="flex items-center space-x-2.5">
+                            <span class="text-pink-400 font-bold">✓</span>
+                            <span>High-bitrate encoding (up to 25 Mbps)</span>
+                        </li>
+                        <li class="flex items-center space-x-2.5">
+                            <span class="text-pink-400 font-bold">✓</span>
+                            <span>Priority render queue (zero wait times)</span>
+                        </li>
+                    </ul>
+                </div>
+                <button type="button" class="mt-8 w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-sm font-semibold transition cursor-pointer">
+                    Upgrade to Studio
+                </button>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
-    <footer class="w-full py-6 text-center text-xs text-slate-600 border-t border-slate-900">
+    <footer class="w-full py-8 text-center text-xs text-slate-500 border-t border-slate-800/80">
         &copy; 2026 ClipForge AI. All rights reserved.
     </footer>
 
     <script>
-        const form = document.getElementById('clipForm');
-        const videoUrlInput = document.getElementById('videoUrl');
-        const statusMessage = document.getElementById('statusMessage');
-        const generateBtn = document.getElementById('generateBtn');
+        async function generateClip() {
+            const videoUrlInput = document.getElementById('videoUrl');
+            const statusMessage = document.getElementById('statusMessage');
+            const generateBtn = document.getElementById('generateBtn');
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
             const url = videoUrlInput.value.trim();
-            if (!url) return;
+            if (!url) {
+                statusMessage.textContent = 'Please paste a valid YouTube URL first.';
+                return;
+            }
 
             generateBtn.disabled = true;
-            generateBtn.textContent = 'Processing...';
-            statusMessage.textContent = 'Connecting to backend (Render may take up to 45s to wake up on cold start)...';
+            generateBtn.innerHTML = '<span>Processing Clip...</span>';
+            statusMessage.textContent = 'Downloading and rendering vertical clip on Render...';
 
             try {
                 const response = await fetch('https://clipforge-backend-4t73.onrender.com/generate-auto-clip', {
@@ -114,9 +252,9 @@
                 statusMessage.textContent = `Error: ${err.message}`;
             } finally {
                 generateBtn.disabled = false;
-                generateBtn.textContent = 'Generate Clip';
+                generateBtn.innerHTML = '<span>Generate Clip</span>';
             }
-        });
+        }
     </script>
 </body>
 </html>
