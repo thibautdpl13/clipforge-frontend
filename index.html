@@ -9,7 +9,7 @@
 <body class="bg-[#090d16] text-white min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
 
     <!-- Defined Top Navigation Bar -->
-    <header class="sticky top-0 z-50 w-full bg-[#090d16]/85 backdrop-blur-md border-b border-slate-800/80">
+    <header class="sticky top-0 z-50 w-full bg-[#090d16]/90 backdrop-blur-md border-b border-slate-800/80">
         <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
             <!-- Brand & Scissors Logo -->
             <a href="#" class="flex items-center space-x-3">
@@ -35,7 +35,7 @@
             <!-- Right Actions -->
             <div class="flex items-center space-x-4">
                 <a href="#pricing" class="text-xs sm:text-sm text-slate-300 hover:text-white transition font-medium hidden sm:inline-block">Manage Subscription / Billing</a>
-                <a href="#workflow" class="text-xs sm:text-sm bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 px-4 py-2 rounded-full font-semibold transition shadow-md shadow-indigo-600/25">Get Started</a>
+                <a href="#workflow" class="text-xs sm:text-sm bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 px-4 py-2 rounded-full font-semibold transition shadow-md shadow-indigo-600/25">Try Free Demo</a>
             </div>
         </div>
     </header>
@@ -57,16 +57,17 @@
 
         <!-- Interactive Generator Box -->
         <div id="workflow" class="w-full max-w-lg bg-slate-900/90 backdrop-blur-md p-6 sm:p-8 rounded-2xl shadow-2xl border border-slate-800 text-left">
+            <div class="flex items-center justify-between mb-2">
+                <label for="videoUrl" class="block text-xs font-semibold uppercase tracking-wider text-slate-400">YouTube Video URL</label>
+                <span class="text-[11px] font-medium text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-md">1 Free Demo Clip Included</span>
+            </div>
             <div class="space-y-4">
-                <div>
-                    <label for="videoUrl" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">YouTube Video URL</label>
-                    <input 
-                        type="url" 
-                        id="videoUrl" 
-                        placeholder="https://www.youtube.com/watch?v=..." 
-                        class="w-full px-4 py-3.5 bg-[#090d16] border border-slate-700/80 rounded-xl focus:outline-none focus:border-indigo-500 text-white placeholder-slate-600 text-sm transition"
-                    >
-                </div>
+                <input 
+                    type="url" 
+                    id="videoUrl" 
+                    placeholder="https://www.youtube.com/watch?v=..." 
+                    class="w-full px-4 py-3.5 bg-[#090d16] border border-slate-700/80 rounded-xl focus:outline-none focus:border-indigo-500 text-white placeholder-slate-600 text-sm transition"
+                >
                 <button 
                     type="button" 
                     id="generateBtn" 
@@ -84,32 +85,32 @@
     <!-- Pricing Plans Section -->
     <section id="pricing" class="w-full max-w-6xl mx-auto px-6 py-20 border-t border-slate-800/80">
         <div class="text-center max-w-2xl mx-auto mb-14">
-            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">Simple Monthly Clip Limits</h2>
+            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">Simple Monthly Clip Plans</h2>
             <p class="text-slate-400 text-sm sm:text-base">
-                No confusing credit math or upload hour caps. Pay strictly for how many finished vertical clips you generate per month and your maximum export resolution.
+                Test the workflow with <strong class="text-white">1 free demo clip</strong> before subscribing. Upgrade anytime via Stripe for higher monthly clip quotas and sharper export resolutions.
             </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Free / Starter Tier -->
+            <!-- Starter Creator ($19/mo) -->
             <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-8 flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-bold text-white">Starter</h3>
-                        <span class="text-xs font-mono bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md">720p HD</span>
+                        <h3 class="text-lg font-bold text-white">Starter Creator</h3>
+                        <span class="text-xs font-mono bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md">1080p HD</span>
                     </div>
                     <div class="mb-6">
-                        <span class="text-4xl font-extrabold">$0</span>
+                        <span class="text-4xl font-extrabold">$19</span>
                         <span class="text-slate-400 text-sm">/ month</span>
                     </div>
                     <ul class="space-y-3.5 text-sm text-slate-300 border-t border-slate-800 pt-6">
                         <li class="flex items-center space-x-2.5">
                             <span class="text-cyan-400 font-bold">✓</span>
-                            <span><strong>5 generated clips</strong> per month</span>
+                            <span><strong>30 generated clips</strong> per month</span>
                         </li>
                         <li class="flex items-center space-x-2.5">
                             <span class="text-cyan-400 font-bold">✓</span>
-                            <span><strong>720p (1280×720)</strong> vertical MP4 export</span>
+                            <span><strong>1080p (1080×1920)</strong> vertical MP4 export</span>
                         </li>
                         <li class="flex items-center space-x-2.5">
                             <span class="text-cyan-400 font-bold">✓</span>
@@ -117,68 +118,68 @@
                         </li>
                         <li class="flex items-center space-x-2.5">
                             <span class="text-cyan-400 font-bold">✓</span>
-                            <span>1080×1920 9:16 auto-crop framing</span>
+                            <span>No ClipForge watermark on exports</span>
                         </li>
                     </ul>
                 </div>
-                <a href="#workflow" class="mt-8 block w-full text-center py-3 rounded-xl border border-slate-700 hover:border-slate-500 text-sm font-semibold transition">
-                    Start Free
+                <a href="https://buy.stripe.com/test_14AcOEgE80p89eEaEE" target="_blank" rel="noopener noreferrer" class="mt-8 block w-full text-center py-3 rounded-xl border border-slate-700 hover:border-indigo-500 hover:bg-slate-800/60 text-sm font-semibold transition cursor-pointer">
+                    Subscribe — Starter Creator
                 </a>
             </div>
 
-            <!-- Creator Tier (Highlighted) -->
+            <!-- Pro Creator ($49/mo - Highlighted) -->
             <div class="bg-slate-900 border-2 border-indigo-500 rounded-2xl p-8 flex flex-col justify-between relative shadow-2xl shadow-indigo-500/10">
                 <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">
                     Most Popular
                 </div>
                 <div>
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-bold text-white">Creator</h3>
-                        <span class="text-xs font-mono bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2.5 py-1 rounded-md">1080p Full HD</span>
-                    </div>
-                    <div class="mb-6">
-                        <span class="text-4xl font-extrabold">$19</span>
-                        <span class="text-slate-400 text-sm">/ month</span>
-                    </div>
-                    <ul class="space-y-3.5 text-sm text-slate-200 border-t border-slate-800 pt-6">
-                        <li class="flex items-center space-x-2.5">
-                            <span class="text-indigo-400 font-bold">✓</span>
-                            <span><strong>50 generated clips</strong> per month</span>
-                        </li>
-                        <li class="flex items-center space-x-2.5">
-                            <span class="text-indigo-400 font-bold">✓</span>
-                            <span><strong>1080p (1080×1920)</strong> crisp Full HD export</span>
-                        </li>
-                        <li class="flex items-center space-x-2.5">
-                            <span class="text-indigo-400 font-bold">✓</span>
-                            <span>Up to 60 fps smooth playback</span>
-                        </li>
-                        <li class="flex items-center space-x-2.5">
-                            <span class="text-indigo-400 font-bold">✓</span>
-                            <span>No ClipForge watermark on exports</span>
-                        </li>
-                    </ul>
-                </div>
-                <button type="button" class="mt-8 w-full py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:opacity-90 text-sm font-semibold transition shadow-lg shadow-indigo-600/25 cursor-pointer">
-                    Upgrade to Creator
-                </button>
-            </div>
-
-            <!-- Studio / Pro Tier -->
-            <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-8 flex flex-col justify-between">
-                <div>
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-bold text-white">Studio</h3>
-                        <span class="text-xs font-mono bg-pink-500/15 text-pink-300 border border-pink-500/30 px-2.5 py-1 rounded-md">4K Ultra HD</span>
+                        <h3 class="text-lg font-bold text-white">Pro Creator</h3>
+                        <span class="text-xs font-mono bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2.5 py-1 rounded-md">2K / 60fps</span>
                     </div>
                     <div class="mb-6">
                         <span class="text-4xl font-extrabold">$49</span>
                         <span class="text-slate-400 text-sm">/ month</span>
                     </div>
+                    <ul class="space-y-3.5 text-sm text-slate-200 border-t border-slate-800 pt-6">
+                        <li class="flex items-center space-x-2.5">
+                            <span class="text-indigo-400 font-bold">✓</span>
+                            <span><strong>120 generated clips</strong> per month</span>
+                        </li>
+                        <li class="flex items-center space-x-2.5">
+                            <span class="text-indigo-400 font-bold">✓</span>
+                            <span><strong>Up to 2K (1440×2560)</strong> sharp vertical export</span>
+                        </li>
+                        <li class="flex items-center space-x-2.5">
+                            <span class="text-indigo-400 font-bold">✓</span>
+                            <span>Smooth <strong>60 fps</strong> frame rate unlocked</span>
+                        </li>
+                        <li class="flex items-center space-x-2.5">
+                            <span class="text-indigo-400 font-bold">✓</span>
+                            <span>Higher video bitrate (15 Mbps) for zero blur</span>
+                        </li>
+                    </ul>
+                </div>
+                <a href="https://buy.stripe.com/test_8wM3cubu83Eke2Y145" target="_blank" rel="noopener noreferrer" class="mt-8 block w-full text-center py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:opacity-90 text-sm font-semibold transition shadow-lg shadow-indigo-600/25 cursor-pointer">
+                    Subscribe — Pro Creator
+                </a>
+            </div>
+
+            <!-- Agency Unlimited ($149/mo) -->
+            <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-8 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold text-white">Agency Unlimited</h3>
+                        <span class="text-xs font-mono bg-pink-500/15 text-pink-300 border border-pink-500/30 px-2.5 py-1 rounded-md">4K Ultra HD</span>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-4xl font-extrabold">$149</span>
+                        <span class="text-slate-400 text-sm">/ month</span>
+                    </div>
                     <ul class="space-y-3.5 text-sm text-slate-300 border-t border-slate-800 pt-6">
                         <li class="flex items-center space-x-2.5">
                             <span class="text-pink-400 font-bold">✓</span>
-                            <span><strong>200 generated clips</strong> per month</span>
+                            <span><strong>Unlimited generated clips</strong> every month</span>
                         </li>
                         <li class="flex items-center space-x-2.5">
                             <span class="text-pink-400 font-bold">✓</span>
@@ -186,17 +187,17 @@
                         </li>
                         <li class="flex items-center space-x-2.5">
                             <span class="text-pink-400 font-bold">✓</span>
-                            <span>High-bitrate encoding (up to 25 Mbps)</span>
+                            <span>60 fps + master bitrate (25 Mbps)</span>
                         </li>
                         <li class="flex items-center space-x-2.5">
                             <span class="text-pink-400 font-bold">✓</span>
-                            <span>Priority render queue (zero wait times)</span>
+                            <span>Multi-channel agency commercial usage</span>
                         </li>
                     </ul>
                 </div>
-                <button type="button" class="mt-8 w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-sm font-semibold transition cursor-pointer">
-                    Upgrade to Studio
-                </button>
+                <a href="https://buy.stripe.com/test_4gw28q1XW6Swf73g02" target="_blank" rel="noopener noreferrer" class="mt-8 block w-full text-center py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-sm font-semibold transition cursor-pointer">
+                    Subscribe — Agency Unlimited
+                </a>
             </div>
         </div>
     </section>
