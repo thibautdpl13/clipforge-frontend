@@ -4,33 +4,107 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClipForge</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #030712;
+            color: #f8fafc;
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+        }
+        .card {
+            width: 100%;
+            max-width: 28rem;
+            background-color: #0f172a;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid #1e293b;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #818cf8;
+            letter-spacing: 0.05em;
+        }
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #cbd5e1;
+        }
+        input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 0.5rem;
+            color: white;
+            font-size: 0.875rem;
+            box-sizing: border-box;
+            outline: none;
+        }
+        input:focus {
+            border-color: #6366f1;
+        }
+        input::placeholder {
+            color: #64748b;
+        }
+        button {
+            width: 100%;
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background-color: #4f46e5;
+            color: white;
+            font-weight: 600;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #4338ca;
+        }
+        button:disabled {
+            background-color: #312e81;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .status {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            min-height: 2rem;
+            line-height: 1.25rem;
+        }
+    </style>
 </head>
-<body class="bg-slate-950 text-white min-h-screen flex flex-col items-center justify-center p-4">
-    <div class="w-full max-w-md bg-slate-900 p-6 rounded-xl shadow-lg border border-slate-800">
-        <h1 class="text-2xl font-bold mb-6 text-center tracking-wide text-indigo-400">ClipForge</h1>
-        
-        <form id="clipForm" class="space-y-4">
+<body>
+    <div class="card">
+        <h1>ClipForge</h1>
+        <form id="clipForm">
             <div>
-                <label class="block text-sm font-medium mb-2 text-slate-300">YouTube Video URL</label>
+                <label for="videoUrl">YouTube Video URL</label>
                 <input 
                     type="url" 
                     id="videoUrl" 
                     required 
-                    placeholder="https://www.youtube.com/watch?v=..." 
-                    class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg focus:outline-none focus:border-indigo-500 text-white placeholder-slate-500 text-sm"
+                    placeholder="https://www.youtube.com/watch?v=..."
                 >
             </div>
-            <button 
-                type="submit" 
-                id="generateBtn" 
-                class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 font-semibold rounded-lg transition duration-200 text-sm shadow-md"
-            >
-                Generate Clip
-            </button>
+            <button type="submit" id="generateBtn">Generate Clip</button>
         </form>
-
-        <div id="statusMessage" class="mt-4 text-center text-xs text-slate-400 leading-relaxed min-h-[2rem]"></div>
+        <div id="statusMessage" class="status"></div>
     </div>
 
     <script>
@@ -40,7 +114,7 @@
         const generateBtn = document.getElementById('generateBtn');
 
         form.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Completely prevents page reloads and scrolling jumps
+            e.preventDefault();
             
             const url = videoUrlInput.value.trim();
             if (!url) return;
