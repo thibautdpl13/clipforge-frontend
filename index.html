@@ -11,7 +11,6 @@
     <!-- Defined Top Navigation Bar -->
     <header class="sticky top-0 z-50 w-full bg-[#090d16]/90 backdrop-blur-md border-b border-slate-800/80">
         <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <!-- Brand & Scissors Logo -->
             <a href="#" class="flex items-center space-x-3">
                 <div class="w-9 h-9 bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 rounded-lg flex items-center justify-center shadow-lg shadow-indigo-500/25">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -26,13 +25,11 @@
                 <span class="text-[10px] uppercase tracking-widest bg-slate-800 text-slate-300 border border-slate-700 px-2 py-0.5 rounded-md font-semibold">SaaS</span>
             </a>
 
-            <!-- Navigation Links -->
             <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-400">
                 <a href="#workflow" class="hover:text-white transition">Clip Generator</a>
                 <a href="#pricing" class="hover:text-white transition">Pricing & Resolutions</a>
             </nav>
 
-            <!-- Right Actions -->
             <div class="flex items-center space-x-4">
                 <a href="#pricing" class="text-xs sm:text-sm text-slate-300 hover:text-white transition font-medium hidden sm:inline-block">Manage Subscription / Billing</a>
                 <a href="#workflow" class="text-xs sm:text-sm bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 px-4 py-2 rounded-full font-semibold transition shadow-md shadow-indigo-600/25">Try Free Demo</a>
@@ -43,7 +40,7 @@
     <!-- Hero & Generator Section -->
     <main class="w-full max-w-5xl mx-auto px-6 pt-16 pb-20 flex flex-col items-center text-center">
         <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-cyan-400 text-xs font-mono mb-8 shadow-sm">
-            <span>Fast Video Uploads for TikToks, Shorts & Reels</span>
+            <span>Direct Video Uploads + Perfect Subtitle Sync</span>
         </div>
 
         <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 leading-[1.12]">
@@ -52,16 +49,26 @@
         </h1>
 
         <p class="text-slate-400 text-sm sm:text-base max-w-2xl mb-12 leading-relaxed">
-            Upload your video file. Our AI instantly formats your content into professional vertical clips ready for publishing.
+            Upload your downloaded video file and paste its YouTube URL. Our AI matches the exact transcript timestamps and exports a professional vertical clip.
         </p>
 
         <!-- Interactive Generator Box -->
-        <div id="workflow" class="w-full max-w-lg bg-slate-900/90 backdrop-blur-md p-6 sm:p-8 rounded-2xl shadow-2xl border border-slate-800 text-left">
-            <div class="flex items-center justify-between mb-2">
-                <label for="videoFile" class="block text-xs font-semibold uppercase tracking-wider text-slate-400">Select Video File (.mp4, .mov)</label>
-                <span class="text-[11px] font-medium text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-md">1 Free Demo Clip Included</span>
+        <div id="workflow" class="w-full max-w-lg bg-slate-900/90 backdrop-blur-md p-6 sm:p-8 rounded-2xl shadow-2xl border border-slate-800 text-left space-y-5">
+            <div>
+                <label for="videoUrl" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Source YouTube URL (For Precise Subtitles)</label>
+                <input 
+                    type="url" 
+                    id="videoUrl" 
+                    placeholder="https://www.youtube.com/watch?v=..." 
+                    class="w-full px-4 py-3 bg-[#090d16] border border-slate-700/80 rounded-xl focus:outline-none focus:border-indigo-500 text-white placeholder-slate-600 text-sm transition"
+                >
             </div>
-            <div class="space-y-4">
+
+            <div>
+                <div class="flex items-center justify-between mb-2">
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400">Select Video File (.mp4, .mov)</label>
+                    <span class="text-[11px] font-medium text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-md">1 Free Demo Clip Included</span>
+                </div>
                 <div class="relative border-2 border-dashed border-slate-700/80 hover:border-indigo-500 rounded-xl p-6 text-center cursor-pointer transition bg-[#090d16]">
                     <input 
                         type="file" 
@@ -70,7 +77,7 @@
                         class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                         onchange="updateFileName(this)"
                     >
-                    <div id="fileUploadPrompt" class="space-y-2 pointer-events-none">
+                    <div class="space-y-2 pointer-events-none">
                         <svg class="w-8 h-8 mx-auto text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                         </svg>
@@ -78,16 +85,16 @@
                         <p class="text-[10px] text-slate-500">MP4, MOV up to 500MB</p>
                     </div>
                 </div>
-
-                <button 
-                    type="button" 
-                    id="generateBtn" 
-                    onclick="uploadAndClip()"
-                    class="w-full py-3.5 bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 hover:opacity-95 font-semibold rounded-xl transition duration-200 text-sm shadow-lg shadow-indigo-600/25 flex items-center justify-center space-x-2 cursor-pointer"
-                >
-                    <span>Generate Vertical Clip</span>
-                </button>
             </div>
+
+            <button 
+                type="button" 
+                id="generateBtn" 
+                onclick="uploadAndClip()"
+                class="w-full py-3.5 bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 hover:opacity-95 font-semibold rounded-xl transition duration-200 text-sm shadow-lg shadow-indigo-600/25 flex items-center justify-center space-x-2 cursor-pointer"
+            >
+                <span>Generate Vertical Clip</span>
+            </button>
 
             <div id="statusMessage" class="mt-4 text-center text-xs text-slate-400 leading-relaxed min-h-[1.5rem] flex items-center justify-center"></div>
         </div>
@@ -103,7 +110,7 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Starter Creator ($19/mo) -->
+            <!-- Starter Creator -->
             <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-8 flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between mb-4">
@@ -115,22 +122,10 @@
                         <span class="text-slate-400 text-sm">/ month</span>
                     </div>
                     <ul class="space-y-3.5 text-sm text-slate-300 border-t border-slate-800 pt-6">
-                        <li class="flex items-center space-x-2.5">
-                            <span class="text-cyan-400 font-bold">✓</span>
-                            <span><strong>30 generated clips</strong> per month</span>
-                        </li>
-                        <li class="flex items-center space-x-2.5">
-                            <span class="text-cyan-400 font-bold">✓</span>
-                            <span><strong>1080p (1080×1920)</strong> vertical MP4 export</span>
-                        </li>
-                        <li class="flex items-center space-x-2.5">
-                            <span class="text-cyan-400 font-bold">✓</span>
-                            <span>30 fps standard frame rate</span>
-                        </li>
-                        <li class="flex items-center space-x-2.5">
-                            <span class="text-cyan-400 font-bold">✓</span>
-                            <span>No ClipForge watermark on exports</span>
-                        </li>
+                        <li class="flex items-center space-x-2.5"><span class="text-cyan-400 font-bold">✓</span><span><strong>30 generated clips</strong> per month</span></li>
+                        <li class="flex items-center space-x-2.5"><span class="text-cyan-400 font-bold">✓</span><span><strong>1080p (1080×1920)</strong> vertical MP4 export</span></li>
+                        <li class="flex items-center space-x-2.5"><span class="text-cyan-400 font-bold">✓</span><span>30 fps standard frame rate</span></li>
+                        <li class="flex items-center space-x-2.5"><span class="text-cyan-400 font-bold">✓</span><span>No ClipForge watermark on exports</span></li>
                     </ul>
                 </div>
                 <a href="https://buy.stripe.com/test_14AcOEgE80p89eEaEE" target="_blank" rel="noopener noreferrer" class="mt-8 block w-full text-center py-3 rounded-xl border border-slate-700 hover:border-indigo-500 hover:bg-slate-800/60 text-sm font-semibold transition cursor-pointer">
@@ -138,7 +133,7 @@
                 </a>
             </div>
 
-            <!-- Pro Creator ($49/mo - Highlighted) -->
+            <!-- Pro Creator -->
             <div class="bg-slate-900 border-2 border-indigo-500 rounded-2xl p-8 flex flex-col justify-between relative shadow-2xl shadow-indigo-500/10">
                 <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">
                     Most Popular
@@ -153,22 +148,10 @@
                         <span class="text-slate-400 text-sm">/ month</span>
                     </div>
                     <ul class="space-y-3.5 text-sm text-slate-200 border-t border-slate-800 pt-6">
-                        <li class="flex items-center space-x-2.5">
-                            <span class="text-indigo-400 font-bold">✓</span>
-                            <span><strong>120 generated clips</strong> per month</span>
-                        </li>
-                        <li class="flex items-center space-x-2.5">
-                            <span class="text-indigo-400 font-bold">✓</span>
-                            <span><strong>Up to 2K (1440×2560)</strong> sharp vertical export</span>
-                        </li>
-                        <li class="flex items-center space-x-2.5">
-                            <span class="text-indigo-400 font-bold">✓</span>
-                            <span>Smooth <strong>60 fps</strong> frame rate unlocked</span>
-                        </li>
-                        <li class="flex items-center space-x-2.5">
-                            <span class="text-indigo-400 font-bold">✓</span>
-                            <span>Higher video bitrate (15 Mbps) for zero blur</span>
-                        </li>
+                        <li class="flex items-center space-x-2.5"><span class="text-indigo-400 font-bold">✓</span><span><strong>120 generated clips</strong> per month</span></li>
+                        <li class="flex items-center space-x-2.5"><span class="text-indigo-400 font-bold">✓</span><span><strong>Up to 2K (1440×2560)</strong> sharp vertical export</span></li>
+                        <li class="flex items-center space-x-2.5"><span class="text-indigo-400 font-bold">✓</span><span>Smooth <strong>60 fps</strong> frame rate unlocked</span></li>
+                        <li class="flex items-center space-x-2.5"><span class="text-indigo-400 font-bold">✓</span><span>Higher video bitrate (15 Mbps) for zero blur</span></li>
                     </ul>
                 </div>
                 <a href="https://buy.stripe.com/test_8wM3cubu83Eke2Y145" target="_blank" rel="noopener noreferrer" class="mt-8 block w-full text-center py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:opacity-90 text-sm font-semibold transition shadow-lg shadow-indigo-600/25 cursor-pointer">
@@ -176,7 +159,7 @@
                 </a>
             </div>
 
-            <!-- Agency Unlimited ($149/mo) -->
+            <!-- Agency Unlimited -->
             <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-8 flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between mb-4">
@@ -188,22 +171,10 @@
                         <span class="text-slate-400 text-sm">/ month</span>
                     </div>
                     <ul class="space-y-3.5 text-sm text-slate-300 border-t border-slate-800 pt-6">
-                        <li class="flex items-center space-x-2.5">
-                            <span class="text-pink-400 font-bold">✓</span>
-                            <span><strong>Unlimited generated clips</strong> every month</span>
-                        </li>
-                        <li class="flex items-center space-x-2.5">
-                            <span class="text-pink-400 font-bold">✓</span>
-                            <span><strong>4K (2160×3840)</strong> maximum resolution export</span>
-                        </li>
-                        <li class="flex items-center space-x-2.5">
-                            <span class="text-pink-400 font-bold">✓</span>
-                            <span>60 fps + master bitrate (25 Mbps)</span>
-                        </li>
-                        <li class="flex items-center space-x-2.5">
-                            <span class="text-pink-400 font-bold">✓</span>
-                            <span>Multi-channel agency commercial usage</span>
-                        </li>
+                        <li class="flex items-center space-x-2.5"><span class="text-pink-400 font-bold">✓</span><span><strong>Unlimited generated clips</strong> every month</span></li>
+                        <li class="flex items-center space-x-2.5"><span class="text-pink-400 font-bold">✓</span><span><strong>4K (2160×3840)</strong> maximum resolution export</span></li>
+                        <li class="flex items-center space-x-2.5"><span class="text-pink-400 font-bold">✓</span><span>60 fps + master bitrate (25 Mbps)</span></li>
+                        <li class="flex items-center space-x-2.5"><span class="text-pink-400 font-bold">✓</span><span>Multi-channel agency commercial usage</span></li>
                     </ul>
                 </div>
                 <a href="https://buy.stripe.com/test_4gw28q1XW6Swf73g02" target="_blank" rel="noopener noreferrer" class="mt-8 block w-full text-center py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-sm font-semibold transition cursor-pointer">
@@ -232,6 +203,7 @@
 
         async function uploadAndClip() {
             const fileInput = document.getElementById('videoFile');
+            const urlInput = document.getElementById('videoUrl');
             const statusMessage = document.getElementById('statusMessage');
             const generateBtn = document.getElementById('generateBtn');
 
@@ -242,12 +214,14 @@
             }
 
             const file = fileInput.files[0];
+            const url = urlInput.value.trim();
             const formData = new FormData();
             formData.append('file', file);
+            formData.append('url', url);
 
             generateBtn.disabled = true;
             generateBtn.innerHTML = '<span>Processing Clip...</span>';
-            statusMessage.textContent = 'Generating your vertical clip...';
+            statusMessage.textContent = 'Uploading file & syncing exact subtitles...';
             statusMessage.className = 'mt-4 text-center text-xs text-slate-400 leading-relaxed';
 
             try {
