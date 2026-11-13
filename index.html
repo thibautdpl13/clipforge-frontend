@@ -43,38 +43,49 @@
     <!-- Hero & Generator Section -->
     <main class="w-full max-w-5xl mx-auto px-6 pt-16 pb-20 flex flex-col items-center text-center">
         <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-cyan-400 text-xs font-mono mb-8 shadow-sm">
-            <span>Automated Short-Form AI Clipping for TikToks, Shorts & Reels</span>
+            <span>Fast Video Uploads for TikToks, Shorts & Reels</span>
         </div>
 
         <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 leading-[1.12]">
-            Turn Long Videos & Streams Into <br>
-            <span class="bg-gradient-to-r from-cyan-400 via-indigo-400 to-pink-500 bg-clip-text text-transparent">Viral TikToks, Shorts & Reels Automatically</span>
+            Turn Any Video File Into <br>
+            <span class="bg-gradient-to-r from-cyan-400 via-indigo-400 to-pink-500 bg-clip-text text-transparent">Viral TikToks, Shorts & Reels Instantly</span>
         </h1>
 
         <p class="text-slate-400 text-sm sm:text-base max-w-2xl mb-12 leading-relaxed">
-            Paste any YouTube link or stream URL. Our AI finds high-energy moments, tracks active speakers, generates animated captions, and exports vertical videos for TikToks, Shorts & Reels in seconds.
+            Upload your video file. Our AI instantly formats your content into professional vertical clips ready for publishing.
         </p>
 
         <!-- Interactive Generator Box -->
         <div id="workflow" class="w-full max-w-lg bg-slate-900/90 backdrop-blur-md p-6 sm:p-8 rounded-2xl shadow-2xl border border-slate-800 text-left">
             <div class="flex items-center justify-between mb-2">
-                <label for="videoUrl" class="block text-xs font-semibold uppercase tracking-wider text-slate-400">YouTube Video URL</label>
+                <label for="videoFile" class="block text-xs font-semibold uppercase tracking-wider text-slate-400">Select Video File (.mp4, .mov)</label>
                 <span class="text-[11px] font-medium text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-md">1 Free Demo Clip Included</span>
             </div>
             <div class="space-y-4">
-                <input 
-                    type="url" 
-                    id="videoUrl" 
-                    placeholder="https://www.youtube.com/watch?v=..." 
-                    class="w-full px-4 py-3.5 bg-[#090d16] border border-slate-700/80 rounded-xl focus:outline-none focus:border-indigo-500 text-white placeholder-slate-600 text-sm transition"
-                >
+                <div class="relative border-2 border-dashed border-slate-700/80 hover:border-indigo-500 rounded-xl p-6 text-center cursor-pointer transition bg-[#090d16]">
+                    <input 
+                        type="file" 
+                        id="videoFile" 
+                        accept="video/mp4,video/quicktime,video/x-m4v"
+                        class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        onchange="updateFileName(this)"
+                    >
+                    <div id="fileUploadPrompt" class="space-y-2 pointer-events-none">
+                        <svg class="w-8 h-8 mx-auto text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                        </svg>
+                        <p class="text-xs text-slate-300 font-medium" id="fileNameDisplay">Click to browse or drag & drop your video file here</p>
+                        <p class="text-[10px] text-slate-500">MP4, MOV up to 500MB</p>
+                    </div>
+                </div>
+
                 <button 
                     type="button" 
                     id="generateBtn" 
-                    onclick="generateClip()"
+                    onclick="uploadAndClip()"
                     class="w-full py-3.5 bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 hover:opacity-95 font-semibold rounded-xl transition duration-200 text-sm shadow-lg shadow-indigo-600/25 flex items-center justify-center space-x-2 cursor-pointer"
                 >
-                    <span>Generate Clip</span>
+                    <span>Generate Vertical Clip</span>
                 </button>
             </div>
 
@@ -208,28 +219,41 @@
     </footer>
 
     <script>
-        async function generateClip() {
-            const videoUrlInput = document.getElementById('videoUrl');
+        function updateFileName(input) {
+            const display = document.getElementById('fileNameDisplay');
+            if (input.files && input.files[0]) {
+                display.textContent = `Selected: ${input.files[0].name}`;
+                display.classList.add('text-indigo-400', 'font-bold');
+            } else {
+                display.textContent = 'Click to browse or drag & drop your video file here';
+                display.classList.remove('text-indigo-400', 'font-bold');
+            }
+        }
+
+        async function uploadAndClip() {
+            const fileInput = document.getElementById('videoFile');
             const statusMessage = document.getElementById('statusMessage');
             const generateBtn = document.getElementById('generateBtn');
 
-            const url = videoUrlInput.value.trim();
-            if (!url) {
-                statusMessage.textContent = 'Please paste a valid YouTube URL first.';
+            if (!fileInput.files || fileInput.files.length === 0) {
+                statusMessage.textContent = 'Please select or drop a video file (.mp4, .mov) first.';
+                statusMessage.className = 'mt-4 text-center text-xs text-red-400 leading-relaxed';
                 return;
             }
 
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+
             generateBtn.disabled = true;
             generateBtn.innerHTML = '<span>Processing Clip...</span>';
-            statusMessage.textContent = 'Downloading and rendering vertical clip on Render...';
+            statusMessage.textContent = 'Generating your vertical clip...';
+            statusMessage.className = 'mt-4 text-center text-xs text-slate-400 leading-relaxed';
 
             try {
-                const response = await fetch('https://clipforge-backend-4t73.onrender.com/generate-auto-clip', {
+                const response = await fetch('https://clipforge-backend-4t73.onrender.com/upload-and-clip', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ url: url })
+                    body: formData
                 });
 
                 if (!response.ok) {
@@ -242,18 +266,20 @@
                 const downloadUrl = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = downloadUrl;
-                a.download = 'clip.mp4';
+                a.download = 'vertical_clip.mp4';
                 document.body.appendChild(a);
                 a.click();
                 a.remove();
                 window.URL.revokeObjectURL(downloadUrl);
 
                 statusMessage.textContent = 'Clip generated and downloaded successfully!';
+                statusMessage.className = 'mt-4 text-center text-xs text-emerald-400 leading-relaxed';
             } catch (err) {
                 statusMessage.textContent = `Error: ${err.message}`;
+                statusMessage.className = 'mt-4 text-center text-xs text-red-400 leading-relaxed';
             } finally {
                 generateBtn.disabled = false;
-                generateBtn.innerHTML = '<span>Generate Clip</span>';
+                generateBtn.innerHTML = '<span>Generate Vertical Clip</span>';
             }
         }
     </script>
