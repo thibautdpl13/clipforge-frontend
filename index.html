@@ -7,39 +7,43 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
-<body class="bg-gray-950 text-white font-sans min-h-screen flex flex-col">
+<body class="bg-gray-950 text-white font-sans min-h-screen flex flex-col selection:bg-purple-600 selection:text-white">
 
     <!-- Top Navigation Bar -->
-    <header class="flex justify-between items-center px-8 py-4 border-b border-gray-800 bg-gray-900/50 backdrop-blur-md sticky top-0 z-40">
+    <header class="flex justify-between items-center px-8 py-5 border-b border-gray-800/80 bg-gray-900/60 backdrop-blur-md sticky top-0 z-40">
         <div class="flex items-center space-x-3">
-            <!-- Scissor Logo Icon -->
-            <div class="w-10 h-10 bg-purple-600/20 border border-purple-500/50 rounded-xl flex items-center justify-center text-purple-400 shadow-lg shadow-purple-900/20">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758L3 21m0-18l18 18"></path>
+            <!-- Professional Scissors Logo Icon -->
+            <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-purple-800 border border-purple-500/40 rounded-xl flex items-center justify-center text-white shadow-lg shadow-purple-900/30">
+                <svg class="w-5 h-5 transform -rotate-45" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <circle cx="6" cy="6" r="3"></circle>
+                    <circle cx="6" cy="18" r="3"></circle>
+                    <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
+                    <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
+                    <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
                 </svg>
             </div>
-            <div>
+            <div class="flex items-center space-x-2">
                 <span class="text-xl font-black tracking-wider text-white">CLIPFORGE</span>
-                <span class="text-[10px] bg-purple-900/50 text-purple-300 px-2 py-0.5 rounded-full border border-purple-700 font-bold ml-1">AI</span>
+                <span class="text-xl font-black bg-gradient-to-r from-purple-400 to-purple-500 bg-clip-text text-transparent">AI</span>
             </div>
         </div>
 
         <!-- Auth / Profile Area -->
         <div id="auth-container" class="relative">
             <!-- Logged Out State -->
-            <button id="open-auth-modal-btn" onclick="toggleAuthModal(true)" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-5 py-2 rounded-xl transition shadow-lg shadow-purple-900/30 text-sm">
+            <button id="open-auth-modal-btn" onclick="toggleAuthModal(true)" class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-bold px-6 py-2.5 rounded-xl transition shadow-lg shadow-purple-900/40 text-sm">
                 Sign In / Sign Up
             </button>
 
             <!-- Logged In Profile Circle (Hidden by default) -->
             <div id="profile-container" class="hidden relative">
-                <button onclick="toggleDropdown()" class="flex items-center space-x-3 focus:outline-none bg-gray-800 hover:bg-gray-700 border border-gray-700 p-1.5 pr-4 rounded-full transition">
+                <button onclick="toggleDropdown()" class="flex items-center space-x-3 focus:outline-none bg-gray-900 hover:bg-gray-800 border border-gray-700/80 p-1.5 pr-4 rounded-full transition shadow-md">
                     <div id="user-avatar" class="w-9 h-9 bg-purple-600 text-white font-bold rounded-full flex items-center justify-center text-sm shadow-inner">
                         U
                     </div>
                     <div class="text-left">
-                        <p id="nav-user-email" class="text-xs font-medium text-gray-300 max-w-[120px] truncate">user@email.com</p>
-                        <p id="nav-user-tier" class="text-[10px] uppercase tracking-wider text-purple-400 font-bold">Demo</p>
+                        <p id="nav-user-email" class="text-xs font-semibold text-gray-200 max-w-[120px] truncate">user@email.com</p>
+                        <p id="nav-user-tier" class="text-[10px] uppercase tracking-wider text-purple-400 font-extrabold">Demo</p>
                     </div>
                 </button>
 
@@ -49,7 +53,7 @@
                         <p class="text-xs text-gray-400">Clips Remaining:</p>
                         <p id="dropdown-credits" class="text-lg font-black text-purple-400">1</p>
                     </div>
-                    <button onclick="logout()" class="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-gray-800/80 transition flex items-center space-x-2">
+                    <button onclick="logout()" class="w-full text-left px-4 py-2.5 text-sm text-red-400 hover:bg-gray-800/80 transition flex items-center space-x-2 font-medium">
                         <span>Log Out</span>
                     </button>
                 </div>
@@ -58,31 +62,33 @@
     </header>
 
     <!-- Main Content Dashboard -->
-    <main class="flex-1 flex flex-col items-center justify-center p-6 max-w-5xl mx-auto w-full">
+    <main class="flex-1 flex flex-col items-center justify-center px-6 py-12 max-w-5xl mx-auto w-full">
         
         <!-- Header Text & Description -->
-        <div class="text-center mb-10">
-            <h1 class="text-4xl md:text-5xl font-black mb-3 tracking-tight bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tight bg-gradient-to-r from-white via-purple-100 to-purple-400 bg-clip-text text-transparent py-1">
                 Turn Long Videos Into Viral Short Clips
             </h1>
-            <p class="text-gray-400 text-base md:text-lg max-w-2xl mx-auto">
+            <p class="text-gray-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
                 Automatically slice, transcribe, and subtitle your videos into engaging 1080x1920 vertical masterpieces ready for TikTok, Reels, and YouTube Shorts.
             </p>
         </div>
 
         <!-- Uploader Card -->
-        <div class="max-w-xl w-full bg-gray-900 border border-gray-800 rounded-3xl p-8 shadow-2xl mb-16">
+        <div class="max-w-xl w-full bg-gray-900/90 border border-gray-800 rounded-3xl p-8 shadow-2xl shadow-purple-950/20 mb-20 backdrop-blur-sm">
             <div id="upload-section">
-                <label class="block border-2 border-dashed border-gray-700 hover:border-purple-500 rounded-2xl p-8 text-center cursor-pointer transition bg-gray-950/50 group">
+                <label class="block border-2 border-dashed border-gray-700 hover:border-purple-500 rounded-2xl p-8 text-center cursor-pointer transition bg-gray-950/60 group">
                     <input type="file" id="video-file-input" accept="video/*" class="hidden" onchange="handleFileSelected(event)">
                     <div class="flex flex-col items-center">
-                        <svg class="w-12 h-12 text-gray-500 group-hover:text-purple-400 mb-3 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                        <p id="file-label" class="text-sm font-medium text-gray-300">Click to upload video or drag and drop</p>
+                        <div class="w-14 h-14 bg-purple-600/10 border border-purple-500/20 rounded-2xl flex items-center justify-center text-purple-400 mb-4 group-hover:scale-110 transition duration-300">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                        </div>
+                        <p id="file-label" class="text-sm font-semibold text-gray-200">Click to upload video or drag and drop</p>
                         <p class="text-xs text-gray-500 mt-1">MP4, MOV, WebM supported</p>
                     </div>
                 </label>
 
-                <button id="generate-btn" onclick="uploadAndClip()" disabled class="w-full mt-6 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-800 disabled:text-gray-600 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-purple-900/20">
+                <button id="generate-btn" onclick="uploadAndClip()" disabled class="w-full mt-6 bg-purple-600 hover:bg-purple-500 disabled:bg-gray-800 disabled:text-gray-600 text-white font-bold py-4 rounded-xl transition shadow-lg shadow-purple-900/30">
                     Generate Highlight Clip
                 </button>
             </div>
@@ -97,98 +103,89 @@
             <!-- Result Section -->
             <div id="result-section" class="hidden text-center mt-6">
                 <div class="bg-emerald-950/40 border border-emerald-800/60 rounded-2xl p-6 mb-4">
-                    <p class="text-emerald-400 font-bold mb-2">Clip Generated Successfully!</p>
+                    <p class="text-emerald-400 font-bold mb-3">Clip Generated Successfully!</p>
                     <video id="output-video-player" controls class="w-full max-h-[400px] rounded-xl mb-4 bg-black"></video>
-                    <a id="download-link" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-emerald-900/30">
+                    <a id="download-link" class="inline-block bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-3.5 rounded-xl transition shadow-lg shadow-emerald-900/30">
                         Download Vertical Clip (.mp4)
                     </a>
                 </div>
-                <button onclick="resetApp()" class="text-sm text-gray-400 hover:text-white underline transition">Process another video</button>
+                <button onclick="resetApp()" class="text-sm text-gray-400 hover:text-white underline transition font-medium">Process another video</button>
             </div>
         </div>
 
         <!-- Pricing & Tiers Section -->
-        <div class="w-full mb-16">
-            <h2 class="text-2xl font-black text-center mb-8 tracking-tight">Choose Your Plan</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="w-full mb-12">
+            <h2 class="text-3xl font-black text-center mb-10 tracking-tight">Choose Your Plan</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 
                 <!-- Starter Tier -->
-                <div class="bg-gray-900 border border-gray-800 rounded-3xl p-6 flex flex-col justify-between relative shadow-xl">
+                <div class="bg-gray-900/90 border border-gray-800 rounded-3xl p-8 flex flex-col justify-between relative shadow-xl backdrop-blur-sm">
                     <div>
-                        <span class="text-xs bg-purple-900/40 text-purple-300 px-3 py-1 rounded-full font-bold border border-purple-800">STARTER</span>
-                        <div class="mt-4 mb-2">
+                        <span class="text-xs bg-purple-900/40 text-purple-300 px-3.5 py-1 rounded-full font-extrabold border border-purple-800/60">STARTER</span>
+                        <div class="mt-5 mb-3">
                             <span class="text-4xl font-black">$19</span>
-                            <span class="text-gray-400 text-sm">/month</span>
+                            <span class="text-gray-400 text-sm font-medium">/month</span>
                         </div>
-                        <p class="text-gray-400 text-xs mb-6">Perfect for solo creators starting out on short-form platforms.</p>
-                        <ul class="space-y-3 text-sm text-gray-300 mb-8">
-                            <li class="flex items-center space-x-2">
+                        <p class="text-gray-400 text-xs mb-8 leading-relaxed">Perfect for solo creators starting out on short-form platforms.</p>
+                        <ul class="space-y-4 text-sm text-gray-300 mb-8">
+                            <li class="flex items-center space-x-3">
                                 <span class="text-purple-400 font-bold">✓</span> <span><strong>30 Clips</strong> per month</span>
                             </li>
-                            <li class="flex items-center space-x-2">
+                            <li class="flex items-center space-x-3">
                                 <span class="text-purple-400 font-bold">✓</span> <span><strong>1K Resolution</strong> rendering</span>
-                            </li>
-                            <li class="flex items-center space-x-2">
-                                <span class="text-purple-400 font-bold">✓</span> <span>Auto Montserrat subtitles</span>
                             </li>
                         </ul>
                     </div>
-                    <button onclick="toggleAuthModal(true)" class="w-full bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-bold py-2.5 rounded-xl transition text-sm">
+                    <button onclick="toggleAuthModal(true)" class="w-full bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-bold py-3 rounded-xl transition text-sm shadow-md">
                         Get Started
                     </button>
                 </div>
 
                 <!-- Pro Tier (Highlighted) -->
-                <div class="bg-gradient-to-b from-purple-950/40 to-gray-900 border-2 border-purple-600 rounded-3xl p-6 flex flex-col justify-between relative shadow-2xl scale-105 z-10">
-                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-purple-600 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">
+                <div class="bg-gradient-to-b from-purple-950/50 to-gray-900 border-2 border-purple-600 rounded-3xl p-8 flex flex-col justify-between relative shadow-2xl shadow-purple-900/30 md:-translate-y-2">
+                    <div class="absolute -top-3.5 left-1/2 transform -translate-x-1/2 bg-purple-600 text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg">
                         Most Popular
                     </div>
                     <div>
-                        <span class="text-xs bg-purple-600 text-white px-3 py-1 rounded-full font-bold">PRO</span>
-                        <div class="mt-4 mb-2">
+                        <span class="text-xs bg-purple-600 text-white px-3.5 py-1 rounded-full font-extrabold shadow-sm">PRO</span>
+                        <div class="mt-5 mb-3">
                             <span class="text-4xl font-black">$49</span>
-                            <span class="text-gray-400 text-sm">/month</span>
+                            <span class="text-gray-400 text-sm font-medium">/month</span>
                         </div>
-                        <p class="text-gray-400 text-xs mb-6">For serious creators scaling their channel growth.</p>
-                        <ul class="space-y-3 text-sm text-gray-300 mb-8">
-                            <li class="flex items-center space-x-2">
+                        <p class="text-gray-400 text-xs mb-8 leading-relaxed">For serious creators scaling their channel growth.</p>
+                        <ul class="space-y-4 text-sm text-gray-300 mb-8">
+                            <li class="flex items-center space-x-3">
                                 <span class="text-purple-400 font-bold">✓</span> <span><strong>120 Clips</strong> per month</span>
                             </li>
-                            <li class="flex items-center space-x-2">
+                            <li class="flex items-center space-x-3">
                                 <span class="text-purple-400 font-bold">✓</span> <span><strong>2K Resolution</strong> rendering</span>
-                            </li>
-                            <li class="flex items-center space-x-2">
-                                <span class="text-purple-400 font-bold">✓</span> <span>Priority rendering queue</span>
                             </li>
                         </ul>
                     </div>
-                    <button onclick="toggleAuthModal(true)" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2.5 rounded-xl transition text-sm shadow-lg shadow-purple-900/30">
+                    <button onclick="toggleAuthModal(true)" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-lg shadow-purple-900/40">
                         Upgrade to Pro
                     </button>
                 </div>
 
                 <!-- Agency Tier -->
-                <div class="bg-gray-900 border border-gray-800 rounded-3xl p-6 flex flex-col justify-between relative shadow-xl">
+                <div class="bg-gray-900/90 border border-gray-800 rounded-3xl p-8 flex flex-col justify-between relative shadow-xl backdrop-blur-sm">
                     <div>
-                        <span class="text-xs bg-purple-900/40 text-purple-300 px-3 py-1 rounded-full font-bold border border-purple-800">AGENCY</span>
-                        <div class="mt-4 mb-2">
+                        <span class="text-xs bg-purple-900/40 text-purple-300 px-3.5 py-1 rounded-full font-extrabold border border-purple-800/60">AGENCY</span>
+                        <div class="mt-5 mb-3">
                             <span class="text-4xl font-black">$149</span>
-                            <span class="text-gray-400 text-sm">/month</span>
+                            <span class="text-gray-400 text-sm font-medium">/month</span>
                         </div>
-                        <p class="text-gray-400 text-xs mb-6">Designed for agencies and high-volume content operations.</p>
-                        <ul class="space-y-3 text-sm text-gray-300 mb-8">
-                            <li class="flex items-center space-x-2">
+                        <p class="text-gray-400 text-xs mb-8 leading-relaxed">Designed for agencies and high-volume content operations.</p>
+                        <ul class="space-y-4 text-sm text-gray-300 mb-8">
+                            <li class="flex items-center space-x-3">
                                 <span class="text-purple-400 font-bold">✓</span> <span><strong>Unlimited Clips</strong></span>
                             </li>
-                            <li class="flex items-center space-x-2">
+                            <li class="flex items-center space-x-3">
                                 <span class="text-purple-400 font-bold">✓</span> <span><strong>4K Resolution</strong> rendering</span>
-                            </li>
-                            <li class="flex items-center space-x-2">
-                                <span class="text-purple-400 font-bold">✓</span> <span>Dedicated support & features</span>
                             </li>
                         </ul>
                     </div>
-                    <button onclick="toggleAuthModal(true)" class="w-full bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-bold py-2.5 rounded-xl transition text-sm">
+                    <button onclick="toggleAuthModal(true)" class="w-full bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-bold py-3 rounded-xl transition text-sm shadow-md">
                         Contact Agency
                     </button>
                 </div>
@@ -198,15 +195,15 @@
     </main>
 
     <!-- Authentication Modal -->
-    <div id="auth-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+    <div id="auth-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50">
         <div class="bg-gray-900 border border-gray-800 max-w-md w-full rounded-3xl p-8 shadow-2xl relative">
-            <button onclick="toggleAuthModal(false)" class="absolute top-6 right-6 text-gray-400 hover:text-white text-xl">&times;</button>
+            <button onclick="toggleAuthModal(false)" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl font-light">&times;</button>
             
             <h2 class="text-2xl font-black text-center mb-1">Welcome to ClipForge</h2>
             <p class="text-xs text-gray-400 text-center mb-6">Sign in or create an account to get your free demo clip.</p>
 
             <!-- Google Sign-In Button Container -->
-            <div class="flex justify-center mb-4">
+            <div class="flex justify-center mb-6">
                 <div id="g_id_onload"
                      data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
                      data-callback="handleGoogleLogin"
@@ -217,26 +214,29 @@
 
             <div class="flex items-center my-6">
                 <div class="flex-1 border-t border-gray-800"></div>
-                <span class="px-3 text-xs text-gray-500 uppercase tracking-widest font-bold">Or with email</span>
+                <span class="px-3 text-[11px] text-gray-500 uppercase tracking-widest font-bold">Or with email</span>
                 <div class="flex-1 border-t border-gray-800"></div>
             </div>
 
             <!-- Email Login Box -->
             <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">Email Address</label>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1.5">Email Address</label>
                     <input type="email" id="email-input" placeholder="name@example.com" class="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition text-sm">
                 </div>
 
-                <!-- Legal Terms & Conditions Checkbox -->
+                <!-- Fixed Legal Terms & Conditions Checkbox (Separated from clickable link spans) -->
                 <div class="flex items-start space-x-3 pt-2">
-                    <input type="checkbox" id="terms-checkbox" class="mt-1 w-4 h-4 rounded border-gray-700 bg-gray-950 text-purple-600 focus:ring-purple-500">
-                    <label for="terms-checkbox" class="text-xs text-gray-400 leading-relaxed">
-                        I agree to the <span class="text-purple-400 underline cursor-pointer">Terms & Conditions</span> and <span class="text-purple-400 underline cursor-pointer">Privacy Policy</span>.
-                    </label>
+                    <input type="checkbox" id="terms-checkbox" class="mt-1 w-4 h-4 rounded border-gray-700 bg-gray-950 text-purple-600 focus:ring-purple-500 cursor-pointer">
+                    <span class="text-xs text-gray-400 leading-relaxed">
+                        I agree to the 
+                        <a href="#" onclick="alert('Terms & Conditions: By using ClipForge AI, you agree to generate clips responsibly and abide by subscription terms.'); return false;" class="text-purple-400 underline hover:text-purple-300 font-medium">Terms & Conditions</a> 
+                        and 
+                        <a href="#" onclick="alert('Privacy Policy: We protect your data and only use your email to manage your account and clip credits.'); return false;" class="text-purple-400 underline hover:text-purple-300 font-medium">Privacy Policy</a>.
+                    </span>
                 </div>
 
-                <button onclick="handleEmailLogin()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-purple-900/30 text-sm">
+                <button onclick="handleEmailLogin()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-purple-900/30 text-sm mt-2">
                     Continue with Email
                 </button>
             </div>
