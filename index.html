@@ -3,23 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClipForge AI - Video Clipping Engine</title>
+    <title>ClipForge AI - Automated Short-Form Video Generator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body class="bg-gray-950 text-white font-sans min-h-screen flex flex-col">
 
     <!-- Top Navigation Bar -->
-    <header class="flex justify-between items-center px-8 py-4 border-b border-gray-800 bg-gray-900/50 backdrop-blur-md">
-        <div class="flex items-center space-x-2">
-            <span class="text-xl font-black tracking-wider text-purple-500">CLIPFORGE</span>
-            <span class="text-xs bg-purple-900/50 text-purple-300 px-2 py-0.5 rounded-full border border-purple-700">v11.1</span>
+    <header class="flex justify-between items-center px-8 py-4 border-b border-gray-800 bg-gray-900/50 backdrop-blur-md sticky top-0 z-40">
+        <div class="flex items-center space-x-3">
+            <!-- Scissor Logo Icon -->
+            <div class="w-10 h-10 bg-purple-600/20 border border-purple-500/50 rounded-xl flex items-center justify-center text-purple-400 shadow-lg shadow-purple-900/20">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758L3 21m0-18l18 18"></path>
+                </svg>
+            </div>
+            <div>
+                <span class="text-xl font-black tracking-wider text-white">CLIPFORGE</span>
+                <span class="text-[10px] bg-purple-900/50 text-purple-300 px-2 py-0.5 rounded-full border border-purple-700 font-bold ml-1">AI</span>
+            </div>
         </div>
 
         <!-- Auth / Profile Area -->
         <div id="auth-container" class="relative">
             <!-- Logged Out State -->
-            <button id="open-auth-modal-btn" onclick="toggleAuthModal(true)" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-5 py-2 rounded-xl transition shadow-lg shadow-purple-900/30">
+            <button id="open-auth-modal-btn" onclick="toggleAuthModal(true)" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-5 py-2 rounded-xl transition shadow-lg shadow-purple-900/30 text-sm">
                 Sign In / Sign Up
             </button>
 
@@ -49,13 +57,21 @@
         </div>
     </header>
 
-    <!-- Main Content App Dashboard -->
-    <main class="flex-1 flex flex-col items-center justify-center p-6">
-        <div class="max-w-xl w-full bg-gray-900 border border-gray-800 rounded-3xl p-8 shadow-2xl">
-            <h1 class="text-3xl font-black text-center mb-2 tracking-tight">Generate Vertical Clips</h1>
-            <p class="text-gray-400 text-center text-sm mb-8">Upload a video to slice a 45s highlight with Montserrat subtitles.</p>
+    <!-- Main Content Dashboard -->
+    <main class="flex-1 flex flex-col items-center justify-center p-6 max-w-5xl mx-auto w-full">
+        
+        <!-- Header Text & Description -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-black mb-3 tracking-tight bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent">
+                Turn Long Videos Into Viral Short Clips
+            </h1>
+            <p class="text-gray-400 text-base md:text-lg max-w-2xl mx-auto">
+                Automatically slice, transcribe, and subtitle your videos into engaging 1080x1920 vertical masterpieces ready for TikTok, Reels, and YouTube Shorts.
+            </p>
+        </div>
 
-            <!-- Upload Form -->
+        <!-- Uploader Card -->
+        <div class="max-w-xl w-full bg-gray-900 border border-gray-800 rounded-3xl p-8 shadow-2xl mb-16">
             <div id="upload-section">
                 <label class="block border-2 border-dashed border-gray-700 hover:border-purple-500 rounded-2xl p-8 text-center cursor-pointer transition bg-gray-950/50 group">
                     <input type="file" id="video-file-input" accept="video/*" class="hidden" onchange="handleFileSelected(event)">
@@ -75,7 +91,7 @@
             <div id="loading-section" class="hidden text-center py-12">
                 <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-purple-500 border-t-transparent mb-4"></div>
                 <p class="text-lg font-semibold text-gray-200">Processing video & transcribing audio...</p>
-                <p class="text-xs text-gray-500 mt-1">This takes about 30 seconds depending on video length.</p>
+                <p class="text-xs text-gray-500 mt-1">Slicing snippet and applying Montserrat subtitles...</p>
             </div>
 
             <!-- Result Section -->
@@ -90,12 +106,101 @@
                 <button onclick="resetApp()" class="text-sm text-gray-400 hover:text-white underline transition">Process another video</button>
             </div>
         </div>
+
+        <!-- Pricing & Tiers Section -->
+        <div class="w-full mb-16">
+            <h2 class="text-2xl font-black text-center mb-8 tracking-tight">Choose Your Plan</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Starter Tier -->
+                <div class="bg-gray-900 border border-gray-800 rounded-3xl p-6 flex flex-col justify-between relative shadow-xl">
+                    <div>
+                        <span class="text-xs bg-purple-900/40 text-purple-300 px-3 py-1 rounded-full font-bold border border-purple-800">STARTER</span>
+                        <div class="mt-4 mb-2">
+                            <span class="text-4xl font-black">$19</span>
+                            <span class="text-gray-400 text-sm">/month</span>
+                        </div>
+                        <p class="text-gray-400 text-xs mb-6">Perfect for solo creators starting out on short-form platforms.</p>
+                        <ul class="space-y-3 text-sm text-gray-300 mb-8">
+                            <li class="flex items-center space-x-2">
+                                <span class="text-purple-400 font-bold">✓</span> <span><strong>30 Clips</strong> per month</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <span class="text-purple-400 font-bold">✓</span> <span><strong>1K Resolution</strong> rendering</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <span class="text-purple-400 font-bold">✓</span> <span>Auto Montserrat subtitles</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <button onclick="toggleAuthModal(true)" class="w-full bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-bold py-2.5 rounded-xl transition text-sm">
+                        Get Started
+                    </button>
+                </div>
+
+                <!-- Pro Tier (Highlighted) -->
+                <div class="bg-gradient-to-b from-purple-950/40 to-gray-900 border-2 border-purple-600 rounded-3xl p-6 flex flex-col justify-between relative shadow-2xl scale-105 z-10">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-purple-600 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">
+                        Most Popular
+                    </div>
+                    <div>
+                        <span class="text-xs bg-purple-600 text-white px-3 py-1 rounded-full font-bold">PRO</span>
+                        <div class="mt-4 mb-2">
+                            <span class="text-4xl font-black">$49</span>
+                            <span class="text-gray-400 text-sm">/month</span>
+                        </div>
+                        <p class="text-gray-400 text-xs mb-6">For serious creators scaling their channel growth.</p>
+                        <ul class="space-y-3 text-sm text-gray-300 mb-8">
+                            <li class="flex items-center space-x-2">
+                                <span class="text-purple-400 font-bold">✓</span> <span><strong>120 Clips</strong> per month</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <span class="text-purple-400 font-bold">✓</span> <span><strong>2K Resolution</strong> rendering</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <span class="text-purple-400 font-bold">✓</span> <span>Priority rendering queue</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <button onclick="toggleAuthModal(true)" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2.5 rounded-xl transition text-sm shadow-lg shadow-purple-900/30">
+                        Upgrade to Pro
+                    </button>
+                </div>
+
+                <!-- Agency Tier -->
+                <div class="bg-gray-900 border border-gray-800 rounded-3xl p-6 flex flex-col justify-between relative shadow-xl">
+                    <div>
+                        <span class="text-xs bg-purple-900/40 text-purple-300 px-3 py-1 rounded-full font-bold border border-purple-800">AGENCY</span>
+                        <div class="mt-4 mb-2">
+                            <span class="text-4xl font-black">$149</span>
+                            <span class="text-gray-400 text-sm">/month</span>
+                        </div>
+                        <p class="text-gray-400 text-xs mb-6">Designed for agencies and high-volume content operations.</p>
+                        <ul class="space-y-3 text-sm text-gray-300 mb-8">
+                            <li class="flex items-center space-x-2">
+                                <span class="text-purple-400 font-bold">✓</span> <span><strong>Unlimited Clips</strong></span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <span class="text-purple-400 font-bold">✓</span> <span><strong>4K Resolution</strong> rendering</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <span class="text-purple-400 font-bold">✓</span> <span>Dedicated support & features</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <button onclick="toggleAuthModal(true)" class="w-full bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-bold py-2.5 rounded-xl transition text-sm">
+                        Contact Agency
+                    </button>
+                </div>
+
+            </div>
+        </div>
     </main>
 
     <!-- Authentication Modal -->
     <div id="auth-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div class="bg-gray-900 border border-gray-800 max-w-md w-full rounded-3xl p-8 shadow-2xl relative">
-            <button onclick="toggleAuthModal(false)" class="absolute top-6 right-6 text-gray-400 hover:text-white">&times;</button>
+            <button onclick="toggleAuthModal(false)" class="absolute top-6 right-6 text-gray-400 hover:text-white text-xl">&times;</button>
             
             <h2 class="text-2xl font-black text-center mb-1">Welcome to ClipForge</h2>
             <p class="text-xs text-gray-400 text-center mb-6">Sign in or create an account to get your free demo clip.</p>
@@ -140,7 +245,7 @@
 
     <!-- Frontend Logic Script -->
     <script>
-        const API_BASE = "http://127.0.0.1:8000"; // Change to your Render backend URL when deployed
+        const API_BASE = "http://127.0.0.1:8000"; // Update to your Render backend URL when deployed
         let currentUser = JSON.parse(localStorage.getItem("clipforge_user")) || null;
         let selectedFile = null;
 
@@ -229,7 +334,6 @@
                 return;
             }
 
-            // Decode JWT token from Google Identity Services
             const base64Url = response.credential.split('.')[1];
             const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
             const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
@@ -281,7 +385,6 @@
                     downloadLink.href = videoUrl;
                     downloadLink.download = "vertical_clip.mp4";
 
-                    // Decrement local credit state
                     currentUser.clips_remaining = Math.max(0, currentUser.clips_remaining - 1);
                     if (currentUser.tier === "demo") currentUser.tier = "demo_used";
                     localStorage.setItem("clipforge_user", JSON.stringify(currentUser));
