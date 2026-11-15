@@ -1,241 +1,313 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClipForge AI - Automated Short-Form Clipping</title>
+    <title>ClipForge AI - Video Clipping Engine</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
-<body class="bg-[#090d16] text-white min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+<body class="bg-gray-950 text-white font-sans min-h-screen flex flex-col">
 
     <!-- Top Navigation Bar -->
-    <header class="sticky top-0 z-50 w-full bg-[#090d16]/90 backdrop-blur-md border-b border-slate-800/80">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <a href="#" class="flex items-center space-x-3">
-                <div class="w-9 h-9 bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 rounded-lg flex items-center justify-center shadow-lg shadow-indigo-500/25">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="6" cy="6" r="3"></circle>
-                        <circle cx="6" cy="18" r="3"></circle>
-                        <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
-                        <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
-                        <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
-                    </svg>
+    <header class="flex justify-between items-center px-8 py-4 border-b border-gray-800 bg-gray-900/50 backdrop-blur-md">
+        <div class="flex items-center space-x-2">
+            <span class="text-xl font-black tracking-wider text-purple-500">CLIPFORGE</span>
+            <span class="text-xs bg-purple-900/50 text-purple-300 px-2 py-0.5 rounded-full border border-purple-700">v11.1</span>
+        </div>
+
+        <!-- Auth / Profile Area -->
+        <div id="auth-container" class="relative">
+            <!-- Logged Out State -->
+            <button id="open-auth-modal-btn" onclick="toggleAuthModal(true)" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-5 py-2 rounded-xl transition shadow-lg shadow-purple-900/30">
+                Sign In / Sign Up
+            </button>
+
+            <!-- Logged In Profile Circle (Hidden by default) -->
+            <div id="profile-container" class="hidden relative">
+                <button onclick="toggleDropdown()" class="flex items-center space-x-3 focus:outline-none bg-gray-800 hover:bg-gray-700 border border-gray-700 p-1.5 pr-4 rounded-full transition">
+                    <div id="user-avatar" class="w-9 h-9 bg-purple-600 text-white font-bold rounded-full flex items-center justify-center text-sm shadow-inner">
+                        U
+                    </div>
+                    <div class="text-left">
+                        <p id="nav-user-email" class="text-xs font-medium text-gray-300 max-w-[120px] truncate">user@email.com</p>
+                        <p id="nav-user-tier" class="text-[10px] uppercase tracking-wider text-purple-400 font-bold">Demo</p>
+                    </div>
+                </button>
+
+                <!-- Dropdown Menu -->
+                <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl py-2 z-50">
+                    <div class="px-4 py-2 border-b border-gray-800">
+                        <p class="text-xs text-gray-400">Clips Remaining:</p>
+                        <p id="dropdown-credits" class="text-lg font-black text-purple-400">1</p>
+                    </div>
+                    <button onclick="logout()" class="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-gray-800/80 transition flex items-center space-x-2">
+                        <span>Log Out</span>
+                    </button>
                 </div>
-                <span class="font-bold text-lg tracking-wider text-white">CLIPFORGE AI</span>
-                <span class="text-[10px] uppercase tracking-widest bg-slate-800 text-slate-300 border border-slate-700 px-2 py-0.5 rounded-md font-semibold">SaaS</span>
-            </a>
-
-            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-400">
-                <a href="#workflow" class="hover:text-white transition">Clip Generator</a>
-                <a href="#pricing" class="hover:text-white transition">Pricing & Resolutions</a>
-            </nav>
-
-            <div class="flex items-center space-x-4">
-                <a href="#pricing" class="text-xs sm:text-sm text-slate-300 hover:text-white transition font-medium hidden sm:inline-block">Billing</a>
-                <a href="#workflow" class="text-xs sm:text-sm bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 px-4 py-2 rounded-full font-semibold transition shadow-md shadow-indigo-600/25">Try Free Demo</a>
             </div>
         </div>
     </header>
 
-    <!-- Hero & Generator Section -->
-    <main class="w-full max-w-5xl mx-auto px-6 pt-16 pb-20 flex flex-col items-center text-center">
-        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-cyan-400 text-xs font-mono mb-8 shadow-sm">
-            <span>Direct Video File Upload Engine (100% Reliable)</span>
-        </div>
+    <!-- Main Content App Dashboard -->
+    <main class="flex-1 flex flex-col items-center justify-center p-6">
+        <div class="max-w-xl w-full bg-gray-900 border border-gray-800 rounded-3xl p-8 shadow-2xl">
+            <h1 class="text-3xl font-black text-center mb-2 tracking-tight">Generate Vertical Clips</h1>
+            <p class="text-gray-400 text-center text-sm mb-8">Upload a video to slice a 45s highlight with Montserrat subtitles.</p>
 
-        <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 leading-[1.12]">
-            Turn Any Video File Into <br>
-            <span class="bg-gradient-to-r from-cyan-400 via-indigo-400 to-pink-500 bg-clip-text text-transparent">Viral TikToks, Shorts & Reels Instantly</span>
-        </h1>
-
-        <p class="text-slate-400 text-sm sm:text-base max-w-2xl mb-12 leading-relaxed">
-            Drop your video file below. Our AI engine automatically scores viral moments, cuts at clean sentence boundaries, and renders professional Asap-Black vertical captions.
-        </p>
-
-        <!-- Interactive Generator Box (URL input removed) -->
-        <div id="workflow" class="w-full max-w-lg bg-slate-900/90 backdrop-blur-md p-6 sm:p-8 rounded-2xl shadow-2xl border border-slate-800 text-left space-y-5">
-            <div>
-                <div class="flex items-center justify-between mb-2">
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400">Select Video File (.mp4, .mov)</label>
-                    <span class="text-[11px] font-medium text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-md">1 Free Demo Clip</span>
-                </div>
-                <div class="relative border-2 border-dashed border-slate-700/80 hover:border-indigo-500 rounded-xl p-6 text-center cursor-pointer transition bg-[#090d16]">
-                    <input 
-                        type="file" 
-                        id="videoFile" 
-                        accept="video/mp4,video/quicktime,video/x-m4v"
-                        class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                        onchange="updateFileName(this)"
-                    >
-                    <div class="space-y-2 pointer-events-none">
-                        <svg class="w-8 h-8 mx-auto text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                        </svg>
-                        <p class="text-xs text-slate-300 font-medium" id="fileNameDisplay">Click to browse or drag & drop your video file here</p>
-                        <p class="text-[10px] text-slate-500">MP4, MOV up to 500MB</p>
+            <!-- Upload Form -->
+            <div id="upload-section">
+                <label class="block border-2 border-dashed border-gray-700 hover:border-purple-500 rounded-2xl p-8 text-center cursor-pointer transition bg-gray-950/50 group">
+                    <input type="file" id="video-file-input" accept="video/*" class="hidden" onchange="handleFileSelected(event)">
+                    <div class="flex flex-col items-center">
+                        <svg class="w-12 h-12 text-gray-500 group-hover:text-purple-400 mb-3 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                        <p id="file-label" class="text-sm font-medium text-gray-300">Click to upload video or drag and drop</p>
+                        <p class="text-xs text-gray-500 mt-1">MP4, MOV, WebM supported</p>
                     </div>
-                </div>
+                </label>
+
+                <button id="generate-btn" onclick="uploadAndClip()" disabled class="w-full mt-6 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-800 disabled:text-gray-600 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-purple-900/20">
+                    Generate Highlight Clip
+                </button>
             </div>
 
-            <button 
-                type="button" 
-                id="generateBtn" 
-                onclick="uploadAndClip()"
-                class="w-full py-3.5 bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 hover:opacity-95 font-semibold rounded-xl transition duration-200 text-sm shadow-lg shadow-indigo-600/25 flex items-center justify-center space-x-2 cursor-pointer"
-            >
-                <span>Generate Vertical Clip</span>
-            </button>
+            <!-- Processing Spinner State -->
+            <div id="loading-section" class="hidden text-center py-12">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-purple-500 border-t-transparent mb-4"></div>
+                <p class="text-lg font-semibold text-gray-200">Processing video & transcribing audio...</p>
+                <p class="text-xs text-gray-500 mt-1">This takes about 30 seconds depending on video length.</p>
+            </div>
 
-            <div id="statusMessage" class="mt-4 text-center text-xs text-slate-400 leading-relaxed min-h-[1.5rem] flex items-center justify-center"></div>
+            <!-- Result Section -->
+            <div id="result-section" class="hidden text-center mt-6">
+                <div class="bg-emerald-950/40 border border-emerald-800/60 rounded-2xl p-6 mb-4">
+                    <p class="text-emerald-400 font-bold mb-2">Clip Generated Successfully!</p>
+                    <video id="output-video-player" controls class="w-full max-h-[400px] rounded-xl mb-4 bg-black"></video>
+                    <a id="download-link" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-emerald-900/30">
+                        Download Vertical Clip (.mp4)
+                    </a>
+                </div>
+                <button onclick="resetApp()" class="text-sm text-gray-400 hover:text-white underline transition">Process another video</button>
+            </div>
         </div>
     </main>
 
-    <!-- Pricing Section -->
-    <section id="pricing" class="w-full max-w-6xl mx-auto px-6 py-20 border-t border-slate-800/80">
-        <div class="text-center max-w-2xl mx-auto mb-14">
-            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">Simple Monthly Clip Plans</h2>
-            <p class="text-slate-400 text-sm sm:text-base">
-                Test the workflow with <strong class="text-white">1 free demo clip</strong> before subscribing. Upgrade anytime via Stripe.
-            </p>
-        </div>
+    <!-- Authentication Modal -->
+    <div id="auth-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-gray-900 border border-gray-800 max-w-md w-full rounded-3xl p-8 shadow-2xl relative">
+            <button onclick="toggleAuthModal(false)" class="absolute top-6 right-6 text-gray-400 hover:text-white">&times;</button>
+            
+            <h2 class="text-2xl font-black text-center mb-1">Welcome to ClipForge</h2>
+            <p class="text-xs text-gray-400 text-center mb-6">Sign in or create an account to get your free demo clip.</p>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Starter Creator -->
-            <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-8 flex flex-col justify-between">
-                <div>
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-bold text-white">Starter Creator</h3>
-                        <span class="text-xs font-mono bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md">1080p HD</span>
-                    </div>
-                    <div class="mb-6">
-                        <span class="text-4xl font-extrabold">$19</span>
-                        <span class="text-slate-400 text-sm">/ month</span>
-                    </div>
-                    <ul class="space-y-3.5 text-sm text-slate-300 border-t border-slate-800 pt-6">
-                        <li class="flex items-center space-x-2.5"><span class="text-cyan-400 font-bold">✓</span><span><strong>30 generated clips</strong> per month</span></li>
-                        <li class="flex items-center space-x-2.5"><span class="text-cyan-400 font-bold">✓</span><span><strong>1080p (1080×1920)</strong> vertical MP4 export</span></li>
-                    </ul>
+            <!-- Google Sign-In Button Container -->
+            <div class="flex justify-center mb-4">
+                <div id="g_id_onload"
+                     data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+                     data-callback="handleGoogleLogin"
+                     data-auto_prompt="false">
                 </div>
-                <a href="https://buy.stripe.com/test_14AcOEgE80p89eEaEE" target="_blank" rel="noopener noreferrer" class="mt-8 block w-full text-center py-3 rounded-xl border border-slate-700 hover:border-indigo-500 hover:bg-slate-800/60 text-sm font-semibold transition cursor-pointer">
-                    Subscribe — Starter Creator
-                </a>
+                <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="filled_black" data-text="signin_with" data-size="large"></div>
             </div>
 
-            <!-- Pro Creator -->
-            <div class="bg-slate-900 border-2 border-indigo-500 rounded-2xl p-8 flex flex-col justify-between relative shadow-2xl shadow-indigo-500/10">
-                <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">
-                    Most Popular
-                </div>
-                <div>
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-bold text-white">Pro Creator</h3>
-                        <span class="text-xs font-mono bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2.5 py-1 rounded-md">2K / 60fps</span>
-                    </div>
-                    <div class="mb-6">
-                        <span class="text-4xl font-extrabold">$49</span>
-                        <span class="text-slate-400 text-sm">/ month</span>
-                    </div>
-                    <ul class="space-y-3.5 text-sm text-slate-200 border-t border-slate-800 pt-6">
-                        <li class="flex items-center space-x-2.5"><span class="text-indigo-400 font-bold">✓</span><span><strong>120 generated clips</strong> per month</span></li>
-                        <li class="flex items-center space-x-2.5"><span class="text-indigo-400 font-bold">✓</span><span><strong>Up to 2K (1440×2560)</strong> sharp vertical export</span></li>
-                    </ul>
-                </div>
-                <a href="https://buy.stripe.com/test_8wM3cubu83Eke2Y145" target="_blank" rel="noopener noreferrer" class="mt-8 block w-full text-center py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:opacity-90 text-sm font-semibold transition shadow-lg shadow-indigo-600/25 cursor-pointer">
-                    Subscribe — Pro Creator
-                </a>
+            <div class="flex items-center my-6">
+                <div class="flex-1 border-t border-gray-800"></div>
+                <span class="px-3 text-xs text-gray-500 uppercase tracking-widest font-bold">Or with email</span>
+                <div class="flex-1 border-t border-gray-800"></div>
             </div>
 
-            <!-- Agency Unlimited -->
-            <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-8 flex flex-col justify-between">
+            <!-- Email Login Box -->
+            <div class="space-y-4">
                 <div>
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-bold text-white">Agency Unlimited</h3>
-                        <span class="text-xs font-mono bg-pink-500/15 text-pink-300 border border-pink-500/30 px-2.5 py-1 rounded-md">4K Ultra HD</span>
-                    </div>
-                    <div class="mb-6">
-                        <span class="text-4xl font-extrabold">$149</span>
-                        <span class="text-slate-400 text-sm">/ month</span>
-                    </div>
-                    <ul class="space-y-3.5 text-sm text-slate-300 border-t border-slate-800 pt-6">
-                        <li class="flex items-center space-x-2.5"><span class="text-pink-400 font-bold">✓</span><span><strong>Unlimited generated clips</strong> every month</span></li>
-                        <li class="flex items-center space-x-2.5"><span class="text-pink-400 font-bold">✓</span><span><strong>4K (2160×3840)</strong> maximum resolution export</span></li>
-                    </ul>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">Email Address</label>
+                    <input type="email" id="email-input" placeholder="name@example.com" class="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition text-sm">
                 </div>
-                <a href="https://buy.stripe.com/test_4gw28q1XW6Swf73g02" target="_blank" rel="noopener noreferrer" class="mt-8 block w-full text-center py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-sm font-semibold transition cursor-pointer">
-                    Subscribe — Agency Unlimited
-                </a>
+
+                <!-- Legal Terms & Conditions Checkbox -->
+                <div class="flex items-start space-x-3 pt-2">
+                    <input type="checkbox" id="terms-checkbox" class="mt-1 w-4 h-4 rounded border-gray-700 bg-gray-950 text-purple-600 focus:ring-purple-500">
+                    <label for="terms-checkbox" class="text-xs text-gray-400 leading-relaxed">
+                        I agree to the <span class="text-purple-400 underline cursor-pointer">Terms & Conditions</span> and <span class="text-purple-400 underline cursor-pointer">Privacy Policy</span>.
+                    </label>
+                </div>
+
+                <button onclick="handleEmailLogin()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-purple-900/30 text-sm">
+                    Continue with Email
+                </button>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Footer -->
-    <footer class="w-full py-8 text-center text-xs text-slate-500 border-t border-slate-800/80">
-        &copy; 2026 ClipForge AI. All rights reserved.
-    </footer>
-
+    <!-- Frontend Logic Script -->
     <script>
-        function updateFileName(input) {
-            const display = document.getElementById('fileNameDisplay');
-            if (input.files && input.files[0]) {
-                display.textContent = `Selected: ${input.files[0].name}`;
-                display.classList.add('text-indigo-400', 'font-bold');
+        const API_BASE = "http://127.0.0.1:8000"; // Change to your Render backend URL when deployed
+        let currentUser = JSON.parse(localStorage.getItem("clipforge_user")) || null;
+        let selectedFile = null;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            updateUIState();
+        });
+
+        function updateUIState() {
+            const authBtn = document.getElementById("open-auth-modal-btn");
+            const profileContainer = document.getElementById("profile-container");
+            
+            if (currentUser) {
+                authBtn.classList.add("hidden");
+                profileContainer.classList.remove("hidden");
+                
+                document.getElementById("nav-user-email").innerText = currentUser.email;
+                document.getElementById("nav-user-tier").innerText = currentUser.tier.toUpperCase();
+                document.getElementById("dropdown-credits").innerText = currentUser.clips_remaining;
+                document.getElementById("user-avatar").innerText = currentUser.email.charAt(0).toUpperCase();
             } else {
-                display.textContent = 'Click to browse or drag & drop your video file here';
-                display.classList.remove('text-indigo-400', 'font-bold');
+                authBtn.classList.remove("hidden");
+                profileContainer.classList.add("hidden");
             }
         }
 
-        async function uploadAndClip() {
-            const fileInput = document.getElementById('videoFile');
-            const statusMessage = document.getElementById('statusMessage');
-            const generateBtn = document.getElementById('generateBtn');
+        function toggleAuthModal(show) {
+            const modal = document.getElementById("auth-modal");
+            if (show) modal.classList.remove("hidden");
+            else modal.classList.add("hidden");
+        }
 
-            if (!fileInput.files || fileInput.files.length === 0) {
-                statusMessage.textContent = 'Please select or drop a video file (.mp4, .mov) first.';
-                statusMessage.className = 'mt-4 text-center text-xs text-red-400 leading-relaxed';
+        function toggleDropdown() {
+            const dropdown = document.getElementById("profile-dropdown");
+            dropdown.classList.toggle("hidden");
+        }
+
+        function handleFileSelected(event) {
+            selectedFile = event.target.files[0];
+            if (selectedFile) {
+                document.getElementById("file-label").innerText = `Selected: ${selectedFile.name}`;
+                document.getElementById("generate-btn").removeAttribute("disabled");
+            }
+        }
+
+        async function authenticateBackend(email, provider) {
+            try {
+                const res = await fetch(`${API_BASE}/auth/login`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email: email, auth_provider: provider })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    currentUser = data.user;
+                    localStorage.setItem("clipforge_user", JSON.stringify(currentUser));
+                    updateUIState();
+                    toggleAuthModal(false);
+                } else {
+                    alert(data.detail || "Authentication failed.");
+                }
+            } catch (err) {
+                alert("Could not connect to backend server.");
+            }
+        }
+
+        function handleEmailLogin() {
+            const email = document.getElementById("email-input").value.trim();
+            const termsAccepted = document.getElementById("terms-checkbox").checked;
+
+            if (!email || !email.includes("@")) {
+                alert("Please enter a valid email address.");
+                return;
+            }
+            if (!termsAccepted) {
+                alert("You must agree to the Terms & Conditions and Privacy Policy to sign up.");
                 return;
             }
 
-            const file = fileInput.files[0];
-            const formData = new FormData();
-            formData.append('file', file);
+            authenticateBackend(email, "email");
+        }
 
-            generateBtn.disabled = true;
-            generateBtn.innerHTML = '<span>Processing Clip...</span>';
-            statusMessage.textContent = 'Uploading file & rendering vertical AI clip...';
-            statusMessage.className = 'mt-4 text-center text-xs text-slate-400 leading-relaxed';
+        function handleGoogleLogin(response) {
+            const termsAccepted = document.getElementById("terms-checkbox").checked;
+            if (!termsAccepted) {
+                alert("You must agree to the Terms & Conditions and Privacy Policy to sign up.");
+                return;
+            }
+
+            // Decode JWT token from Google Identity Services
+            const base64Url = response.credential.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+            const googleUser = JSON.parse(jsonPayload);
+
+            authenticateBackend(googleUser.email, "google");
+        }
+
+        function logout() {
+            localStorage.removeItem("clipforge_user");
+            currentUser = null;
+            updateUIState();
+            toggleDropdown();
+            resetApp();
+        }
+
+        async function uploadAndClip() {
+            if (!currentUser) {
+                toggleAuthModal(true);
+                return;
+            }
+            if (currentUser.clips_remaining <= 0 && currentUser.tier !== "agency") {
+                alert("You have used your free demo clip! Please upgrade your plan to continue.");
+                return;
+            }
+            if (!selectedFile) return;
+
+            document.getElementById("upload-section").classList.add("hidden");
+            document.getElementById("loading-section").classList.remove("hidden");
+
+            const formData = new FormData();
+            formData.append("file", selectedFile);
 
             try {
-                const response = await fetch('https://clipforge-backend-4t73.onrender.com/upload-and-clip', {
-                    method: 'POST',
+                const res = await fetch(`${API_BASE}/upload-and-clip`, {
+                    method: "POST",
+                    headers: {
+                        "x-user-email": currentUser.email
+                    },
                     body: formData
                 });
 
-                if (!response.ok) {
-                    const errData = await response.json().catch(() => ({}));
-                    throw new Error(errData.detail || `Server error: ${response.status}`);
+                if (res.ok) {
+                    const blob = await res.blob();
+                    const videoUrl = URL.createObjectURL(blob);
+                    
+                    document.getElementById("output-video-player").src = videoUrl;
+                    const downloadLink = document.getElementById("download-link");
+                    downloadLink.href = videoUrl;
+                    downloadLink.download = "vertical_clip.mp4";
+
+                    // Decrement local credit state
+                    currentUser.clips_remaining = Math.max(0, currentUser.clips_remaining - 1);
+                    if (currentUser.tier === "demo") currentUser.tier = "demo_used";
+                    localStorage.setItem("clipforge_user", JSON.stringify(currentUser));
+                    updateUIState();
+
+                    document.getElementById("loading-section").classList.add("hidden");
+                    document.getElementById("result-section").classList.remove("hidden");
+                } else {
+                    const err = await res.json();
+                    alert(err.detail || "Clipping process failed.");
+                    resetApp();
                 }
-
-                statusMessage.textContent = 'Download starting...';
-                const blob = await response.blob();
-                const downloadUrl = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = downloadUrl;
-                a.download = 'vertical_clip.mp4';
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                window.URL.revokeObjectURL(downloadUrl);
-
-                statusMessage.textContent = 'Clip generated and downloaded successfully!';
-                statusMessage.className = 'mt-4 text-center text-xs text-emerald-400 leading-relaxed';
             } catch (err) {
-                statusMessage.textContent = `Error: ${err.message}`;
-                statusMessage.className = 'mt-4 text-center text-xs text-red-400 leading-relaxed';
-            } finally {
-                generateBtn.disabled = false;
-                generateBtn.innerHTML = '<span>Generate Vertical Clip</span>';
+                alert("An error occurred during video processing.");
+                resetApp();
             }
+        }
+
+        function resetApp() {
+            selectedFile = null;
+            document.getElementById("video-file-input").value = "";
+            document.getElementById("file-label").innerText = "Click to upload video or drag and drop";
+            document.getElementById("generate-btn").setAttribute("disabled", "true");
+            document.getElementById("result-section").classList.add("hidden");
+            document.getElementById("loading-section").classList.add("hidden");
+            document.getElementById("upload-section").classList.remove("hidden");
         }
     </script>
 </body>
