@@ -114,7 +114,7 @@
         </div>
 
         <!-- Pricing & Tiers Section -->
-        <div class="w-full mb-12">
+        <div id="pricing" class="w-full mb-12">
             <h2 class="text-3xl font-black text-center mb-10 tracking-tight">Choose Your Plan</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 
@@ -370,12 +370,15 @@
             }
         }
 
-        async function authenticateBackend(email, provider) {
+        async function authenticateBackend(payload, provider) {
             try {
-                const res = await fetch(`${API_BASE}/auth/login`, {
+                const endpoint = provider === "google" ? `${API_BASE}/api/auth/google` : `${API_BASE}/auth/login`;
+                const bodyData = provider === "google" ? { token: payload } : { email: payload, auth_provider: provider };
+
+                const res = await fetch(endpoint, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email: email, auth_provider: provider })
+                    body: JSON.stringify(bodyData)
                 });
                 const data = await res.json();
                 if (res.ok) {
@@ -387,6 +390,7 @@
                     alert(data.detail || "Authentication failed.");
                 }
             } catch (err) {
+                console.error("Auth error:", err);
                 alert("Could not connect to backend server.");
             }
         }
@@ -414,12 +418,8 @@
                 return;
             }
 
-            const base64Url = response.credential.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
-            const googleUser = JSON.parse(jsonPayload);
-
-            authenticateBackend(googleUser.email, "google");
+            // Pass the secure Google ID token credential to the backend handler
+            authenticateBackend(response.credential, "google");
         }
 
         function logout() {
