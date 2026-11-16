@@ -6,8 +6,8 @@
     <title>ClipForge | Vertical Video Reframing &amp; Highlight Engine</title>
     <meta name="description" content="Convert horizontal 16:9 videos into crisp 1080x1920 vertical clips automatically. Built for creators, editors, and media teams.">
     
-    <!-- Exact 3D Folded Ribbon Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 80'%3E%3Crect width='120' height='80' rx='16' fill='%230E1012'/%3E%3Cpolygon points='12,26 52,26 32,48 12,48' fill='%23F59E0B'/%3E%3Cpolygon points='52,26 64,38 44,60 32,48' fill='%23D97706'/%3E%3Cpolygon points='44,60 76,16 88,28 56,72' fill='%23F59E0B'/%3E%3Cpolygon points='66,46 80,62 68,74 54,58' fill='%23D97706'/%3E%3Cpolygon points='76,16 106,24 106,66 76,74' fill='%23FBBF24'/%3E%3Cpolygon points='86,36 99,45 86,54' fill='%23B45309'/%3E%3C/svg%3E">
+    <!-- Exact 3D Folded Ribbon Favicon with Cutouts -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 122 88'%3E%3Crect width='122' height='88' rx='18' fill='%230E1012'/%3E%3Cpolygon points='10,24 56,24 32,54 10,54' fill='%23F39200'/%3E%3Cpolygon points='56,24 65,36 56,51 45,38' fill='%23C96A00'/%3E%3Cpolygon points='32,54 43,67 55,75 44,61' fill='%23D67600'/%3E%3Cpolygon points='44,61 78,13 78,38 55,75' fill='%23F59E0B'/%3E%3Cpolygon points='78,13 112,24 112,64 78,75' fill='%23FBBF24'/%3E%3Cpath d='M88,34 L103,44 L88,54 Z' stroke='%23C96A00' stroke-width='3' stroke-linejoin='round' fill='%23C96A00'/%3E%3C/svg%3E">
 
     <!-- Editorial Typography: Plus Jakarta Sans & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -55,21 +55,21 @@
     <!-- Top Navigation Bar -->
     <header class="border-b border-surface-800 bg-surface-950/95 sticky top-0 z-40">
         <div class="max-w-6xl mx-auto px-4 sm:px-8 h-16 flex items-center justify-between">
-            <!-- Clickable 3D Folded Ribbon Logo (Exact Match to First Image, No Text in SVG) -->
-            <a href="#top" onclick="showMainView()" aria-label="ClipForge Home" class="flex items-center gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 rounded group">
-                <svg viewBox="0 0 120 80" class="h-9 w-auto drop-shadow-sm" aria-hidden="true">
-                    <!-- Left Horizontal Ribbon Segment -->
-                    <polygon points="10,24 52,24 31,48 10,48" fill="#F59E0B"/>
-                    <!-- First Downward Shaded Fold -->
-                    <polygon points="52,24 64,37 43,61 31,48" fill="#D97706"/>
-                    <!-- Diagonal Rising Ribbon Arm -->
-                    <polygon points="43,61 76,14 88,27 55,74" fill="#F59E0B"/>
-                    <!-- Second Downward Shaded Fold -->
-                    <polygon points="65,45 81,62 69,75 53,58" fill="#D97706"/>
-                    <!-- Right 3D Vertical Block -->
-                    <polygon points="76,14 108,23 108,66 76,75" fill="#FBBF24"/>
-                    <!-- Recessed Play Triangle -->
-                    <polygon points="86,35 100,44.5 86,54" fill="#B45309"/>
+            <!-- Clickable 3D Folded Ribbon Logo (Exact Geometry & Cutouts, No Text in SVG) -->
+            <a href="#top" onclick="showMainView()" aria-label="ClipForge Home" class="flex items-center gap-3.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 rounded group">
+                <svg viewBox="0 0 122 88" class="h-9 w-auto drop-shadow-sm" aria-hidden="true">
+                    <!-- 1. Left Horizontal Ribbon Block -->
+                    <polygon points="10,24 56,24 32,54 10,54" fill="#F39200"/>
+                    <!-- 2. Top-Center Shaded Fold -->
+                    <polygon points="56,24 65,36 56,51 45,38" fill="#C96A00"/>
+                    <!-- 3. Bottom-Left Shaded Fold (Creates Dark Diamond Cutout Above It) -->
+                    <polygon points="32,54 43,67 55,75 44,61" fill="#D67600"/>
+                    <!-- 4. Main Rising Diagonal Ribbon Arm (Creates Dark Triangle Cutout Below-Right) -->
+                    <polygon points="44,61 78,13 78,38 55,75" fill="#F59E0B"/>
+                    <!-- 5. Right 3D Vertical Block -->
+                    <polygon points="78,13 112,24 112,64 78,75" fill="#FBBF24"/>
+                    <!-- 6. Recessed Rounded Play Triangle -->
+                    <path d="M88,34 L103,44 L88,54 Z" stroke="#C96A00" stroke-width="3" stroke-linejoin="round" fill="#C96A00"/>
                 </svg>
                 <span class="text-base font-extrabold tracking-tight text-white">CLIPFORGE</span>
             </a>
