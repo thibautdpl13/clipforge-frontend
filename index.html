@@ -13,7 +13,7 @@
     <header class="flex justify-between items-center px-8 py-5 border-b border-gray-800/80 bg-gray-900/60 backdrop-blur-md sticky top-0 z-40">
         <div class="flex items-center space-x-3">
             <!-- Professional X-Shaped Scissors Logo Icon -->
-            <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-purple-800 border border-purple-500/40 rounded-xl flex items-center justify-center text-white shadow-lg shadow-purple-900/30">
+            <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-purple-800 border border-purple-500/40 rounded-xl flex items-center justify-center text-white shadow-lg shadow-purple-900/30" aria-hidden="true">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                     <circle cx="6" cy="6" r="3"></circle>
                     <circle cx="6" cy="18" r="3"></circle>
@@ -37,7 +37,7 @@
 
             <!-- Logged In Profile Circle (Hidden by default) -->
             <div id="profile-container" class="hidden relative">
-                <button onclick="toggleDropdown()" class="flex items-center space-x-3 focus:outline-none bg-gray-900 hover:bg-gray-800 border border-gray-700/80 p-1.5 pr-4 rounded-full transition shadow-md">
+                <button onclick="toggleDropdown()" aria-label="Open user profile menu" class="flex items-center space-x-3 focus:outline-none bg-gray-900 hover:bg-gray-800 border border-gray-700/80 p-1.5 pr-4 rounded-full transition shadow-md">
                     <div id="user-avatar" class="w-9 h-9 bg-purple-600 text-white font-bold rounded-full flex items-center justify-center text-sm shadow-inner">
                         U
                     </div>
@@ -48,11 +48,14 @@
                 </button>
 
                 <!-- Dropdown Menu -->
-                <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl py-2 z-50">
+                <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-60 bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl py-2 z-50">
                     <div class="px-4 py-2 border-b border-gray-800">
                         <p class="text-xs text-gray-400">Clips Remaining:</p>
                         <p id="dropdown-credits" class="text-lg font-black text-purple-400">1</p>
                     </div>
+                    <button onclick="triggerAccountDeletion()" class="w-full text-left px-4 py-2.5 text-sm text-amber-400 hover:bg-gray-800/80 transition flex items-center space-x-2 font-medium">
+                        <span>Delete Account</span>
+                    </button>
                     <button onclick="logout()" class="w-full text-left px-4 py-2.5 text-sm text-red-400 hover:bg-gray-800/80 transition flex items-center space-x-2 font-medium">
                         <span>Log Out</span>
                     </button>
@@ -80,10 +83,10 @@
                 <label class="block border-2 border-dashed border-gray-700 hover:border-purple-500 rounded-2xl p-8 text-center cursor-pointer transition bg-gray-950/60 group">
                     <input type="file" id="video-file-input" accept="video/*" class="hidden" onchange="handleFileSelected(event)">
                     <div class="flex flex-col items-center">
-                        <div class="w-14 h-14 bg-purple-600/10 border border-purple-500/20 rounded-2xl flex items-center justify-center text-purple-400 mb-4 group-hover:scale-110 transition duration-300">
+                        <div class="w-14 h-14 bg-purple-600/10 border border-purple-500/20 rounded-2xl flex items-center justify-center text-purple-400 mb-4 group-hover:scale-110 transition duration-300" aria-hidden="true">
                             <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
                         </div>
-                        <p id="file-label" class="text-sm font-semibold text-gray-200">Click to upload video or drag and drop</p>
+                        <p id="file-label" class="text-sm font-semibold text-gray-200">Click to upload video or drag and drop (Max 250MB)</p>
                         <p class="text-xs text-gray-500 mt-1">MP4, MOV, WebM supported</p>
                     </div>
                 </label>
@@ -97,7 +100,7 @@
             <div id="loading-section" class="hidden text-center py-12">
                 <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-purple-500 border-t-transparent mb-4"></div>
                 <p class="text-lg font-semibold text-gray-200">Processing video & transcribing audio...</p>
-                <p class="text-xs text-gray-500 mt-1">Slicing snippet and applying Montserrat subtitles...</p>
+                <p class="text-xs text-gray-500 mt-1">Slicing snippet and applying vertical layout...</p>
             </div>
 
             <!-- Result Section -->
@@ -132,7 +135,7 @@
                                 <span class="text-purple-400 font-bold">✓</span> <span><strong>30 Clips</strong> per month</span>
                             </li>
                             <li class="flex items-center space-x-3">
-                                <span class="text-purple-400 font-bold">✓</span> <span><strong>1K Resolution</strong> rendering</span>
+                                <span class="text-purple-400 font-bold">✓</span> <span><strong>1080p Vertical</strong> rendering</span>
                             </li>
                         </ul>
                     </div>
@@ -158,7 +161,7 @@
                                 <span class="text-purple-400 font-bold">✓</span> <span><strong>120 Clips</strong> per month</span>
                             </li>
                             <li class="flex items-center space-x-3">
-                                <span class="text-purple-400 font-bold">✓</span> <span><strong>2K Resolution</strong> rendering</span>
+                                <span class="text-purple-400 font-bold">✓</span> <span><strong>1080p High-Bitrate</strong> rendering</span>
                             </li>
                         </ul>
                     </div>
@@ -181,7 +184,7 @@
                                 <span class="text-purple-400 font-bold">✓</span> <span><strong>Unlimited Clips</strong></span>
                             </li>
                             <li class="flex items-center space-x-3">
-                                <span class="text-purple-400 font-bold">✓</span> <span><strong>4K Resolution</strong> rendering</span>
+                                <span class="text-purple-400 font-bold">✓</span> <span><strong>Priority Queue</strong> rendering</span>
                             </li>
                         </ul>
                     </div>
@@ -194,15 +197,25 @@
         </div>
     </main>
 
+    <!-- Footer with Legal & Contact Info -->
+    <footer class="border-t border-gray-800/80 bg-gray-900/40 py-8 px-8 text-center text-xs text-gray-400 space-y-3">
+        <div class="flex flex-wrap justify-center gap-6">
+            <button onclick="openLegalModal('terms')" class="hover:text-purple-400 transition underline">Terms &amp; Conditions</button>
+            <button onclick="openLegalModal('privacy')" class="hover:text-purple-400 transition underline">Privacy Policy</button>
+            <button onclick="openLegalModal('refund')" class="hover:text-purple-400 transition underline">Refund Policy</button>
+        </div>
+        <p class="text-gray-500">© 2026 ClipForge AI. Contact &amp; Support: support@clipforge.ai | Troyes, France.</p>
+    </footer>
+
     <!-- Authentication Modal -->
     <div id="auth-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50">
-        <div class="bg-gray-900 border border-gray-800 max-w-md w-full rounded-3xl p-8 shadow-2xl relative">
-            <button onclick="toggleAuthModal(false)" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl font-light">&times;</button>
+        <div class="bg-gray-900 border border-gray-800 max-w-md w-full rounded-3xl p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button onclick="toggleAuthModal(false)" aria-label="Close authentication modal" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl font-light">&times;</button>
             
             <h2 class="text-2xl font-black text-center mb-1">Welcome to ClipForge</h2>
             <p class="text-xs text-gray-400 text-center mb-6">Sign in or create an account to get your free demo clip.</p>
 
-            <!-- Google Sign-In Button Container -->
+            <!-- Google Sign-In Button Container (No password required) -->
             <div class="flex justify-center mb-6">
                 <div id="g_id_onload"
                      data-client_id="925975701527-647ur1l151irhhiv4ifnunkq8i3s0bd9.apps.googleusercontent.com"
@@ -214,26 +227,57 @@
 
             <div class="flex items-center my-6">
                 <div class="flex-1 border-t border-gray-800"></div>
-                <span class="px-3 text-[11px] text-gray-500 uppercase tracking-widest font-bold">Or with email</span>
+                <span class="px-3 text-[11px] text-gray-500 uppercase tracking-widest font-bold">Or with email &amp; password</span>
                 <div class="flex-1 border-t border-gray-800"></div>
             </div>
 
-            <!-- Email Login Box -->
+            <!-- Email & Password Login/Signup Box -->
             <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-gray-400 mb-1.5">Email Address</label>
+                    <label for="email-input" class="block text-xs font-semibold text-gray-400 mb-1.5">Email Address</label>
                     <input type="email" id="email-input" placeholder="name@example.com" class="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition text-sm">
                 </div>
 
+                <div>
+                    <div class="flex justify-between items-center mb-1.5">
+                        <label for="password-input" class="block text-xs font-semibold text-gray-400">Password</label>
+                        <button type="button" onclick="generateStrongPassword()" class="text-[11px] text-purple-400 hover:text-purple-300 font-semibold underline">
+                            Generate Strong Password
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <input type="password" id="password-input" placeholder="Create or enter your password" oninput="checkPasswordStrength(this.value)" class="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-3 pr-16 text-white focus:outline-none focus:border-purple-500 transition text-sm">
+                        <button type="button" onclick="togglePasswordVisibility()" id="toggle-pwd-btn" class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400 hover:text-white font-medium">
+                            Show
+                        </button>
+                    </div>
+
+                    <!-- Strong Password Strength Checker -->
+                    <div class="mt-2 space-y-1">
+                        <div class="w-full bg-gray-800 h-1.5 rounded-full overflow-hidden">
+                            <div id="password-strength-bar" class="w-0 h-full transition-all duration-300 bg-red-500"></div>
+                        </div>
+                        <p id="password-strength-text" class="text-[11px] text-gray-400">Use at least 8 chars with uppercase, lowercase, number &amp; symbol.</p>
+                    </div>
+                </div>
+
+                <!-- Minimum Age Confirmation Checkbox -->
+                <div class="flex items-start space-x-3 pt-1">
+                    <input type="checkbox" id="age-checkbox" class="mt-1 w-4 h-4 rounded border-gray-700 bg-gray-950 text-purple-600 focus:ring-purple-500 cursor-pointer">
+                    <label for="age-checkbox" class="text-xs text-gray-400 leading-relaxed cursor-pointer">
+                        I confirm that I am at least <strong>16 years old</strong> (or the minimum legal age in my country) to use ClipForge AI.
+                    </label>
+                </div>
+
                 <!-- Legal Terms & Conditions Checkbox -->
-                <div class="flex items-start space-x-3 pt-2">
+                <div class="flex items-start space-x-3">
                     <input type="checkbox" id="terms-checkbox" class="mt-1 w-4 h-4 rounded border-gray-700 bg-gray-950 text-purple-600 focus:ring-purple-500 cursor-pointer">
-                    <span class="text-xs text-gray-400 leading-relaxed">
+                    <label for="terms-checkbox" class="text-xs text-gray-400 leading-relaxed cursor-pointer">
                         I agree to the 
-                        <button type="button" onclick="openLegalModal('terms')" class="text-purple-400 underline hover:text-purple-300 font-medium">Terms &amp; Conditions</button> 
-                        and 
-                        <button type="button" onclick="openLegalModal('privacy')" class="text-purple-400 underline hover:text-purple-300 font-medium">Privacy Policy</button>.
-                    </span>
+                        <button type="button" onclick="openLegalModal('terms')" class="text-purple-400 underline hover:text-purple-300 font-medium">Terms &amp; Conditions</button>, 
+                        <button type="button" onclick="openLegalModal('privacy')" class="text-purple-400 underline hover:text-purple-300 font-medium">Privacy Policy</button>, and 
+                        <button type="button" onclick="openLegalModal('refund')" class="text-purple-400 underline hover:text-purple-300 font-medium">Refund Policy</button>.
+                    </label>
                 </div>
 
                 <button onclick="handleEmailLogin()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-purple-900/30 text-sm mt-2">
@@ -246,26 +290,26 @@
     <!-- Terms & Conditions Modal -->
     <div id="terms-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50">
         <div class="bg-gray-900 border border-gray-800 max-w-lg w-full rounded-3xl p-8 shadow-2xl relative max-h-[85vh] flex flex-col">
-            <button onclick="closeLegalModal('terms')" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl font-light">&times;</button>
+            <button onclick="closeLegalModal('terms')" aria-label="Close Terms modal" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl font-light">&times;</button>
             <h3 class="text-xl font-black mb-1 text-white">Terms &amp; Conditions</h3>
             <p class="text-xs text-gray-500 mb-4">Last updated: November 2026</p>
             
             <div class="overflow-y-auto pr-2 space-y-4 text-xs text-gray-300 leading-relaxed flex-1">
                 <div>
-                    <h4 class="font-bold text-purple-400 mb-1">1. Acceptance of Terms</h4>
-                    <p>By accessing or using ClipForge AI ("the Service"), you agree to be bound by these Terms &amp; Conditions. If you do not agree to all terms, you must not use the Service.</p>
+                    <h4 class="font-bold text-purple-400 mb-1">1. Acceptance &amp; Eligibility</h4>
+                    <p>By accessing or using ClipForge AI ("the Service"), you confirm that you meet the minimum legal age requirement in your jurisdiction (at least 16 years old in the EU) and agree to be bound by these Terms &amp; Conditions.</p>
                 </div>
                 <div>
                     <h4 class="font-bold text-purple-400 mb-1">2. Account Security &amp; Acceptable Use</h4>
-                    <p>You are responsible for maintaining the confidentiality of your account credentials (Google or Email login). You agree not to misuse the Service, upload unlawful or infringing material, attempt unauthorized access, or circumvent free demo limits and monthly credit quotas.</p>
+                    <p>You are responsible for maintaining the confidentiality of your account credentials (Google or Email/Password login). You agree not to misuse the Service, upload unlawful or infringing material, attempt unauthorized access, or circumvent free demo limits and monthly credit quotas.</p>
                 </div>
                 <div>
                     <h4 class="font-bold text-purple-400 mb-1">3. User Content &amp; Intellectual Property</h4>
                     <p>You retain full ownership rights to the videos you upload. By uploading content, you represent that you have the necessary rights to process the video and grant ClipForge AI a temporary, non-exclusive license solely to slice, transcribe, and render your requested clips. Temporary server files are automatically purged after processing.</p>
                 </div>
                 <div>
-                    <h4 class="font-bold text-purple-400 mb-1">4. Subscriptions, Credits &amp; Billing</h4>
-                    <p>Free accounts are strictly limited to one (1) demo clip per user/email. Paid subscription tiers (Starter, Pro, Agency) are billed monthly in advance via our payment processor. Unused monthly clip credits do not roll over to subsequent billing cycles. Refunds are evaluated on a case-by-case basis.</p>
+                    <h4 class="font-bold text-purple-400 mb-1">4. Subscriptions, Credits &amp; Account Deletion</h4>
+                    <p>Free accounts are strictly limited to one (1) demo clip per user. Paid subscription tiers (Starter, Pro, Agency) are billed monthly in advance via Stripe. When you request account deletion, your account enters a 30-day scheduled deletion grace period; logging back in and canceling deletion within those 30 days restores your account and data intact.</p>
                 </div>
                 <div>
                     <h4 class="font-bold text-purple-400 mb-1">5. Disclaimer &amp; Limitation of Liability</h4>
@@ -282,14 +326,14 @@
     <!-- Privacy Policy Modal -->
     <div id="privacy-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50">
         <div class="bg-gray-900 border border-gray-800 max-w-lg w-full rounded-3xl p-8 shadow-2xl relative max-h-[85vh] flex flex-col">
-            <button onclick="closeLegalModal('privacy')" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl font-light">&times;</button>
+            <button onclick="closeLegalModal('privacy')" aria-label="Close Privacy modal" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl font-light">&times;</button>
             <h3 class="text-xl font-black mb-1 text-white">Privacy Policy</h3>
             <p class="text-xs text-gray-500 mb-4">Last updated: November 2026</p>
             
             <div class="overflow-y-auto pr-2 space-y-4 text-xs text-gray-300 leading-relaxed flex-1">
                 <div>
                     <h4 class="font-bold text-purple-400 mb-1">1. Information We Collect</h4>
-                    <p>When you sign up or sign in, we collect your email address and authentication provider details (Google or Email). When you use the clipping tool, we temporarily receive the video files you upload for automated processing.</p>
+                    <p>When you sign up or sign in, we collect your email address, hashed password (if signing up via email), and authentication provider details (Google or Email). When you use the clipping tool, we temporarily receive the video files you upload for automated processing.</p>
                 </div>
                 <div>
                     <h4 class="font-bold text-purple-400 mb-1">2. How We Use Your Information</h4>
@@ -297,15 +341,15 @@
                 </div>
                 <div>
                     <h4 class="font-bold text-purple-400 mb-1">3. Video Processing &amp; Data Retention</h4>
-                    <p>Uploaded videos and extracted audio snippets are stored in isolated temporary directories solely for the duration of rendering and are deleted immediately upon completion. Account records are retained only while your account remains active.</p>
+                    <p>Uploaded videos are processed in isolated temporary directories and deleted automatically once rendering completes. If you initiate account deletion, your account data is permanently purged 30 days after your request unless you log back in and cancel deletion prior to that timestamp.</p>
                 </div>
                 <div>
                     <h4 class="font-bold text-purple-400 mb-1">4. Third-Party Services</h4>
                     <p>We rely on trusted third-party infrastructure providers—including Google Identity Services for authentication and Stripe for payment processing—which handle data in accordance with their respective privacy policies.</p>
                 </div>
                 <div>
-                    <h4 class="font-bold text-purple-400 mb-1">5. Your Rights &amp; Account Deletion</h4>
-                    <p>You may request access to or deletion of your account record and associated email data at any time by contacting the site administrator.</p>
+                    <h4 class="font-bold text-purple-400 mb-1">5. Your Rights &amp; Contact</h4>
+                    <p>Under GDPR, you may request access to, rectification of, or deletion of your account data at any time via the in-app Delete Account option or by contacting support@clipforge.ai.</p>
                 </div>
             </div>
 
@@ -315,10 +359,39 @@
         </div>
     </div>
 
+    <!-- Refund Policy Modal -->
+    <div id="refund-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50">
+        <div class="bg-gray-900 border border-gray-800 max-w-lg w-full rounded-3xl p-8 shadow-2xl relative max-h-[85vh] flex flex-col">
+            <button onclick="closeLegalModal('refund')" aria-label="Close Refund modal" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl font-light">&times;</button>
+            <h3 class="text-xl font-black mb-1 text-white">Refund Policy</h3>
+            <p class="text-xs text-gray-500 mb-4">Last updated: November 2026</p>
+            
+            <div class="overflow-y-auto pr-2 space-y-4 text-xs text-gray-300 leading-relaxed flex-1">
+                <div>
+                    <h4 class="font-bold text-purple-400 mb-1">1. Free Demo Evaluation</h4>
+                    <p>Every new account includes one (1) free demo clip so you can evaluate video quality, vertical cropping, and rendering speed before purchasing a paid subscription.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-purple-400 mb-1">2. Paid Subscriptions &amp; Refund Window</h4>
+                    <p>If you subscribe to a paid plan and have not used any of your monthly clip credits, you may request a full refund within 7 days of your initial payment by emailing support@clipforge.ai with your account email.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-purple-400 mb-1">3. Cancellation</h4>
+                    <p>You may cancel your subscription at any time to prevent future monthly renewals. Once credits have been consumed during a billing cycle, partial-month refunds are not issued unless the Service experienced verified technical downtime.</p>
+                </div>
+            </div>
+
+            <button onclick="closeLegalModal('refund')" class="w-full mt-6 bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl transition text-sm">
+                Close
+            </button>
+        </div>
+    </div>
+
     <!-- Frontend Logic Script -->
     <script>
         const API_BASE = "https://clipforge-backend-4t73.onrender.com";
         let currentUser = JSON.parse(localStorage.getItem("clipforge_user")) || null;
+        let authToken = localStorage.getItem("clipforge_token") || null;
         let selectedFile = null;
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -329,7 +402,7 @@
             const authBtn = document.getElementById("open-auth-modal-btn");
             const profileContainer = document.getElementById("profile-container");
             
-            if (currentUser) {
+            if (currentUser && authToken) {
                 authBtn.classList.add("hidden");
                 profileContainer.classList.remove("hidden");
                 
@@ -362,6 +435,82 @@
             dropdown.classList.toggle("hidden");
         }
 
+        function togglePasswordVisibility() {
+            const pwdInput = document.getElementById("password-input");
+            const toggleBtn = document.getElementById("toggle-pwd-btn");
+            if (pwdInput.type === "password") {
+                pwdInput.type = "text";
+                toggleBtn.innerText = "Hide";
+            } else {
+                pwdInput.type = "password";
+                toggleBtn.innerText = "Show";
+            }
+        }
+
+        function checkPasswordStrength(password) {
+            const bar = document.getElementById("password-strength-bar");
+            const text = document.getElementById("password-strength-text");
+
+            let score = 0;
+            if (password.length >= 8) score++;
+            if (password.length >= 12) score++;
+            if (/[A-Z]/.test(password) && /[a-z]/.test(password)) score++;
+            if (/[0-9]/.test(password)) score++;
+            if (/[^A-Za-z0-9]/.test(password)) score++;
+
+            if (password.length === 0) {
+                bar.style.width = "0%";
+                bar.className = "w-0 h-full transition-all duration-300 bg-red-500";
+                text.className = "text-[11px] text-gray-400";
+                text.innerText = "Use at least 8 chars with uppercase, lowercase, number & symbol.";
+            } else if (score <= 2) {
+                bar.style.width = "33%";
+                bar.className = "w-1/3 h-full transition-all duration-300 bg-red-500";
+                text.className = "text-[11px] text-red-400";
+                text.innerText = "Weak password — add uppercase letters, numbers, and symbols.";
+            } else if (score <= 4) {
+                bar.style.width = "66%";
+                bar.className = "w-2/3 h-full transition-all duration-300 bg-amber-500";
+                text.className = "text-[11px] text-amber-400";
+                text.innerText = "Medium strength — add more characters or symbols for maximum security.";
+            } else {
+                bar.style.width = "100%";
+                bar.className = "w-full h-full transition-all duration-300 bg-emerald-500";
+                text.className = "text-[11px] text-emerald-400 font-semibold";
+                text.innerText = "Strong password!";
+            }
+            return score;
+        }
+
+        function generateStrongPassword() {
+            const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const lower = "abcdefghijklmnopqrstuvwxyz";
+            const nums = "0123456789";
+            const syms = "!@#$%^&*()-_=+";
+            const all = upper + lower + nums + syms;
+
+            // Guarantee at least one of each required character class
+            let pwd = [
+                upper[Math.floor(Math.random() * upper.length)],
+                lower[Math.floor(Math.random() * lower.length)],
+                nums[Math.floor(Math.random() * nums.length)],
+                syms[Math.floor(Math.random() * syms.length)]
+            ];
+
+            for (let i = 4; i < 16; i++) {
+                pwd.push(all[Math.floor(Math.random() * all.length)]);
+            }
+
+            // Shuffle characters
+            pwd = pwd.sort(() => Math.random() - 0.5).join("");
+
+            const pwdInput = document.getElementById("password-input");
+            pwdInput.value = pwd;
+            pwdInput.type = "text";
+            document.getElementById("toggle-pwd-btn").innerText = "Hide";
+            checkPasswordStrength(pwd);
+        }
+
         function handleFileSelected(event) {
             selectedFile = event.target.files[0];
             if (selectedFile) {
@@ -370,10 +519,13 @@
             }
         }
 
-        async function authenticateBackend(payload, provider) {
+        async function authenticateBackend(payload, provider, cancelDeletion = false) {
             try {
-                const endpoint = provider === "google" ? `${API_BASE}/api/auth/google` : `${API_BASE}/auth/login`;
-                const bodyData = provider === "google" ? { token: payload } : { email: payload, auth_provider: provider };
+                const ageVerified = document.getElementById("age-checkbox").checked;
+                const endpoint = provider === "google" ? `${API_BASE}/api/auth/google` : `${API_BASE}/auth/register-login`;
+                const bodyData = provider === "google"
+                    ? { token: payload, age_verified: ageVerified, cancel_deletion: cancelDeletion }
+                    : { email: payload.email, password: payload.password, age_verified: ageVerified, cancel_deletion: cancelDeletion };
 
                 const res = await fetch(endpoint, {
                     method: "POST",
@@ -381,13 +533,35 @@
                     body: JSON.stringify(bodyData)
                 });
                 const data = await res.json();
+
                 if (res.ok) {
+                    authToken = data.access_token;
                     currentUser = data.user;
+                    localStorage.setItem("clipforge_token", authToken);
                     localStorage.setItem("clipforge_user", JSON.stringify(currentUser));
                     updateUIState();
                     toggleAuthModal(false);
+                    if (cancelDeletion) {
+                        alert("Welcome back! Your scheduled account deletion has been canceled and all your data has been restored.");
+                    }
+                } else if (res.status === 409 && data.detail && data.detail.code === "DELETION_PENDING") {
+                    const localDate = new Date(data.detail.scheduled_at).toLocaleString([], {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    });
+                    const restoreChoice = confirm(
+                        `Your account deletion is scheduled for ${localDate}.\n\n` +
+                        `Click OK to log back in, cancel the deletion, and restore your old account with all your data.\n` +
+                        `Click Cancel to keep the scheduled deletion active.`
+                    );
+                    if (restoreChoice) {
+                        await authenticateBackend(payload, provider, true);
+                    }
                 } else {
-                    alert(data.detail || "Authentication failed.");
+                    alert(typeof data.detail === "string" ? data.detail : "Authentication failed.");
                 }
             } catch (err) {
                 console.error("Auth error:", err);
@@ -397,41 +571,105 @@
 
         function handleEmailLogin() {
             const email = document.getElementById("email-input").value.trim();
+            const password = document.getElementById("password-input").value;
+            const ageVerified = document.getElementById("age-checkbox").checked;
             const termsAccepted = document.getElementById("terms-checkbox").checked;
 
             if (!email || !email.includes("@")) {
                 alert("Please enter a valid email address.");
                 return;
             }
+            if (!password || password.length < 8) {
+                alert("Please enter a strong password (at least 8 characters with uppercase, lowercase, number, and symbol).");
+                return;
+            }
+            if (checkPasswordStrength(password) < 3) {
+                alert("Your password is too weak. Please strengthen it or click 'Generate Strong Password'.");
+                return;
+            }
+            if (!ageVerified) {
+                alert("You must confirm that you meet the minimum age requirement to continue.");
+                return;
+            }
             if (!termsAccepted) {
-                alert("You must agree to the Terms & Conditions and Privacy Policy to sign up.");
+                alert("You must agree to the Terms & Conditions, Privacy Policy, and Refund Policy to continue.");
                 return;
             }
 
-            authenticateBackend(email, "email");
+            authenticateBackend({ email, password }, "email", false);
         }
 
         function handleGoogleLogin(response) {
+            const ageVerified = document.getElementById("age-checkbox").checked;
             const termsAccepted = document.getElementById("terms-checkbox").checked;
+
+            if (!ageVerified) {
+                alert("You must confirm that you meet the minimum age requirement before signing in with Google.");
+                return;
+            }
             if (!termsAccepted) {
-                alert("You must agree to the Terms & Conditions and Privacy Policy to sign up.");
+                alert("You must agree to the Terms & Conditions, Privacy Policy, and Refund Policy before signing in with Google.");
                 return;
             }
 
-            // Pass the secure Google ID token credential to the backend handler
-            authenticateBackend(response.credential, "google");
+            // Google login requires no password — passes verified Google ID token directly
+            authenticateBackend(response.credential, "google", false);
+        }
+
+        async function triggerAccountDeletion() {
+            if (!authToken) return;
+            const confirmed = confirm(
+                "Are you sure you want to delete your account?\n\n" +
+                "Your account deletion will be scheduled for exactly 30 days from now. " +
+                "During these 30 days, you cannot create a new free demo on this account, " +
+                "but you can log back in anytime before the 30 days expire to cancel deletion and restore all your data."
+            );
+            if (!confirmed) return;
+
+            try {
+                const res = await fetch(`${API_BASE}/api/account/schedule-deletion`, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${authToken}`
+                    }
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    const localDate = new Date(data.deletion_scheduled_at).toLocaleString([], {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    });
+                    alert(
+                        `Account deletion is scheduled for ${localDate} (30 days from now).\n\n` +
+                        `If you log back in before then and choose to cancel deletion, your account and data will be restored.`
+                    );
+                    logout();
+                } else {
+                    alert(data.detail || "Could not schedule account deletion.");
+                }
+            } catch (err) {
+                alert("Error connecting to server while scheduling deletion.");
+            }
         }
 
         function logout() {
+            localStorage.removeItem("clipforge_token");
             localStorage.removeItem("clipforge_user");
             currentUser = null;
+            authToken = null;
             updateUIState();
-            toggleDropdown();
+            const dropdown = document.getElementById("profile-dropdown");
+            if (!dropdown.classList.contains("hidden")) {
+                dropdown.classList.add("hidden");
+            }
             resetApp();
         }
 
         async function uploadAndClip() {
-            if (!currentUser) {
+            if (!currentUser || !authToken) {
                 toggleAuthModal(true);
                 return;
             }
@@ -451,7 +689,7 @@
                 const res = await fetch(`${API_BASE}/upload-and-clip`, {
                     method: "POST",
                     headers: {
-                        "x-user-email": currentUser.email
+                        "Authorization": `Bearer ${authToken}`
                     },
                     body: formData
                 });
@@ -486,7 +724,7 @@
         function resetApp() {
             selectedFile = null;
             document.getElementById("video-file-input").value = "";
-            document.getElementById("file-label").innerText = "Click to upload video or drag and drop";
+            document.getElementById("file-label").innerText = "Click to upload video or drag and drop (Max 250MB)";
             document.getElementById("generate-btn").setAttribute("disabled", "true");
             document.getElementById("result-section").classList.add("hidden");
             document.getElementById("loading-section").classList.add("hidden");
