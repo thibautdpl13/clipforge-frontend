@@ -1,321 +1,577 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="overflow-x-hidden scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClipForge AI - Automated Short-Form Video Generator</title>
+    <title>ClipForge | Vertical Video Reframing &amp; Highlight Engine</title>
+    <meta name="description" content="Convert horizontal 16:9 videos into crisp 1080x1920 vertical clips automatically. Built for creators, editors, and media teams.">
+    
+    <!-- Inline SVG Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23F59E0B'/%3E%3Cpath d='M9 9l14 14M23 9L9 23' stroke='%230E1012' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+
+    <!-- Editorial Typography: Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        surface: {
+                            950: '#0E1012',
+                            900: '#15181C',
+                            850: '#1C2026',
+                            800: '#252A32',
+                        },
+                        accent: {
+                            400: '#FBBF24',
+                            500: '#F59E0B',
+                            600: '#D97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
-<body class="bg-gray-950 text-white font-sans min-h-screen flex flex-col selection:bg-purple-600 selection:text-white">
+<body class="bg-surface-950 text-zinc-100 font-sans min-h-screen flex flex-col overflow-x-hidden antialiased selection:bg-accent-500 selection:text-surface-950">
+
+    <!-- Non-Blocking Toast Notification Banner -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full px-4 sm:px-0 pointer-events-none"></div>
 
     <!-- Top Navigation Bar -->
-    <header class="flex justify-between items-center px-8 py-5 border-b border-gray-800/80 bg-gray-900/60 backdrop-blur-md sticky top-0 z-40">
-        <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-purple-800 border border-purple-500/40 rounded-xl flex items-center justify-center text-white shadow-lg shadow-purple-900/30" aria-hidden="true">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                    <circle cx="6" cy="6" r="3"></circle>
-                    <circle cx="6" cy="18" r="3"></circle>
-                    <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
-                    <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
-                    <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
-                </svg>
-            </div>
-            <div class="flex items-center space-x-2">
-                <span class="text-xl font-black tracking-wider text-white">CLIPFORGE</span>
-                <span class="text-xl font-black bg-gradient-to-r from-purple-400 to-purple-500 bg-clip-text text-transparent">AI</span>
+    <header class="border-b border-surface-800 bg-surface-950/95 sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 sm:px-8 h-16 flex items-center justify-between">
+            <!-- Clickable Logo -->
+            <a href="#top" onclick="showMainView()" class="flex items-center gap-3 focus:outline-none group">
+                <div class="w-8 h-8 bg-accent-500 rounded-md flex items-center justify-center text-surface-950 font-mono font-bold text-sm">
+                    CF
+                </div>
+                <span class="text-base font-extrabold tracking-tight text-white">CLIPFORGE</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
+                <a href="#workspace" onclick="showMainView()" class="hover:text-white transition-colors">Studio</a>
+                <a href="#preview-demo" onclick="showMainView()" class="hover:text-white transition-colors">Output Specs</a>
+                <a href="#pricing" onclick="showMainView()" class="hover:text-white transition-colors">Pricing</a>
+            </nav>
+
+            <!-- Right Controls + Mobile Hamburger -->
+            <div class="flex items-center gap-3">
+                <div id="auth-container" class="relative">
+                    <button id="open-auth-modal-btn" onclick="toggleAuthModal(true)" class="bg-accent-500 hover:bg-accent-400 text-surface-950 font-bold px-4 py-2 rounded-md text-xs sm:text-sm transition-colors">
+                        Sign In
+                    </button>
+
+                    <!-- Logged In Profile Pill -->
+                    <div id="profile-container" class="hidden relative">
+                        <button onclick="toggleDropdown()" aria-label="Open account menu" class="flex items-center gap-2.5 bg-surface-900 hover:bg-surface-850 border border-surface-800 px-3 py-1.5 rounded-md transition-colors">
+                            <span id="user-avatar" class="w-6 h-6 bg-accent-500 text-surface-950 font-mono font-bold rounded text-xs flex items-center justify-center">U</span>
+                            <span id="nav-user-email" class="hidden sm:inline text-xs font-medium text-zinc-200 max-w-[130px] truncate">user@domain.com</span>
+                            <span id="nav-user-tier" class="text-[10px] font-mono uppercase px-1.5 py-0.5 bg-surface-800 text-accent-400 rounded">FREE</span>
+                        </button>
+
+                        <!-- Dropdown Menu -->
+                        <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-surface-900 border border-surface-800 rounded-md py-1.5 z-50">
+                            <div class="px-4 py-2 border-b border-surface-800">
+                                <p class="text-[11px] text-zinc-400">Available Credits</p>
+                                <p id="dropdown-credits" class="text-base font-mono font-bold text-white">1</p>
+                            </div>
+                            <button onclick="triggerAccountDeletion()" class="w-full text-left px-4 py-2 text-xs text-amber-400 hover:bg-surface-850 transition-colors">
+                                Schedule Account Deletion
+                            </button>
+                            <button onclick="logout()" class="w-full text-left px-4 py-2 text-xs text-red-400 hover:bg-surface-850 transition-colors">
+                                Sign Out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button onclick="toggleMobileMenu()" aria-label="Toggle navigation menu" class="md:hidden p-2 rounded-md border border-surface-800 text-zinc-300 hover:text-white hover:bg-surface-900">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
             </div>
         </div>
 
-        <!-- Auth / Profile Area -->
-        <div id="auth-container" class="relative">
-            <button id="open-auth-modal-btn" onclick="toggleAuthModal(true)" class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-bold px-6 py-2.5 rounded-xl transition shadow-lg shadow-purple-900/40 text-sm">
-                Sign In / Sign Up
-            </button>
-
-            <!-- Logged In Profile Circle -->
-            <div id="profile-container" class="hidden relative">
-                <button onclick="toggleDropdown()" aria-label="Open user profile menu" class="flex items-center space-x-3 focus:outline-none bg-gray-900 hover:bg-gray-800 border border-gray-700/80 p-1.5 pr-4 rounded-full transition shadow-md">
-                    <div id="user-avatar" class="w-9 h-9 bg-purple-600 text-white font-bold rounded-full flex items-center justify-center text-sm shadow-inner">
-                        U
-                    </div>
-                    <div class="text-left">
-                        <p id="nav-user-email" class="text-xs font-semibold text-gray-200 max-w-[120px] truncate">user@email.com</p>
-                        <p id="nav-user-tier" class="text-[10px] uppercase tracking-wider text-purple-400 font-extrabold">Demo</p>
-                    </div>
-                </button>
-
-                <!-- Dropdown Menu -->
-                <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-60 bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl py-2 z-50">
-                    <div class="px-4 py-2 border-b border-gray-800">
-                        <p class="text-xs text-gray-400">Clips Remaining:</p>
-                        <p id="dropdown-credits" class="text-lg font-black text-purple-400">1</p>
-                    </div>
-                    <button onclick="triggerAccountDeletion()" class="w-full text-left px-4 py-2.5 text-sm text-amber-400 hover:bg-gray-800/80 transition flex items-center space-x-2 font-medium">
-                        <span>Delete Account</span>
-                    </button>
-                    <button onclick="logout()" class="w-full text-left px-4 py-2.5 text-sm text-red-400 hover:bg-gray-800/80 transition flex items-center space-x-2 font-medium">
-                        <span>Log Out</span>
-                    </button>
-                </div>
-            </div>
+        <!-- Mobile Menu Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-surface-800 bg-surface-900 px-4 py-4 space-y-3">
+            <a href="#workspace" onclick="closeMobileMenu(); showMainView();" class="block text-sm font-medium text-zinc-300 hover:text-white">Studio Workspace</a>
+            <a href="#preview-demo" onclick="closeMobileMenu(); showMainView();" class="block text-sm font-medium text-zinc-300 hover:text-white">Output Specs</a>
+            <a href="#pricing" onclick="closeMobileMenu(); showMainView();" class="block text-sm font-medium text-zinc-300 hover:text-white">Pricing Plans</a>
         </div>
     </header>
 
-    <!-- Main Content Dashboard -->
-    <main class="flex-1 flex flex-col items-center justify-center px-6 py-12 max-w-5xl mx-auto w-full">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tight bg-gradient-to-r from-white via-purple-100 to-purple-400 bg-clip-text text-transparent py-1">
-                Turn Long Videos Into Viral Short Clips
-            </h1>
-            <p class="text-gray-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-                Automatically slice, transcribe, and subtitle your videos into engaging 1080x1920 vertical masterpieces ready for TikTok, Reels, and YouTube Shorts.
-            </p>
-        </div>
+    <!-- Main Application View -->
+    <main id="main-content" class="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-16">
+        
+        <!-- Hero & Uploader Split Layout -->
+        <section id="workspace" class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start mb-24">
+            
+            <!-- Left Column: Crisp Editorial Copy -->
+            <div class="lg:col-span-6 space-y-5 pt-2">
+                <div class="inline-block px-2.5 py-1 bg-surface-900 border border-surface-800 rounded text-[11px] font-mono text-accent-400 uppercase tracking-wider">
+                    FFmpeg Hardware Pipeline v3.0
+                </div>
+                <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-[1.12]">
+                    Reframe wide footage into 9:16 vertical cuts.
+                </h1>
+                <p class="text-zinc-400 text-sm sm:text-base leading-relaxed max-w-xl">
+                    Upload raw 16:9 MP4, MOV, or WebM footage. ClipForge extracts high-retention segments, crops to exact 1080x1920 vertical dimensions, and encodes web-ready H.264 files.
+                </p>
 
-        <!-- Uploader Card -->
-        <div class="max-w-xl w-full bg-gray-900/90 border border-gray-800 rounded-3xl p-8 shadow-2xl shadow-purple-950/20 mb-20 backdrop-blur-sm">
-            <div id="upload-section">
-                <label class="block border-2 border-dashed border-gray-700 hover:border-purple-500 rounded-2xl p-8 text-center cursor-pointer transition bg-gray-950/60 group">
-                    <input type="file" id="video-file-input" accept="video/*" class="hidden" onchange="handleFileSelected(event)">
-                    <div class="flex flex-col items-center">
-                        <div class="w-14 h-14 bg-purple-600/10 border border-purple-500/20 rounded-2xl flex items-center justify-center text-purple-400 mb-4 group-hover:scale-110 transition duration-300" aria-hidden="true">
-                            <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                        </div>
-                        <p id="file-label" class="text-sm font-semibold text-gray-200">Click to upload video or drag and drop (Max 250MB)</p>
-                        <p class="text-xs text-gray-500 mt-1">MP4, MOV, WebM supported</p>
+                <!-- Technical Spec Strip -->
+                <div class="grid grid-cols-3 gap-3 pt-3 border-t border-surface-800/80">
+                    <div>
+                        <p class="text-[11px] font-mono text-zinc-500 uppercase">Resolution</p>
+                        <p class="text-sm font-bold text-zinc-200 mt-0.5">1080 x 1920</p>
                     </div>
-                </label>
-
-                <button id="generate-btn" onclick="uploadAndClip()" disabled class="w-full mt-6 bg-purple-600 hover:bg-purple-500 disabled:bg-gray-800 disabled:text-gray-600 text-white font-bold py-4 rounded-xl transition shadow-lg shadow-purple-900/30">
-                    Generate Highlight Clip
-                </button>
+                    <div>
+                        <p class="text-[11px] font-mono text-zinc-500 uppercase">Max Upload</p>
+                        <p class="text-sm font-bold text-zinc-200 mt-0.5">250 MB</p>
+                    </div>
+                    <div>
+                        <p class="text-[11px] font-mono text-zinc-500 uppercase">Audio Codec</p>
+                        <p class="text-sm font-bold text-zinc-200 mt-0.5">AAC 128kbps</p>
+                    </div>
+                </div>
             </div>
 
-            <!-- Processing Spinner State -->
-            <div id="loading-section" class="hidden text-center py-12">
-                <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-purple-500 border-t-transparent mb-4"></div>
-                <p class="text-lg font-semibold text-gray-200">Processing video & transcribing audio...</p>
-                <p class="text-xs text-gray-500 mt-1">Slicing snippet and applying vertical layout...</p>
-            </div>
+            <!-- Right Column: Architectural Uploader Box -->
+            <div class="lg:col-span-6 bg-surface-900 border border-surface-800 rounded-lg p-6 sm:p-8">
+                <div id="upload-section">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-mono uppercase tracking-wider text-zinc-400">Input Source</span>
+                        <span id="status-badge" class="text-[11px] font-mono text-zinc-500">Ready</span>
+                    </div>
 
-            <!-- Result Section -->
-            <div id="result-section" class="hidden text-center mt-6">
-                <div class="bg-emerald-950/40 border border-emerald-800/60 rounded-2xl p-6 mb-4">
-                    <p class="text-emerald-400 font-bold mb-3">Clip Generated Successfully!</p>
-                    <video id="output-video-player" controls class="w-full max-h-[400px] rounded-xl mb-4 bg-black"></video>
-                    <a id="download-link" class="inline-block bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-3.5 rounded-xl transition shadow-lg shadow-emerald-900/30">
-                        Download Vertical Clip (.mp4)
+                    <label for="video-file-input" class="block border border-dashed border-surface-800 hover:border-accent-500 rounded-md p-8 text-center cursor-pointer transition-colors bg-surface-950">
+                        <input type="file" id="video-file-input" accept="video/mp4,video/quicktime,video/webm" class="hidden" onchange="handleFileSelected(event)">
+                        <div class="flex flex-col items-center">
+                            <svg class="w-8 h-8 text-zinc-400 mb-3" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 16V4m0 0l-4 4m4-4l4 4M4 20h16"></path>
+                            </svg>
+                            <p id="file-label" class="text-sm font-semibold text-zinc-200 break-all">Select a video file (MP4, MOV, WebM)</p>
+                            <p id="file-meta" class="text-xs text-zinc-500 mt-1">Maximum file size: 250 MB</p>
+                        </div>
+                    </label>
+
+                    <button id="generate-btn" onclick="uploadAndClip()" disabled class="w-full mt-5 bg-accent-500 hover:bg-accent-400 disabled:bg-surface-800 disabled:text-zinc-500 disabled:cursor-not-allowed text-surface-950 font-bold py-3.5 rounded-md text-sm transition-colors">
+                        Render Vertical Clip
+                    </button>
+                </div>
+
+                <!-- Skeleton & Progress Loader State -->
+                <div id="loading-section" class="hidden py-6 space-y-4">
+                    <div class="flex items-center justify-between text-xs font-mono text-accent-400">
+                        <span>ENCODING 1080x1920 STREAM...</span>
+                        <span id="elapsed-timer">0s</span>
+                    </div>
+                    <div class="w-full bg-surface-950 h-2 rounded overflow-hidden border border-surface-800">
+                        <div class="bg-accent-500 h-full w-2/3 animate-pulse"></div>
+                    </div>
+                    <!-- Skeleton Frame Placeholder -->
+                    <div class="grid grid-cols-2 gap-3 pt-2">
+                        <div class="h-24 bg-surface-850 rounded animate-pulse border border-surface-800"></div>
+                        <div class="h-24 bg-surface-850 rounded animate-pulse border border-surface-800"></div>
+                    </div>
+                    <p class="text-xs text-zinc-500">Do not refresh this tab while FFmpeg processes your stream.</p>
+                </div>
+
+                <!-- Empty / Result State -->
+                <div id="result-section" class="hidden space-y-4">
+                    <div class="flex items-center justify-between border-b border-surface-800 pb-3">
+                        <span class="text-xs font-mono text-emerald-400 uppercase">Render Complete</span>
+                        <button onclick="resetApp()" class="text-xs text-zinc-400 hover:text-white underline">Reset Workspace</button>
+                    </div>
+                    <video id="output-video-player" controls class="w-full max-h-[380px] rounded bg-black border border-surface-800"></video>
+                    <a id="download-link" class="block w-full text-center bg-emerald-500 hover:bg-emerald-400 text-surface-950 font-bold py-3 rounded-md text-sm transition-colors">
+                        Download MP4 File
                     </a>
                 </div>
-                <button onclick="resetApp()" class="text-sm text-gray-400 hover:text-white underline transition font-medium">Process another video</button>
             </div>
-        </div>
+        </section>
 
-        <!-- Pricing & Tiers Section -->
-        <div id="pricing" class="w-full mb-12">
-            <h2 class="text-3xl font-black text-center mb-10 tracking-tight">Choose Your Plan</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Real Aspect-Ratio Output Preview Section -->
+        <section id="preview-demo" class="mb-24 border-t border-surface-800 pt-16">
+            <div class="mb-8">
+                <h2 class="text-2xl font-extrabold text-white tracking-tight">Deterministic Center-Crop Pipeline</h2>
+                <p class="text-sm text-zinc-400 mt-1">Comparison between raw 16:9 widescreen input and processed 9:16 vertical export.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 16:9 Source Frame -->
+                <div class="bg-surface-900 border border-surface-800 rounded-lg p-5">
+                    <div class="flex justify-between items-center mb-3 text-xs font-mono text-zinc-400">
+                        <span>INPUT: 1920x1080 (16:9)</span>
+                        <span>RAW SOURCE</span>
+                    </div>
+                    <div class="aspect-video bg-surface-950 border border-surface-800 rounded flex items-center justify-center relative overflow-hidden">
+                        <div class="w-1/3 h-full border-x-2 border-accent-500 bg-accent-500/10 flex flex-col items-center justify-center text-center p-2">
+                            <span class="text-[10px] font-mono text-accent-400 uppercase">Active 9:16 Crop Zone</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9:16 Export Frame -->
+                <div class="bg-surface-900 border border-surface-800 rounded-lg p-5">
+                    <div class="flex justify-between items-center mb-3 text-xs font-mono text-zinc-400">
+                        <span>OUTPUT: 1080x1920 (9:16)</span>
+                        <span class="text-emerald-400">FASTSTART H.264</span>
+                    </div>
+                    <div class="aspect-video bg-surface-950 border border-surface-800 rounded flex items-center justify-center p-3">
+                        <div class="h-full aspect-[9/16] bg-surface-850 border border-accent-500 rounded flex flex-col items-center justify-center p-2 text-center">
+                            <span class="text-[10px] font-mono text-white font-bold">1080p</span>
+                            <span class="text-[9px] font-mono text-zinc-400 mt-0.5">Ready for Shorts</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4-Tier Pricing Section (Includes $0/month Dynamic Free Tier) -->
+        <section id="pricing" class="border-t border-surface-800 pt-16">
+            <div class="mb-10">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Transparent Monthly Plans</h2>
+                <p class="text-sm text-zinc-400 mt-1">Start with a free account or scale up based on your monthly publishing volume.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 
-                <!-- Starter Tier -->
-                <div class="bg-gray-900/90 border border-gray-800 rounded-3xl p-8 flex flex-col justify-between relative shadow-xl backdrop-blur-sm">
+                <!-- Tier 0: Free ($0/month) -->
+                <div class="bg-surface-900 border border-surface-800 rounded-lg p-6 flex flex-col justify-between">
                     <div>
-                        <span class="text-xs bg-purple-900/40 text-purple-300 px-3.5 py-1 rounded-full font-extrabold border border-purple-800/60">STARTER</span>
-                        <div class="mt-5 mb-3"><span class="text-4xl font-black">$19</span><span class="text-gray-400 text-sm font-medium">/month</span></div>
-                        <p class="text-gray-400 text-xs mb-8 leading-relaxed">Perfect for solo creators starting out on short-form platforms.</p>
-                        <ul class="space-y-4 text-sm text-gray-300 mb-8">
-                            <li class="flex items-center space-x-3"><span class="text-purple-400 font-bold">✓</span> <span><strong>30 Clips</strong> per month</span></li>
-                            <li class="flex items-center space-x-3"><span class="text-purple-400 font-bold">✓</span> <span><strong>1080p Vertical</strong> rendering</span></li>
+                        <span class="text-xs font-mono uppercase text-zinc-400">Free</span>
+                        <div class="mt-3 mb-2">
+                            <span class="text-3xl font-extrabold text-white">$0</span>
+                            <span class="text-xs text-zinc-500">/month</span>
+                        </div>
+                        <p class="text-xs text-zinc-400 mb-6 leading-relaxed">Test the rendering pipeline with zero commitment.</p>
+                        <ul class="space-y-2.5 text-xs text-zinc-300 mb-8 border-t border-surface-800 pt-4">
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-zinc-500 rounded-full"></span><span>1 clip included</span></li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-zinc-500 rounded-full"></span><span>1080x1920 export</span></li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-zinc-500 rounded-full"></span><span>250 MB upload cap</span></li>
                         </ul>
                     </div>
-                    <button onclick="toggleAuthModal(true)" class="w-full bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-bold py-3 rounded-xl transition text-sm shadow-md">Get Started</button>
+                    <button id="free-plan-btn" onclick="handleFreeTierClick()" class="w-full bg-surface-800 hover:bg-surface-850 text-white font-bold py-2.5 rounded-md text-xs transition-colors border border-surface-800">
+                        Create Free Account
+                    </button>
                 </div>
 
-                <!-- Pro Tier -->
-                <div class="bg-gradient-to-b from-purple-950/50 to-gray-900 border-2 border-purple-600 rounded-3xl p-8 flex flex-col justify-between relative shadow-2xl shadow-purple-900/30 md:-translate-y-2">
-                    <div class="absolute -top-3.5 left-1/2 transform -translate-x-1/2 bg-purple-600 text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg">Most Popular</div>
+                <!-- Tier 1: Starter ($19/month) -->
+                <div class="bg-surface-900 border border-surface-800 rounded-lg p-6 flex flex-col justify-between">
                     <div>
-                        <span class="text-xs bg-purple-600 text-white px-3.5 py-1 rounded-full font-extrabold shadow-sm">PRO</span>
-                        <div class="mt-5 mb-3"><span class="text-4xl font-black">$49</span><span class="text-gray-400 text-sm font-medium">/month</span></div>
-                        <p class="text-gray-400 text-xs mb-8 leading-relaxed">For serious creators scaling their channel growth.</p>
-                        <ul class="space-y-4 text-sm text-gray-300 mb-8">
-                            <li class="flex items-center space-x-3"><span class="text-purple-400 font-bold">✓</span> <span><strong>120 Clips</strong> per month</span></li>
-                            <li class="flex items-center space-x-3"><span class="text-purple-400 font-bold">✓</span> <span><strong>1080p High-Bitrate</strong> rendering</span></li>
+                        <span class="text-xs font-mono uppercase text-zinc-400">Starter</span>
+                        <div class="mt-3 mb-2">
+                            <span class="text-3xl font-extrabold text-white">$19</span>
+                            <span class="text-xs text-zinc-500">/month</span>
+                        </div>
+                        <p class="text-xs text-zinc-400 mb-6 leading-relaxed">For solo creators posting daily short-form clips.</p>
+                        <ul class="space-y-2.5 text-xs text-zinc-300 mb-8 border-t border-surface-800 pt-4">
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>30 clips per month</span></li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>1080p vertical output</span></li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>Standard queue</span></li>
                         </ul>
                     </div>
-                    <button onclick="toggleAuthModal(true)" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-lg shadow-purple-900/40">Upgrade to Pro</button>
+                    <button onclick="handlePaidTierClick('Starter')" class="w-full bg-surface-800 hover:bg-surface-850 text-white font-bold py-2.5 rounded-md text-xs transition-colors border border-surface-800">
+                        Select Starter
+                    </button>
                 </div>
 
-                <!-- Agency Tier -->
-                <div class="bg-gray-900/90 border border-gray-800 rounded-3xl p-8 flex flex-col justify-between relative shadow-xl backdrop-blur-sm">
+                <!-- Tier 2: Pro ($49/month) -->
+                <div class="bg-surface-900 border-2 border-accent-500 rounded-lg p-6 flex flex-col justify-between">
                     <div>
-                        <span class="text-xs bg-purple-900/40 text-purple-300 px-3.5 py-1 rounded-full font-extrabold border border-purple-800/60">AGENCY</span>
-                        <div class="mt-5 mb-3"><span class="text-4xl font-black">$149</span><span class="text-gray-400 text-sm font-medium">/month</span></div>
-                        <p class="text-gray-400 text-xs mb-8 leading-relaxed">Designed for agencies and high-volume content operations.</p>
-                        <ul class="space-y-4 text-sm text-gray-300 mb-8">
-                            <li class="flex items-center space-x-3"><span class="text-purple-400 font-bold">✓</span> <span><strong>Unlimited Clips</strong></span></li>
-                            <li class="flex items-center space-x-3"><span class="text-purple-400 font-bold">✓</span> <span><strong>Priority Queue</strong> rendering</span></li>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-mono uppercase text-accent-400 font-bold">Pro</span>
+                            <span class="text-[10px] font-mono bg-accent-500/15 text-accent-400 px-2 py-0.5 rounded">POPULAR</span>
+                        </div>
+                        <div class="mt-3 mb-2">
+                            <span class="text-3xl font-extrabold text-white">$49</span>
+                            <span class="text-xs text-zinc-500">/month</span>
+                        </div>
+                        <p class="text-xs text-zinc-400 mb-6 leading-relaxed">For multi-channel creators scaling output volume.</p>
+                        <ul class="space-y-2.5 text-xs text-zinc-300 mb-8 border-t border-surface-800 pt-4">
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>120 clips per month</span></li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>High-bitrate H.264</span></li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>Fast-start web muxing</span></li>
                         </ul>
                     </div>
-                    <button onclick="toggleAuthModal(true)" class="w-full bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-bold py-3 rounded-xl transition text-sm shadow-md">Contact Agency</button>
+                    <button onclick="handlePaidTierClick('Pro')" class="w-full bg-accent-500 hover:bg-accent-400 text-surface-950 font-bold py-2.5 rounded-md text-xs transition-colors">
+                        Select Pro
+                    </button>
                 </div>
+
+                <!-- Tier 3: Agency ($149/month) -->
+                <div class="bg-surface-900 border border-surface-800 rounded-lg p-6 flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-mono uppercase text-zinc-400">Agency</span>
+                        <div class="mt-3 mb-2">
+                            <span class="text-3xl font-extrabold text-white">$149</span>
+                            <span class="text-xs text-zinc-500">/month</span>
+                        </div>
+                        <p class="text-xs text-zinc-400 mb-6 leading-relaxed">For media agencies and high-volume editing teams.</p>
+                        <ul class="space-y-2.5 text-xs text-zinc-300 mb-8 border-t border-surface-800 pt-4">
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>Unlimited monthly clips</span></li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>Priority worker allocation</span></li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>Direct email support</span></li>
+                        </ul>
+                    </div>
+                    <button onclick="handlePaidTierClick('Agency')" class="w-full bg-surface-800 hover:bg-surface-850 text-white font-bold py-2.5 rounded-md text-xs transition-colors border border-surface-800">
+                        Select Agency
+                    </button>
+                </div>
+
             </div>
-        </div>
+        </section>
     </main>
 
-    <!-- Footer with Legal & Contact Info (Updated to Paris, France) -->
-    <footer class="border-t border-gray-800/80 bg-gray-900/40 py-8 px-8 text-center text-xs text-gray-400 space-y-3">
-        <div class="flex flex-wrap justify-center gap-6">
-            <button onclick="openLegalModal('terms')" class="hover:text-purple-400 transition underline">Terms &amp; Conditions</button>
-            <button onclick="openLegalModal('privacy')" class="hover:text-purple-400 transition underline">Privacy Policy</button>
-            <button onclick="openLegalModal('refund')" class="hover:text-purple-400 transition underline">Refund Policy</button>
+    <!-- Custom 404 View (Triggered on unknown hash routes) -->
+    <section id="not-found-view" class="hidden flex-1 flex flex-col items-center justify-center px-4 py-20 text-center">
+        <p class="text-xs font-mono text-accent-400 uppercase tracking-widest mb-2">Error 404</p>
+        <h2 class="text-3xl font-extrabold text-white mb-3">Page Not Found</h2>
+        <p class="text-sm text-zinc-400 max-w-md mb-6">The route you requested does not exist or has been moved.</p>
+        <button onclick="resetRouteToHome()" class="bg-accent-500 hover:bg-accent-400 text-surface-950 font-bold px-5 py-2.5 rounded-md text-xs transition-colors">
+            Return to Studio
+        </button>
+    </section>
+
+    <!-- Footer with Clickable Email & Legal Policies -->
+    <footer class="border-t border-surface-800 bg-surface-950 py-8 px-4 sm:px-8 text-xs text-zinc-500">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>© 2026 ClipForge. All rights reserved. Paris, France.</p>
+            <div class="flex flex-wrap items-center justify-center gap-6">
+                <a href="mailto:support@clipforge.ai" class="hover:text-zinc-200 transition-colors">support@clipforge.ai</a>
+                <button onclick="openLegalModal('terms')" class="hover:text-zinc-200 transition-colors">Terms</button>
+                <button onclick="openLegalModal('privacy')" class="hover:text-zinc-200 transition-colors">Privacy</button>
+                <button onclick="openLegalModal('refund')" class="hover:text-zinc-200 transition-colors">Refunds</button>
+            </div>
         </div>
-        <p class="text-gray-500">© 2026 ClipForge AI. Contact &amp; Support: support@clipforge.ai | Paris, France.</p>
     </footer>
 
-    <!-- Authentication Modal (Zero Scrollbars, Compact Padding) -->
-    <div id="auth-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50">
-        <div class="bg-gray-900 border border-gray-800 max-w-md w-full rounded-3xl p-6 shadow-2xl relative max-h-[96vh] overflow-y-hidden">
-            <button onclick="toggleAuthModal(false)" aria-label="Close authentication modal" class="absolute top-5 right-5 text-gray-400 hover:text-white text-2xl font-light">&times;</button>
+    <!-- Authentication Modal (Fits cleanly on mobile and desktop without scrollbars) -->
+    <div id="auth-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+        <div class="bg-surface-900 border border-surface-800 max-w-md w-full rounded-lg p-6 relative">
+            <button onclick="toggleAuthModal(false)" aria-label="Close modal" class="absolute top-4 right-4 text-zinc-400 hover:text-white text-xl leading-none">&times;</button>
             
-            <h2 class="text-2xl font-black text-center mb-0.5">Welcome to ClipForge</h2>
-            <p class="text-xs text-gray-400 text-center mb-4">Sign in or create an account to get your free demo clip.</p>
+            <h2 class="text-xl font-extrabold text-white mb-1">Sign in to ClipForge</h2>
+            <p class="text-xs text-zinc-400 mb-4">Access your workspace or create a free account.</p>
 
-            <!-- Google Sign-In Button Container -->
+            <!-- Google Sign-In -->
             <div class="flex justify-center mb-4">
                 <div id="g_id_onload"
                      data-client_id="925975701527-647ur1l151irhhiv4ifnunkq8i3s0bd9.apps.googleusercontent.com"
                      data-callback="handleGoogleLogin"
                      data-auto_prompt="false">
                 </div>
-                <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="filled_black" data-text="signin_with" data-size="large"></div>
+                <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="filled_black" data-text="signin_with" data-size="large"></div>
             </div>
 
             <div class="flex items-center my-4">
-                <div class="flex-1 border-t border-gray-800"></div>
-                <span class="px-3 text-[11px] text-gray-500 uppercase tracking-widest font-bold">Or with email &amp; password</span>
-                <div class="flex-1 border-t border-gray-800"></div>
+                <div class="flex-1 border-t border-surface-800"></div>
+                <span class="px-3 text-[10px] font-mono text-zinc-500 uppercase">Or continue with email</span>
+                <div class="flex-1 border-t border-surface-800"></div>
             </div>
 
-            <!-- Email & Password Form -->
             <div class="space-y-3">
                 <div>
-                    <label for="email-input" class="block text-xs font-semibold text-gray-400 mb-1">Email Address</label>
-                    <input type="email" id="email-input" placeholder="name@example.com" class="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-purple-500 transition text-sm">
+                    <label for="email-input" class="block text-xs font-medium text-zinc-300 mb-1">Email</label>
+                    <input type="email" id="email-input" placeholder="you@domain.com" class="w-full bg-surface-950 border border-surface-800 rounded-md px-3.5 py-2 text-white focus:outline-none focus:border-accent-500 text-sm">
                 </div>
 
                 <div>
                     <div class="flex justify-between items-center mb-1">
-                        <label for="password-input" class="block text-xs font-semibold text-gray-400">Password</label>
-                        <button type="button" onclick="generateStrongPassword()" class="text-[11px] text-purple-400 hover:text-purple-300 font-semibold underline">Generate Strong Password</button>
+                        <label for="password-input" class="block text-xs font-medium text-zinc-300">Password</label>
+                        <button type="button" onclick="generateStrongPassword()" class="text-[11px] text-accent-400 hover:text-accent-300 font-medium">Generate strong password</button>
                     </div>
                     <div class="relative">
-                        <input type="password" id="password-input" placeholder="Create or enter your password" oninput="checkPasswordStrength(this.value)" class="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-2.5 pr-16 text-white focus:outline-none focus:border-purple-500 transition text-sm">
-                        <button type="button" onclick="togglePasswordVisibility()" id="toggle-pwd-btn" class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400 hover:text-white font-medium">Show</button>
+                        <input type="password" id="password-input" placeholder="Minimum 8 characters" oninput="checkPasswordStrength(this.value)" class="w-full bg-surface-950 border border-surface-800 rounded-md px-3.5 py-2 pr-14 text-white focus:outline-none focus:border-accent-500 text-sm">
+                        <button type="button" onclick="togglePasswordVisibility()" id="toggle-pwd-btn" class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-zinc-400 hover:text-white">Show</button>
                     </div>
-
-                    <!-- Password Strength Meter -->
-                    <div class="mt-1.5 space-y-1">
-                        <div class="w-full bg-gray-800 h-1.5 rounded-full overflow-hidden">
-                            <div id="password-strength-bar" class="w-0 h-full transition-all duration-300 bg-red-500"></div>
+                    <div class="mt-1.5">
+                        <div class="w-full bg-surface-950 h-1 rounded overflow-hidden">
+                            <div id="password-strength-bar" class="w-0 h-full transition-all duration-200 bg-red-500"></div>
                         </div>
-                        <p id="password-strength-text" class="text-[10px] text-gray-400">Use at least 8 chars with uppercase, lowercase, number &amp; symbol.</p>
+                        <p id="password-strength-text" class="text-[10px] text-zinc-500 mt-1">Include uppercase, lowercase, number, and symbol.</p>
                     </div>
                 </div>
 
-                <!-- Age Confirmation Checkbox -->
-                <div class="flex items-start space-x-2.5 pt-0.5">
-                    <input type="checkbox" id="age-checkbox" class="mt-0.5 w-4 h-4 rounded border-gray-700 bg-gray-950 text-purple-600 focus:ring-purple-500 cursor-pointer">
-                    <label for="age-checkbox" class="text-[11px] text-gray-400 leading-snug cursor-pointer">
-                        I confirm that I am at least <strong>16 years old</strong> (or minimum legal age in my country).
+                <div class="flex items-start gap-2 pt-1">
+                    <input type="checkbox" id="age-checkbox" class="mt-0.5 w-3.5 h-3.5 rounded border-surface-800 bg-surface-950 text-accent-500 focus:ring-accent-500">
+                    <label for="age-checkbox" class="text-[11px] text-zinc-400 leading-tight">
+                        I confirm I am at least 16 years old.
                     </label>
                 </div>
 
-                <!-- Terms Checkbox -->
-                <div class="flex items-start space-x-2.5">
-                    <input type="checkbox" id="terms-checkbox" class="mt-0.5 w-4 h-4 rounded border-gray-700 bg-gray-950 text-purple-600 focus:ring-purple-500 cursor-pointer">
-                    <label for="terms-checkbox" class="text-[11px] text-gray-400 leading-snug cursor-pointer">
-                        I agree to the 
-                        <button type="button" onclick="openLegalModal('terms')" class="text-purple-400 underline hover:text-purple-300 font-medium">Terms</button>, 
-                        <button type="button" onclick="openLegalModal('privacy')" class="text-purple-400 underline hover:text-purple-300 font-medium">Privacy</button>, and 
-                        <button type="button" onclick="openLegalModal('refund')" class="text-purple-400 underline hover:text-purple-300 font-medium">Refund Policy</button>.
+                <div class="flex items-start gap-2">
+                    <input type="checkbox" id="terms-checkbox" class="mt-0.5 w-3.5 h-3.5 rounded border-surface-800 bg-surface-950 text-accent-500 focus:ring-accent-500">
+                    <label for="terms-checkbox" class="text-[11px] text-zinc-400 leading-tight">
+                        I agree to the <button type="button" onclick="openLegalModal('terms')" class="text-accent-400 underline">Terms</button>, <button type="button" onclick="openLegalModal('privacy')" class="text-accent-400 underline">Privacy Policy</button>, and <button type="button" onclick="openLegalModal('refund')" class="text-accent-400 underline">Refund Policy</button>.
                     </label>
                 </div>
 
-                <button onclick="handleEmailLogin()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-purple-900/30 text-sm mt-1">
-                    Continue with Email
+                <button id="email-submit-btn" onclick="handleEmailLogin()" class="w-full bg-accent-500 hover:bg-accent-400 text-surface-950 font-bold py-2.5 rounded-md text-sm transition-colors mt-1">
+                    Continue
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Terms & Conditions Modal -->
-    <div id="terms-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50">
-        <div class="bg-gray-900 border border-gray-800 max-w-lg w-full rounded-3xl p-8 shadow-2xl relative max-h-[85vh] flex flex-col">
-            <button onclick="closeLegalModal('terms')" aria-label="Close modal" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl font-light">&times;</button>
-            <h3 class="text-xl font-black mb-1 text-white">Terms &amp; Conditions</h3>
-            <p class="text-xs text-gray-500 mb-4">Last updated: November 2026</p>
-            <div class="overflow-y-auto pr-2 space-y-4 text-xs text-gray-300 leading-relaxed flex-1">
-                <div><h4 class="font-bold text-purple-400 mb-1">1. Acceptance</h4><p>By accessing or using ClipForge AI, you agree to these Terms &amp; Conditions.</p></div>
-                <div><h4 class="font-bold text-purple-400 mb-1">2. Account Deletion Policy</h4><p>Account deletion requests initiate a 30-day grace period. Logging back in before 30 days automatically cancels deletion and restores all data.</p></div>
+    <!-- Legal Modals (Terms, Privacy, Refund) -->
+    <div id="terms-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+        <div class="bg-surface-900 border border-surface-800 max-w-lg w-full rounded-lg p-6 max-h-[85vh] flex flex-col">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="text-lg font-bold text-white">Terms &amp; Conditions</h3>
+                <button onclick="closeLegalModal('terms')" class="text-zinc-400 hover:text-white text-xl">&times;</button>
             </div>
-            <button onclick="closeLegalModal('terms')" class="w-full mt-6 bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl transition text-sm">Close</button>
+            <div class="overflow-y-auto space-y-3 text-xs text-zinc-300 leading-relaxed flex-1 pr-1">
+                <p><strong>1. Eligibility:</strong> You must be at least 16 years old to create an account and use ClipForge.</p>
+                <p><strong>2. Content Ownership:</strong> You retain full ownership of uploaded footage. Temporary files are deleted automatically after rendering.</p>
+                <p><strong>3. Account Deletion:</strong> Deletion requests trigger a 30-day grace period. Signing back in before 30 days cancels deletion and restores your account.</p>
+            </div>
+            <button onclick="closeLegalModal('terms')" class="mt-4 w-full bg-surface-800 hover:bg-surface-850 text-white font-semibold py-2 rounded-md text-xs">Close</button>
         </div>
     </div>
 
-    <!-- Privacy Policy Modal -->
-    <div id="privacy-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50">
-        <div class="bg-gray-900 border border-gray-800 max-w-lg w-full rounded-3xl p-8 shadow-2xl relative max-h-[85vh] flex flex-col">
-            <button onclick="closeLegalModal('privacy')" aria-label="Close modal" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl font-light">&times;</button>
-            <h3 class="text-xl font-black mb-1 text-white">Privacy Policy</h3>
-            <p class="text-xs text-gray-500 mb-4">Last updated: November 2026</p>
-            <div class="overflow-y-auto pr-2 space-y-4 text-xs text-gray-300 leading-relaxed flex-1">
-                <div><h4 class="font-bold text-purple-400 mb-1">1. Data Collected</h4><p>We collect essential account credentials and temporary video files for processing.</p></div>
+    <div id="privacy-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+        <div class="bg-surface-900 border border-surface-800 max-w-lg w-full rounded-lg p-6 max-h-[85vh] flex flex-col">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="text-lg font-bold text-white">Privacy Policy</h3>
+                <button onclick="closeLegalModal('privacy')" class="text-zinc-400 hover:text-white text-xl">&times;</button>
             </div>
-            <button onclick="closeLegalModal('privacy')" class="w-full mt-6 bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl transition text-sm">Close</button>
+            <div class="overflow-y-auto space-y-3 text-xs text-zinc-300 leading-relaxed flex-1 pr-1">
+                <p><strong>1. Data Storage:</strong> We store only your email address, hashed password, subscription tier, and remaining credit balance.</p>
+                <p><strong>2. Video Retention:</strong> Uploaded videos are processed in ephemeral containers and purged immediately after download.</p>
+                <p><strong>3. Contact:</strong> For GDPR inquiries, email <a href="mailto:support@clipforge.ai" class="text-accent-400 underline">support@clipforge.ai</a>.</p>
+            </div>
+            <button onclick="closeLegalModal('privacy')" class="mt-4 w-full bg-surface-800 hover:bg-surface-850 text-white font-semibold py-2 rounded-md text-xs">Close</button>
         </div>
     </div>
 
-    <!-- Refund Policy Modal -->
-    <div id="refund-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50">
-        <div class="bg-gray-900 border border-gray-800 max-w-lg w-full rounded-3xl p-8 shadow-2xl relative max-h-[85vh] flex flex-col">
-            <button onclick="closeLegalModal('refund')" aria-label="Close modal" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl font-light">&times;</button>
-            <h3 class="text-xl font-black mb-1 text-white">Refund Policy</h3>
-            <p class="text-xs text-gray-500 mb-4">Last updated: November 2026</p>
-            <div class="overflow-y-auto pr-2 space-y-4 text-xs text-gray-300 leading-relaxed flex-1">
-                <p>Unused subscription credits are eligible for refunds within 7 days of purchase by contacting support@clipforge.ai.</p>
+    <div id="refund-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+        <div class="bg-surface-900 border border-surface-800 max-w-lg w-full rounded-lg p-6 max-h-[85vh] flex flex-col">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="text-lg font-bold text-white">Refund Policy</h3>
+                <button onclick="closeLegalModal('refund')" class="text-zinc-400 hover:text-white text-xl">&times;</button>
             </div>
-            <button onclick="closeLegalModal('refund')" class="w-full mt-6 bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl transition text-sm">Close</button>
+            <div class="overflow-y-auto space-y-3 text-xs text-zinc-300 leading-relaxed flex-1 pr-1">
+                <p>Every account includes 1 free clip to test video quality before subscribing. Unused paid subscriptions can be refunded within 7 days by contacting <a href="mailto:support@clipforge.ai" class="text-accent-400 underline">support@clipforge.ai</a>.</p>
+            </div>
+            <button onclick="closeLegalModal('refund')" class="mt-4 w-full bg-surface-800 hover:bg-surface-850 text-white font-semibold py-2 rounded-md text-xs">Close</button>
         </div>
     </div>
 
-    <!-- Frontend Script -->
+    <!-- Frontend Application Script -->
     <script>
         const API_BASE = "https://clipforge-backend-4t73.onrender.com";
         let currentUser = JSON.parse(localStorage.getItem("clipforge_user")) || null;
         let authToken = localStorage.getItem("clipforge_token") || null;
         let selectedFile = null;
+        let isSubmittingAuth = false;
+        let isUploadingVideo = false;
+        let timerInterval = null;
 
         document.addEventListener("DOMContentLoaded", () => {
             updateUIState();
+            handleHashRouting();
+            window.addEventListener("hashchange", handleHashRouting);
         });
+
+        function showToast(message, type = "info") {
+            const container = document.getElementById("toast-container");
+            const toast = document.createElement("div");
+            const borderClass = type === "error" ? "border-red-500 text-red-200" : type === "success" ? "border-emerald-500 text-emerald-200" : "border-surface-800 text-zinc-200";
+            toast.className = `pointer-events-auto bg-surface-900 border ${borderClass} px-4 py-3 rounded-md text-xs font-medium shadow-lg transition-opacity duration-300`;
+            toast.innerText = message;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add("opacity-0");
+                setTimeout(() => toast.remove(), 300);
+            }, 4500);
+        }
+
+        function handleHashRouting() {
+            const hash = window.location.hash;
+            const validHashes = ["", "#top", "#workspace", "#preview-demo", "#pricing"];
+            if (!validHashes.includes(hash)) {
+                document.getElementById("main-content").classList.add("hidden");
+                document.getElementById("not-found-view").classList.remove("hidden");
+            } else {
+                showMainView();
+            }
+        }
+
+        function showMainView() {
+            document.getElementById("not-found-view").classList.add("hidden");
+            document.getElementById("main-content").classList.remove("hidden");
+        }
+
+        function resetRouteToHome() {
+            history.pushState("", document.title, window.location.pathname + window.location.search);
+            showMainView();
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById("mobile-menu").classList.toggle("hidden");
+        }
+
+        function closeMobileMenu() {
+            document.getElementById("mobile-menu").classList.add("hidden");
+        }
 
         function updateUIState() {
             const authBtn = document.getElementById("open-auth-modal-btn");
             const profileContainer = document.getElementById("profile-container");
-            
+            const freePlanBtn = document.getElementById("free-plan-btn");
+
             if (currentUser && authToken) {
                 authBtn.classList.add("hidden");
                 profileContainer.classList.remove("hidden");
-                
+
                 document.getElementById("nav-user-email").innerText = currentUser.email;
                 document.getElementById("nav-user-tier").innerText = currentUser.tier.toUpperCase();
                 document.getElementById("dropdown-credits").innerText = currentUser.clips_remaining;
                 document.getElementById("user-avatar").innerText = currentUser.email.charAt(0).toUpperCase();
+
+                // Update $0/month Free Tier button text when logged in
+                if (["free", "free_used", "demo", "demo_used"].includes(currentUser.tier)) {
+                    freePlanBtn.innerText = "Current Plan";
+                    freePlanBtn.classList.add("text-accent-400", "border-accent-500/40");
+                } else {
+                    freePlanBtn.innerText = "Free Tier";
+                }
             } else {
                 authBtn.classList.remove("hidden");
                 profileContainer.classList.add("hidden");
+                freePlanBtn.innerText = "Create Free Account";
+                freePlanBtn.classList.remove("text-accent-400", "border-accent-500/40");
             }
+        }
+
+        function handleFreeTierClick() {
+            if (!currentUser || !authToken) {
+                toggleAuthModal(true);
+            } else {
+                showToast("You are currently signed in on the Free plan.", "info");
+            }
+        }
+
+        function handlePaidTierClick(planName) {
+            if (!currentUser || !authToken) {
+                toggleAuthModal(true);
+                return;
+            }
+            showToast(`Checkout integration for ${planName} is ready to link to Stripe.`, "info");
         }
 
         function toggleAuthModal(show) {
@@ -333,8 +589,7 @@
         }
 
         function toggleDropdown() {
-            const dropdown = document.getElementById("profile-dropdown");
-            dropdown.classList.toggle("hidden");
+            document.getElementById("profile-dropdown").classList.toggle("hidden");
         }
 
         function togglePasswordVisibility() {
@@ -362,24 +617,24 @@
 
             if (password.length === 0) {
                 bar.style.width = "0%";
-                bar.className = "w-0 h-full transition-all duration-300 bg-red-500";
-                text.className = "text-[10px] text-gray-400";
-                text.innerText = "Use at least 8 chars with uppercase, lowercase, number & symbol.";
+                bar.className = "w-0 h-full transition-all duration-200 bg-red-500";
+                text.className = "text-[10px] text-zinc-500 mt-1";
+                text.innerText = "Include uppercase, lowercase, number, and symbol.";
             } else if (score <= 2) {
                 bar.style.width = "33%";
-                bar.className = "w-1/3 h-full transition-all duration-300 bg-red-500";
-                text.className = "text-[10px] text-red-400";
-                text.innerText = "Weak password — add uppercase letters, numbers, and symbols.";
+                bar.className = "w-1/3 h-full transition-all duration-200 bg-red-500";
+                text.className = "text-[10px] text-red-400 mt-1";
+                text.innerText = "Weak password. Add uppercase letters, numbers, and symbols.";
             } else if (score <= 4) {
                 bar.style.width = "66%";
-                bar.className = "w-2/3 h-full transition-all duration-300 bg-amber-500";
-                text.className = "text-[10px] text-amber-400";
-                text.innerText = "Medium strength — add more characters or symbols for maximum security.";
+                bar.className = "w-2/3 h-full transition-all duration-200 bg-amber-500";
+                text.className = "text-[10px] text-amber-400 mt-1";
+                text.innerText = "Moderate strength. Add more length or symbols.";
             } else {
                 bar.style.width = "100%";
-                bar.className = "w-full h-full transition-all duration-300 bg-emerald-500";
-                text.className = "text-[10px] text-emerald-400 font-semibold";
-                text.innerText = "Strong password!";
+                bar.className = "w-full h-full transition-all duration-200 bg-emerald-500";
+                text.className = "text-[10px] text-emerald-400 mt-1";
+                text.innerText = "Strong password.";
             }
             return score;
         }
@@ -403,7 +658,6 @@
             }
 
             pwd = pwd.sort(() => Math.random() - 0.5).join("");
-
             const pwdInput = document.getElementById("password-input");
             pwdInput.value = pwd;
             pwdInput.type = "text";
@@ -412,14 +666,30 @@
         }
 
         function handleFileSelected(event) {
-            selectedFile = event.target.files[0];
-            if (selectedFile) {
-                document.getElementById("file-label").innerText = `Selected: ${selectedFile.name}`;
-                document.getElementById("generate-btn").removeAttribute("disabled");
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const maxBytes = 250 * 1024 * 1024;
+            if (file.size > maxBytes) {
+                showToast("File exceeds 250 MB limit. Please select a smaller video.", "error");
+                event.target.value = "";
+                return;
             }
+
+            selectedFile = file;
+            const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+            document.getElementById("file-label").innerText = file.name;
+            document.getElementById("file-meta").innerText = `Size: ${sizeMb} MB | Ready to render`;
+            document.getElementById("status-badge").innerText = "File Loaded";
+            document.getElementById("generate-btn").removeAttribute("disabled");
         }
 
         async function authenticateBackend(payload, provider, cancelDeletion = false) {
+            if (isSubmittingAuth) return;
+            isSubmittingAuth = true;
+            const submitBtn = document.getElementById("email-submit-btn");
+            if (submitBtn) submitBtn.disabled = true;
+
             try {
                 const ageVerified = document.getElementById("age-checkbox").checked;
                 const endpoint = provider === "google" ? `${API_BASE}/api/auth/google` : `${API_BASE}/auth/register-login`;
@@ -441,31 +711,28 @@
                     localStorage.setItem("clipforge_user", JSON.stringify(currentUser));
                     updateUIState();
                     toggleAuthModal(false);
-                    if (cancelDeletion) {
-                        alert("Welcome back! Your scheduled account deletion has been canceled and all your data has been restored.");
-                    }
+                    showToast(cancelDeletion ? "Account restored successfully." : "Signed in successfully.", "success");
                 } else if (res.status === 409 && data.detail && data.detail.code === "DELETION_PENDING") {
                     const localDate = new Date(data.detail.scheduled_at).toLocaleString([], {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit"
+                        year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit"
                     });
                     const restoreChoice = confirm(
-                        `Your account deletion is scheduled for ${localDate}.\n\n` +
-                        `Click OK to log back in, cancel the deletion, and restore your old account with all your data.\n` +
-                        `Click Cancel to keep the scheduled deletion active.`
+                        `Account deletion is scheduled for ${localDate}.\n\n` +
+                        `Click OK to cancel deletion and restore your account.\n` +
+                        `Click Cancel to keep deletion scheduled.`
                     );
                     if (restoreChoice) {
+                        isSubmittingAuth = false;
                         await authenticateBackend(payload, provider, true);
                     }
                 } else {
-                    alert(typeof data.detail === "string" ? data.detail : "Authentication failed.");
+                    showToast(typeof data.detail === "string" ? data.detail : "Authentication failed.", "error");
                 }
             } catch (err) {
-                console.error("Auth error:", err);
-                alert("Could not connect to backend server.");
+                showToast("Network error connecting to authentication server.", "error");
+            } finally {
+                isSubmittingAuth = false;
+                if (submitBtn) submitBtn.disabled = false;
             }
         }
 
@@ -476,23 +743,23 @@
             const termsAccepted = document.getElementById("terms-checkbox").checked;
 
             if (!email || !email.includes("@")) {
-                alert("Please enter a valid email address.");
+                showToast("Enter a valid email address.", "error");
                 return;
             }
             if (!password || password.length < 8) {
-                alert("Please enter a strong password (at least 8 characters with uppercase, lowercase, number, and symbol).");
+                showToast("Password must be at least 8 characters.", "error");
                 return;
             }
             if (checkPasswordStrength(password) < 3) {
-                alert("Your password is too weak. Please strengthen it or click 'Generate Strong Password'.");
+                showToast("Please choose a stronger password.", "error");
                 return;
             }
             if (!ageVerified) {
-                alert("You must confirm that you meet the minimum age requirement to continue.");
+                showToast("Confirm you are at least 16 years old.", "error");
                 return;
             }
             if (!termsAccepted) {
-                alert("You must agree to the Terms & Conditions, Privacy Policy, and Refund Policy to continue.");
+                showToast("Accept the Terms, Privacy Policy, and Refund Policy.", "error");
                 return;
             }
 
@@ -503,24 +770,17 @@
             const ageVerified = document.getElementById("age-checkbox").checked;
             const termsAccepted = document.getElementById("terms-checkbox").checked;
 
-            if (!ageVerified) {
-                alert("You must confirm that you meet the minimum age requirement before signing in with Google.");
+            if (!ageVerified || !termsAccepted) {
+                showToast("Please check both the age and legal policy boxes before Google Sign-In.", "error");
                 return;
             }
-            if (!termsAccepted) {
-                alert("You must agree to the Terms & Conditions, Privacy Policy, and Refund Policy before signing in with Google.");
-                return;
-            }
-
             authenticateBackend(response.credential, "google", false);
         }
 
         async function triggerAccountDeletion() {
             if (!authToken) return;
             const confirmed = confirm(
-                "Are you sure you want to delete your account?\n\n" +
-                "Your account deletion will be scheduled for exactly 30 days from now. " +
-                "During these 30 days, you can log back in anytime before the 30 days expire to cancel deletion and restore all your data."
+                "Schedule account deletion for 30 days from now?\n\nYou can log back in anytime before 30 days to cancel deletion and restore your data."
             );
             if (!confirmed) return;
 
@@ -531,20 +791,13 @@
                 });
                 const data = await res.json();
                 if (res.ok) {
-                    const localDate = new Date(data.deletion_scheduled_at).toLocaleString([], {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit"
-                    });
-                    alert(`Account deletion is scheduled for ${localDate} (30 days from now). If you log back in before then, you can cancel deletion.`);
+                    showToast("Account deletion scheduled for 30 days from now.", "info");
                     logout();
                 } else {
-                    alert(data.detail || "Could not schedule account deletion.");
+                    showToast(data.detail || "Could not schedule account deletion.", "error");
                 }
             } catch (err) {
-                alert("Error connecting to server while scheduling deletion.");
+                showToast("Network error scheduling account deletion.", "error");
             }
         }
 
@@ -554,66 +807,91 @@
             currentUser = null;
             authToken = null;
             updateUIState();
-            const dropdown = document.getElementById("profile-dropdown");
-            if (!dropdown.classList.contains("hidden")) dropdown.classList.add("hidden");
+            document.getElementById("profile-dropdown").classList.add("hidden");
             resetApp();
+            showToast("Signed out.", "info");
         }
 
         async function uploadAndClip() {
+            if (isUploadingVideo) return;
+
             if (!currentUser || !authToken) {
                 toggleAuthModal(true);
                 return;
             }
             if (currentUser.clips_remaining <= 0 && currentUser.tier !== "agency") {
-                alert("You have used your free demo clip! Please upgrade your plan to continue.");
+                showToast("No credits remaining. Upgrade your plan to continue.", "error");
                 return;
             }
             if (!selectedFile) return;
 
+            isUploadingVideo = true;
             document.getElementById("upload-section").classList.add("hidden");
             document.getElementById("loading-section").classList.remove("hidden");
+
+            let seconds = 0;
+            document.getElementById("elapsed-timer").innerText = "0s";
+            timerInterval = setInterval(() => {
+                seconds++;
+                document.getElementById("elapsed-timer").innerText = `${seconds}s`;
+            }, 1000);
 
             const formData = new FormData();
             formData.append("file", selectedFile);
 
             try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 130000);
+
                 const res = await fetch(`${API_BASE}/upload-and-clip`, {
                     method: "POST",
                     headers: { "Authorization": `Bearer ${authToken}` },
-                    body: formData
+                    body: formData,
+                    signal: controller.signal
                 });
+                clearTimeout(timeoutId);
 
                 if (res.ok) {
                     const blob = await res.blob();
                     const videoUrl = URL.createObjectURL(blob);
-                    
+
                     document.getElementById("output-video-player").src = videoUrl;
                     const downloadLink = document.getElementById("download-link");
                     downloadLink.href = videoUrl;
-                    downloadLink.download = "vertical_clip.mp4";
+                    downloadLink.download = "clipforge_vertical.mp4";
 
                     currentUser.clips_remaining = Math.max(0, currentUser.clips_remaining - 1);
-                    if (currentUser.tier === "demo") currentUser.tier = "demo_used";
+                    if (currentUser.tier === "free" || currentUser.tier === "demo") currentUser.tier = "free_used";
                     localStorage.setItem("clipforge_user", JSON.stringify(currentUser));
                     updateUIState();
 
                     document.getElementById("loading-section").classList.add("hidden");
                     document.getElementById("result-section").classList.remove("hidden");
+                    showToast("Vertical clip rendered successfully.", "success");
                 } else {
                     const err = await res.json();
-                    alert(err.detail || "Clipping process failed.");
+                    showToast(err.detail || "Video rendering failed.", "error");
                     resetApp();
                 }
             } catch (err) {
-                alert("An error occurred during video processing.");
+                if (err.name === "AbortError") {
+                    showToast("Request timed out. Try a shorter video file.", "error");
+                } else {
+                    showToast("Connection error during video upload.", "error");
+                }
                 resetApp();
+            } finally {
+                clearInterval(timerInterval);
+                isUploadingVideo = false;
             }
         }
 
         function resetApp() {
             selectedFile = null;
             document.getElementById("video-file-input").value = "";
-            document.getElementById("file-label").innerText = "Click to upload video or drag and drop (Max 250MB)";
+            document.getElementById("file-label").innerText = "Select a video file (MP4, MOV, WebM)";
+            document.getElementById("file-meta").innerText = "Maximum file size: 250 MB";
+            document.getElementById("status-badge").innerText = "Ready";
             document.getElementById("generate-btn").setAttribute("disabled", "true");
             document.getElementById("result-section").classList.add("hidden");
             document.getElementById("loading-section").classList.add("hidden");
