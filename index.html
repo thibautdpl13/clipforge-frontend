@@ -197,26 +197,26 @@
         </div>
     </main>
 
-    <!-- Footer with Legal & Contact Info -->
+    <!-- Footer with Legal & Contact Info (Updated to Paris, France) -->
     <footer class="border-t border-gray-800/80 bg-gray-900/40 py-8 px-8 text-center text-xs text-gray-400 space-y-3">
         <div class="flex flex-wrap justify-center gap-6">
             <button onclick="openLegalModal('terms')" class="hover:text-purple-400 transition underline">Terms &amp; Conditions</button>
             <button onclick="openLegalModal('privacy')" class="hover:text-purple-400 transition underline">Privacy Policy</button>
             <button onclick="openLegalModal('refund')" class="hover:text-purple-400 transition underline">Refund Policy</button>
         </div>
-        <p class="text-gray-500">© 2026 ClipForge AI. Contact &amp; Support: support@clipforge.ai | Troyes, France.</p>
+        <p class="text-gray-500">© 2026 ClipForge AI. Contact &amp; Support: support@clipforge.ai | Paris, France.</p>
     </footer>
 
-    <!-- Authentication Modal -->
+    <!-- Authentication Modal (Compact spacing so no scrollbar is needed) -->
     <div id="auth-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50">
-        <div class="bg-gray-900 border border-gray-800 max-w-md w-full rounded-3xl p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-            <button onclick="toggleAuthModal(false)" aria-label="Close authentication modal" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl font-light">&times;</button>
+        <div class="bg-gray-900 border border-gray-800 max-w-md w-full rounded-3xl p-6 shadow-2xl relative max-h-[96vh] overflow-y-hidden">
+            <button onclick="toggleAuthModal(false)" aria-label="Close authentication modal" class="absolute top-5 right-5 text-gray-400 hover:text-white text-2xl font-light">&times;</button>
             
-            <h2 class="text-2xl font-black text-center mb-1">Welcome to ClipForge</h2>
-            <p class="text-xs text-gray-400 text-center mb-6">Sign in or create an account to get your free demo clip.</p>
+            <h2 class="text-2xl font-black text-center mb-0.5">Welcome to ClipForge</h2>
+            <p class="text-xs text-gray-400 text-center mb-4">Sign in or create an account to get your free demo clip.</p>
 
             <!-- Google Sign-In Button Container (No password required) -->
-            <div class="flex justify-center mb-6">
+            <div class="flex justify-center mb-4">
                 <div id="g_id_onload"
                      data-client_id="925975701527-647ur1l151irhhiv4ifnunkq8i3s0bd9.apps.googleusercontent.com"
                      data-callback="handleGoogleLogin"
@@ -225,62 +225,62 @@
                 <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="filled_black" data-text="signin_with" data-size="large"></div>
             </div>
 
-            <div class="flex items-center my-6">
+            <div class="flex items-center my-4">
                 <div class="flex-1 border-t border-gray-800"></div>
                 <span class="px-3 text-[11px] text-gray-500 uppercase tracking-widest font-bold">Or with email &amp; password</span>
                 <div class="flex-1 border-t border-gray-800"></div>
             </div>
 
             <!-- Email & Password Login/Signup Box -->
-            <div class="space-y-4">
+            <div class="space-y-3">
                 <div>
-                    <label for="email-input" class="block text-xs font-semibold text-gray-400 mb-1.5">Email Address</label>
-                    <input type="email" id="email-input" placeholder="name@example.com" class="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition text-sm">
+                    <label for="email-input" class="block text-xs font-semibold text-gray-400 mb-1">Email Address</label>
+                    <input type="email" id="email-input" placeholder="name@example.com" class="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-purple-500 transition text-sm">
                 </div>
 
                 <div>
-                    <div class="flex justify-between items-center mb-1.5">
+                    <div class="flex justify-between items-center mb-1">
                         <label for="password-input" class="block text-xs font-semibold text-gray-400">Password</label>
                         <button type="button" onclick="generateStrongPassword()" class="text-[11px] text-purple-400 hover:text-purple-300 font-semibold underline">
                             Generate Strong Password
                         </button>
                     </div>
                     <div class="relative">
-                        <input type="password" id="password-input" placeholder="Create or enter your password" oninput="checkPasswordStrength(this.value)" class="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-3 pr-16 text-white focus:outline-none focus:border-purple-500 transition text-sm">
+                        <input type="password" id="password-input" placeholder="Create or enter your password" oninput="checkPasswordStrength(this.value)" class="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-2.5 pr-16 text-white focus:outline-none focus:border-purple-500 transition text-sm">
                         <button type="button" onclick="togglePasswordVisibility()" id="toggle-pwd-btn" class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400 hover:text-white font-medium">
                             Show
                         </button>
                     </div>
 
                     <!-- Strong Password Strength Checker -->
-                    <div class="mt-2 space-y-1">
+                    <div class="mt-1.5 space-y-1">
                         <div class="w-full bg-gray-800 h-1.5 rounded-full overflow-hidden">
                             <div id="password-strength-bar" class="w-0 h-full transition-all duration-300 bg-red-500"></div>
                         </div>
-                        <p id="password-strength-text" class="text-[11px] text-gray-400">Use at least 8 chars with uppercase, lowercase, number &amp; symbol.</p>
+                        <p id="password-strength-text" class="text-[10px] text-gray-400">Use at least 8 chars with uppercase, lowercase, number &amp; symbol.</p>
                     </div>
                 </div>
 
                 <!-- Minimum Age Confirmation Checkbox -->
-                <div class="flex items-start space-x-3 pt-1">
-                    <input type="checkbox" id="age-checkbox" class="mt-1 w-4 h-4 rounded border-gray-700 bg-gray-950 text-purple-600 focus:ring-purple-500 cursor-pointer">
-                    <label for="age-checkbox" class="text-xs text-gray-400 leading-relaxed cursor-pointer">
-                        I confirm that I am at least <strong>16 years old</strong> (or the minimum legal age in my country) to use ClipForge AI.
+                <div class="flex items-start space-x-2.5 pt-0.5">
+                    <input type="checkbox" id="age-checkbox" class="mt-0.5 w-4 h-4 rounded border-gray-700 bg-gray-950 text-purple-600 focus:ring-purple-500 cursor-pointer">
+                    <label for="age-checkbox" class="text-[11px] text-gray-400 leading-snug cursor-pointer">
+                        I confirm that I am at least <strong>16 years old</strong> (or minimum legal age in my country).
                     </label>
                 </div>
 
                 <!-- Legal Terms & Conditions Checkbox -->
-                <div class="flex items-start space-x-3">
-                    <input type="checkbox" id="terms-checkbox" class="mt-1 w-4 h-4 rounded border-gray-700 bg-gray-950 text-purple-600 focus:ring-purple-500 cursor-pointer">
-                    <label for="terms-checkbox" class="text-xs text-gray-400 leading-relaxed cursor-pointer">
+                <div class="flex items-start space-x-2.5">
+                    <input type="checkbox" id="terms-checkbox" class="mt-0.5 w-4 h-4 rounded border-gray-700 bg-gray-950 text-purple-600 focus:ring-purple-500 cursor-pointer">
+                    <label for="terms-checkbox" class="text-[11px] text-gray-400 leading-snug cursor-pointer">
                         I agree to the 
-                        <button type="button" onclick="openLegalModal('terms')" class="text-purple-400 underline hover:text-purple-300 font-medium">Terms &amp; Conditions</button>, 
-                        <button type="button" onclick="openLegalModal('privacy')" class="text-purple-400 underline hover:text-purple-300 font-medium">Privacy Policy</button>, and 
+                        <button type="button" onclick="openLegalModal('terms')" class="text-purple-400 underline hover:text-purple-300 font-medium">Terms</button>, 
+                        <button type="button" onclick="openLegalModal('privacy')" class="text-purple-400 underline hover:text-purple-300 font-medium">Privacy</button>, and 
                         <button type="button" onclick="openLegalModal('refund')" class="text-purple-400 underline hover:text-purple-300 font-medium">Refund Policy</button>.
                     </label>
                 </div>
 
-                <button onclick="handleEmailLogin()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-purple-900/30 text-sm mt-2">
+                <button onclick="handleEmailLogin()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-purple-900/30 text-sm mt-1">
                     Continue with Email
                 </button>
             </div>
@@ -461,22 +461,22 @@
             if (password.length === 0) {
                 bar.style.width = "0%";
                 bar.className = "w-0 h-full transition-all duration-300 bg-red-500";
-                text.className = "text-[11px] text-gray-400";
+                text.className = "text-[10px] text-gray-400";
                 text.innerText = "Use at least 8 chars with uppercase, lowercase, number & symbol.";
             } else if (score <= 2) {
                 bar.style.width = "33%";
                 bar.className = "w-1/3 h-full transition-all duration-300 bg-red-500";
-                text.className = "text-[11px] text-red-400";
+                text.className = "text-[10px] text-red-400";
                 text.innerText = "Weak password — add uppercase letters, numbers, and symbols.";
             } else if (score <= 4) {
                 bar.style.width = "66%";
                 bar.className = "w-2/3 h-full transition-all duration-300 bg-amber-500";
-                text.className = "text-[11px] text-amber-400";
+                text.className = "text-[10px] text-amber-400";
                 text.innerText = "Medium strength — add more characters or symbols for maximum security.";
             } else {
                 bar.style.width = "100%";
                 bar.className = "w-full h-full transition-all duration-300 bg-emerald-500";
-                text.className = "text-[11px] text-emerald-400 font-semibold";
+                text.className = "text-[10px] text-emerald-400 font-semibold";
                 text.innerText = "Strong password!";
             }
             return score;
@@ -489,7 +489,6 @@
             const syms = "!@#$%^&*()-_=+";
             const all = upper + lower + nums + syms;
 
-            // Guarantee at least one of each required character class
             let pwd = [
                 upper[Math.floor(Math.random() * upper.length)],
                 lower[Math.floor(Math.random() * lower.length)],
@@ -501,7 +500,6 @@
                 pwd.push(all[Math.floor(Math.random() * all.length)]);
             }
 
-            // Shuffle characters
             pwd = pwd.sort(() => Math.random() - 0.5).join("");
 
             const pwdInput = document.getElementById("password-input");
@@ -612,7 +610,6 @@
                 return;
             }
 
-            // Google login requires no password — passes verified Google ID token directly
             authenticateBackend(response.credential, "google", false);
         }
 
