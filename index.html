@@ -6,8 +6,8 @@
     <title>ClipForge | Vertical Video Reframing &amp; Highlight Engine</title>
     <meta name="description" content="Convert horizontal 16:9 videos into crisp 1080x1920 vertical clips automatically. Built for creators, editors, and media teams.">
     
-    <!-- Exact Ribbon Icon Favicon Matching the Chosen Logo Mark -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230E1012'/%3E%3Cpath d='M20,40 L52,26 L52,74 L20,60 Z' fill='%23F59E0B'/%3E%3Cpath d='M46,68 L72,34 L88,44 L62,78 Z' fill='%23F59E0B'/%3E%3Cpolygon points='73,53 81,58 73,63' fill='%230E1012'/%3E%3C/svg%3E">
+    <!-- Exact 3D Folded Ribbon Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 80'%3E%3Crect width='120' height='80' rx='16' fill='%230E1012'/%3E%3Cpolygon points='12,26 52,26 32,48 12,48' fill='%23F59E0B'/%3E%3Cpolygon points='52,26 64,38 44,60 32,48' fill='%23D97706'/%3E%3Cpolygon points='44,60 76,16 88,28 56,72' fill='%23F59E0B'/%3E%3Cpolygon points='66,46 80,62 68,74 54,58' fill='%23D97706'/%3E%3Cpolygon points='76,16 106,24 106,66 76,74' fill='%23FBBF24'/%3E%3Cpolygon points='86,36 99,45 86,54' fill='%23B45309'/%3E%3C/svg%3E">
 
     <!-- Editorial Typography: Plus Jakarta Sans & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,59 +44,71 @@
 </head>
 <body class="bg-surface-950 text-zinc-100 font-sans min-h-screen flex flex-col overflow-x-hidden antialiased selection:bg-accent-500 selection:text-surface-950">
 
+    <!-- Screen-Reader Skip Link (ADA Compliance) -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:bg-accent-500 focus:text-surface-950 focus:px-4 focus:py-2 focus:rounded focus:font-bold focus:text-xs">
+        Skip to main content
+    </a>
+
     <!-- Non-Blocking Toast Notification Banner -->
-    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full px-4 sm:px-0 pointer-events-none"></div>
+    <div id="toast-container" role="status" aria-live="polite" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full px-4 sm:px-0 pointer-events-none"></div>
 
     <!-- Top Navigation Bar -->
     <header class="border-b border-surface-800 bg-surface-950/95 sticky top-0 z-40">
         <div class="max-w-6xl mx-auto px-4 sm:px-8 h-16 flex items-center justify-between">
-            <!-- Clickable Logo (Exact Ribbon Geometry, Text-Free, Seamless Blend) -->
-            <a href="#top" onclick="showMainView()" class="flex items-center gap-3.5 focus:outline-none group">
-                <div class="w-10 h-10 bg-transparent flex items-center justify-center p-0.5">
-                    <svg viewBox="0 0 100 100" class="w-full h-full text-accent-500 drop-shadow-sm" fill="currentColor">
-                        <path d="M18,41 L50,26 L50,74 L18,59 Z"/>
-                        <path d="M44,68 L70,34 L88,44 L62,78 Z"/>
-                        <polygon points="71,53 80,58 72,63" fill="#0E1012"/>
-                    </svg>
-                </div>
+            <!-- Clickable 3D Folded Ribbon Logo (Exact Match to First Image, No Text in SVG) -->
+            <a href="#top" onclick="showMainView()" aria-label="ClipForge Home" class="flex items-center gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 rounded group">
+                <svg viewBox="0 0 120 80" class="h-9 w-auto drop-shadow-sm" aria-hidden="true">
+                    <!-- Left Horizontal Ribbon Segment -->
+                    <polygon points="10,24 52,24 31,48 10,48" fill="#F59E0B"/>
+                    <!-- First Downward Shaded Fold -->
+                    <polygon points="52,24 64,37 43,61 31,48" fill="#D97706"/>
+                    <!-- Diagonal Rising Ribbon Arm -->
+                    <polygon points="43,61 76,14 88,27 55,74" fill="#F59E0B"/>
+                    <!-- Second Downward Shaded Fold -->
+                    <polygon points="65,45 81,62 69,75 53,58" fill="#D97706"/>
+                    <!-- Right 3D Vertical Block -->
+                    <polygon points="76,14 108,23 108,66 76,75" fill="#FBBF24"/>
+                    <!-- Recessed Play Triangle -->
+                    <polygon points="86,35 100,44.5 86,54" fill="#B45309"/>
+                </svg>
                 <span class="text-base font-extrabold tracking-tight text-white">CLIPFORGE</span>
             </a>
 
             <!-- Desktop Navigation -->
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
-                <a href="#workspace" onclick="showMainView()" class="hover:text-white transition-colors">Studio</a>
-                <a href="#preview-demo" onclick="showMainView()" class="hover:text-white transition-colors">Output Specs</a>
-                <a href="#pricing" onclick="showMainView()" class="hover:text-white transition-colors">Pricing</a>
+            <nav aria-label="Primary Navigation" class="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
+                <a href="#workspace" onclick="showMainView()" class="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 rounded px-1 transition-colors">Studio</a>
+                <a href="#preview-demo" onclick="showMainView()" class="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 rounded px-1 transition-colors">Output Specs</a>
+                <a href="#pricing" onclick="showMainView()" class="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 rounded px-1 transition-colors">Pricing</a>
             </nav>
 
             <!-- Right Controls + Mobile Hamburger -->
             <div class="flex items-center gap-3">
                 <div id="auth-container" class="relative">
-                    <button id="open-auth-modal-btn" onclick="toggleAuthModal(true)" class="bg-accent-500 hover:bg-accent-400 text-surface-950 font-bold px-4 py-2 rounded-md text-xs sm:text-sm transition-colors">
+                    <button id="open-auth-modal-btn" onclick="toggleAuthModal(true)" class="bg-accent-500 hover:bg-accent-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white text-surface-950 font-bold px-4 py-2 rounded-md text-xs sm:text-sm transition-colors">
                         Sign In
                     </button>
 
                     <!-- Logged In Profile Pill -->
                     <div id="profile-container" class="hidden relative">
-                        <button onclick="toggleDropdown()" aria-label="Open account menu" class="flex items-center gap-2.5 bg-surface-900 hover:bg-surface-850 border border-surface-800 px-3 py-1.5 rounded-md transition-colors">
-                            <span id="user-avatar" class="w-6 h-6 bg-accent-500 text-surface-950 font-mono font-bold rounded text-xs flex items-center justify-center">U</span>
+                        <button id="profile-menu-btn" onclick="toggleDropdown()" aria-haspopup="true" aria-expanded="false" aria-label="Open account menu" class="flex items-center gap-2.5 bg-surface-900 hover:bg-surface-850 border border-surface-800 px-3 py-1.5 rounded-md transition-colors">
+                            <span id="user-avatar" aria-hidden="true" class="w-6 h-6 bg-accent-500 text-surface-950 font-mono font-bold rounded text-xs flex items-center justify-center">U</span>
                             <span id="nav-user-email" class="hidden sm:inline text-xs font-medium text-zinc-200 max-w-[130px] truncate">user@domain.com</span>
                             <span id="nav-user-tier" class="text-[10px] font-mono uppercase px-1.5 py-0.5 bg-surface-800 text-accent-400 rounded">FREE</span>
                         </button>
 
                         <!-- Dropdown Menu -->
-                        <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-60 bg-surface-900 border border-surface-800 rounded-md py-1.5 z-50">
+                        <div id="profile-dropdown" role="menu" class="hidden absolute right-0 mt-2 w-60 bg-surface-900 border border-surface-800 rounded-md py-1.5 z-50">
                             <div class="px-4 py-2 border-b border-surface-800">
                                 <p class="text-[11px] text-zinc-400">Available Credits</p>
                                 <p id="dropdown-credits" class="text-base font-mono font-bold text-white">1</p>
                             </div>
-                            <button onclick="openPrivacyPortal()" class="w-full text-left px-4 py-2 text-xs text-zinc-300 hover:bg-surface-850 transition-colors">
+                            <button role="menuitem" onclick="openPrivacyPortal()" class="w-full text-left px-4 py-2 text-xs text-zinc-300 hover:bg-surface-850 transition-colors">
                                 User Data Rights (GDPR / CCPA)
                             </button>
-                            <button onclick="triggerAccountDeletion()" class="w-full text-left px-4 py-2 text-xs text-amber-400 hover:bg-surface-850 transition-colors">
+                            <button role="menuitem" onclick="triggerAccountDeletion()" class="w-full text-left px-4 py-2 text-xs text-amber-400 hover:bg-surface-850 transition-colors">
                                 Schedule Account Deletion
                             </button>
-                            <button onclick="logout()" class="w-full text-left px-4 py-2 text-xs text-red-400 hover:bg-surface-850 transition-colors">
+                            <button role="menuitem" onclick="logout()" class="w-full text-left px-4 py-2 text-xs text-red-400 hover:bg-surface-850 transition-colors">
                                 Sign Out
                             </button>
                         </div>
@@ -104,8 +116,8 @@
                 </div>
 
                 <!-- Mobile Menu Toggle -->
-                <button onclick="toggleMobileMenu()" aria-label="Toggle navigation menu" class="md:hidden p-2 rounded-md border border-surface-800 text-zinc-300 hover:text-white hover:bg-surface-900">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <button id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle navigation menu" class="md:hidden p-2 rounded-md border border-surface-800 text-zinc-300 hover:text-white hover:bg-surface-900">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>
@@ -124,14 +136,14 @@
     <main id="main-content" class="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-16">
         
         <!-- Hero & Uploader Split Layout -->
-        <section id="workspace" class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start mb-24">
+        <section id="workspace" aria-labelledby="hero-heading" class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start mb-24">
             
             <!-- Left Column: Crisp Editorial Copy -->
             <div class="lg:col-span-6 space-y-5 pt-2">
                 <div class="inline-block px-2.5 py-1 bg-surface-900 border border-surface-800 rounded text-[11px] font-mono text-accent-400 uppercase tracking-wider">
                     FFmpeg Hardware Pipeline v3.0
                 </div>
-                <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-[1.12]">
+                <h1 id="hero-heading" class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-[1.12]">
                     Reframe wide footage into 9:16 vertical cuts.
                 </h1>
                 <p class="text-zinc-400 text-sm sm:text-base leading-relaxed max-w-xl">
@@ -141,15 +153,15 @@
                 <!-- Technical Spec Strip -->
                 <div class="grid grid-cols-3 gap-3 pt-3 border-t border-surface-800/80">
                     <div>
-                        <p class="text-[11px] font-mono text-zinc-500 uppercase">Resolution</p>
+                        <p class="text-[11px] font-mono text-zinc-400 uppercase">Resolution</p>
                         <p class="text-sm font-bold text-zinc-200 mt-0.5">1080 x 1920</p>
                     </div>
                     <div>
-                        <p class="text-[11px] font-mono text-zinc-500 uppercase">Max Upload</p>
+                        <p class="text-[11px] font-mono text-zinc-400 uppercase">Max Upload</p>
                         <p class="text-sm font-bold text-zinc-200 mt-0.5">250 MB</p>
                     </div>
                     <div>
-                        <p class="text-[11px] font-mono text-zinc-500 uppercase">Audio Codec</p>
+                        <p class="text-[11px] font-mono text-zinc-400 uppercase">Audio Codec</p>
                         <p class="text-sm font-bold text-zinc-200 mt-0.5">AAC 128kbps</p>
                     </div>
                 </div>
@@ -160,27 +172,27 @@
                 <div id="upload-section">
                     <div class="flex items-center justify-between mb-4">
                         <span class="text-xs font-mono uppercase tracking-wider text-zinc-400">Input Source</span>
-                        <span id="status-badge" class="text-[11px] font-mono text-zinc-500">Ready</span>
+                        <span id="status-badge" class="text-[11px] font-mono text-zinc-400">Ready</span>
                     </div>
 
-                    <label for="video-file-input" class="block border border-dashed border-surface-800 hover:border-accent-500 rounded-md p-8 text-center cursor-pointer transition-colors bg-surface-950">
-                        <input type="file" id="video-file-input" accept="video/mp4,video/quicktime,video/webm" class="hidden" onchange="handleFileSelected(event)">
+                    <label for="video-file-input" class="block border border-dashed border-surface-800 hover:border-accent-500 focus-within:border-accent-500 rounded-md p-8 text-center cursor-pointer transition-colors bg-surface-950">
+                        <input type="file" id="video-file-input" accept="video/mp4,video/quicktime,video/webm" class="sr-only" onchange="handleFileSelected(event)">
                         <div class="flex flex-col items-center">
-                            <svg class="w-8 h-8 text-zinc-400 mb-3" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                            <svg class="w-8 h-8 text-zinc-400 mb-3" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 16V4m0 0l-4 4m4-4l4 4M4 20h16"></path>
                             </svg>
                             <p id="file-label" class="text-sm font-semibold text-zinc-200 break-all">Select a video file (MP4, MOV, WebM)</p>
-                            <p id="file-meta" class="text-xs text-zinc-500 mt-1">Maximum file size: 250 MB</p>
+                            <p id="file-meta" class="text-xs text-zinc-400 mt-1">Maximum file size: 250 MB</p>
                         </div>
                     </label>
 
-                    <button id="generate-btn" onclick="uploadAndClip()" disabled class="w-full mt-5 bg-accent-500 hover:bg-accent-400 disabled:bg-surface-800 disabled:text-zinc-500 disabled:cursor-not-allowed text-surface-950 font-bold py-3.5 rounded-md text-sm transition-colors">
+                    <button id="generate-btn" onclick="uploadAndClip()" disabled class="w-full mt-5 bg-accent-500 hover:bg-accent-400 disabled:bg-surface-800 disabled:text-zinc-400 disabled:cursor-not-allowed text-surface-950 font-bold py-3.5 rounded-md text-sm transition-colors">
                         Render Vertical Clip
                     </button>
                 </div>
 
                 <!-- Skeleton & Progress Loader State -->
-                <div id="loading-section" class="hidden py-6 space-y-4">
+                <div id="loading-section" role="status" aria-live="polite" class="hidden py-6 space-y-4">
                     <div class="flex items-center justify-between text-xs font-mono text-accent-400">
                         <span>ENCODING 1080x1920 STREAM...</span>
                         <span id="elapsed-timer">0s</span>
@@ -188,11 +200,11 @@
                     <div class="w-full bg-surface-950 h-2 rounded overflow-hidden border border-surface-800">
                         <div class="bg-accent-500 h-full w-2/3 animate-pulse"></div>
                     </div>
-                    <div class="grid grid-cols-2 gap-3 pt-2">
+                    <div class="grid grid-cols-2 gap-3 pt-2" aria-hidden="true">
                         <div class="h-24 bg-surface-850 rounded animate-pulse border border-surface-800"></div>
                         <div class="h-24 bg-surface-850 rounded animate-pulse border border-surface-800"></div>
                     </div>
-                    <p class="text-xs text-zinc-500">Do not refresh this tab while FFmpeg processes your stream.</p>
+                    <p class="text-xs text-zinc-400">Do not refresh this tab while FFmpeg processes your stream.</p>
                 </div>
 
                 <!-- Empty / Result State -->
@@ -201,7 +213,7 @@
                         <span class="text-xs font-mono text-emerald-400 uppercase">Render Complete</span>
                         <button onclick="resetApp()" class="text-xs text-zinc-400 hover:text-white underline">Reset Workspace</button>
                     </div>
-                    <video id="output-video-player" controls class="w-full max-h-[380px] rounded bg-black border border-surface-800"></video>
+                    <video id="output-video-player" controls aria-label="Rendered vertical video output" class="w-full max-h-[380px] rounded bg-black border border-surface-800"></video>
                     <a id="download-link" class="block w-full text-center bg-emerald-500 hover:bg-emerald-400 text-surface-950 font-bold py-3 rounded-md text-sm transition-colors">
                         Download MP4 File
                     </a>
@@ -210,9 +222,9 @@
         </section>
 
         <!-- Real Aspect-Ratio Output Preview Section -->
-        <section id="preview-demo" class="mb-24 border-t border-surface-800 pt-16">
+        <section id="preview-demo" aria-labelledby="preview-heading" class="mb-24 border-t border-surface-800 pt-16">
             <div class="mb-8">
-                <h2 class="text-2xl font-extrabold text-white tracking-tight">Deterministic Center-Crop Pipeline</h2>
+                <h2 id="preview-heading" class="text-2xl font-extrabold text-white tracking-tight">Deterministic Center-Crop Pipeline</h2>
                 <p class="text-sm text-zinc-400 mt-1">Comparison between raw 16:9 widescreen input and processed 9:16 vertical export.</p>
             </div>
 
@@ -247,9 +259,9 @@
         </section>
 
         <!-- 4-Tier Pricing Section -->
-        <section id="pricing" class="border-t border-surface-800 pt-16">
+        <section id="pricing" aria-labelledby="pricing-heading" class="border-t border-surface-800 pt-16">
             <div class="mb-10">
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Transparent Monthly Plans</h2>
+                <h2 id="pricing-heading" class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Transparent Monthly Plans</h2>
                 <p class="text-sm text-zinc-400 mt-1">Start with a free account or scale up based on your monthly publishing volume.</p>
             </div>
 
@@ -261,13 +273,13 @@
                         <span class="text-xs font-mono uppercase text-zinc-400">Free</span>
                         <div class="mt-3 mb-2">
                             <span class="text-3xl font-extrabold text-white">$0</span>
-                            <span class="text-xs text-zinc-500">/month</span>
+                            <span class="text-xs text-zinc-400">/month</span>
                         </div>
                         <p class="text-xs text-zinc-400 mb-6 leading-relaxed">Test the rendering pipeline with zero commitment.</p>
                         <ul class="space-y-2.5 text-xs text-zinc-300 mb-8 border-t border-surface-800 pt-4">
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-zinc-500 rounded-full"></span><span>1 clip included</span></li>
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-zinc-500 rounded-full"></span><span>1080x1920 export</span></li>
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-zinc-500 rounded-full"></span><span>250 MB upload cap</span></li>
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-zinc-500 rounded-full"></span><span>1 clip included</span></li>
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-zinc-500 rounded-full"></span><span>1080x1920 export</span></li>
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-zinc-500 rounded-full"></span><span>250 MB upload cap</span></li>
                         </ul>
                     </div>
                     <button id="free-plan-btn" onclick="handleFreeTierClick()" class="w-full bg-surface-800 hover:bg-surface-850 text-white font-bold py-2.5 rounded-md text-xs transition-colors border border-surface-800">
@@ -281,13 +293,13 @@
                         <span class="text-xs font-mono uppercase text-zinc-400">Starter</span>
                         <div class="mt-3 mb-2">
                             <span class="text-3xl font-extrabold text-white">$19</span>
-                            <span class="text-xs text-zinc-500">/month</span>
+                            <span class="text-xs text-zinc-400">/month</span>
                         </div>
                         <p class="text-xs text-zinc-400 mb-6 leading-relaxed">For solo creators posting daily short-form clips.</p>
                         <ul class="space-y-2.5 text-xs text-zinc-300 mb-8 border-t border-surface-800 pt-4">
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>30 clips per month</span></li>
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>1080p vertical output</span></li>
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>Standard queue</span></li>
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>30 clips per month</span></li>
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>1080p vertical output</span></li>
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>Standard queue</span></li>
                         </ul>
                     </div>
                     <button onclick="handlePaidTierClick('Starter')" class="w-full bg-surface-800 hover:bg-surface-850 text-white font-bold py-2.5 rounded-md text-xs transition-colors border border-surface-800">
@@ -304,13 +316,13 @@
                         </div>
                         <div class="mt-3 mb-2">
                             <span class="text-3xl font-extrabold text-white">$49</span>
-                            <span class="text-xs text-zinc-500">/month</span>
+                            <span class="text-xs text-zinc-400">/month</span>
                         </div>
                         <p class="text-xs text-zinc-400 mb-6 leading-relaxed">For multi-channel creators scaling output volume.</p>
                         <ul class="space-y-2.5 text-xs text-zinc-300 mb-8 border-t border-surface-800 pt-4">
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>120 clips per month</span></li>
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>High-bitrate H.264</span></li>
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>Fast-start web muxing</span></li>
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>120 clips per month</span></li>
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>High-bitrate H.264</span></li>
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>Fast-start web muxing</span></li>
                         </ul>
                     </div>
                     <button onclick="handlePaidTierClick('Pro')" class="w-full bg-accent-500 hover:bg-accent-400 text-surface-950 font-bold py-2.5 rounded-md text-xs transition-colors">
@@ -324,13 +336,13 @@
                         <span class="text-xs font-mono uppercase text-zinc-400">Agency</span>
                         <div class="mt-3 mb-2">
                             <span class="text-3xl font-extrabold text-white">$149</span>
-                            <span class="text-xs text-zinc-500">/month</span>
+                            <span class="text-xs text-zinc-400">/month</span>
                         </div>
                         <p class="text-xs text-zinc-400 mb-6 leading-relaxed">For media agencies and high-volume editing teams.</p>
                         <ul class="space-y-2.5 text-xs text-zinc-300 mb-8 border-t border-surface-800 pt-4">
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>Unlimited monthly clips</span></li>
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>Priority worker allocation</span></li>
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>Direct email support</span></li>
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>Unlimited monthly clips</span></li>
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>Priority worker allocation</span></li>
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>Direct email support</span></li>
                         </ul>
                     </div>
                     <button onclick="handlePaidTierClick('Agency')" class="w-full bg-surface-800 hover:bg-surface-850 text-white font-bold py-2.5 rounded-md text-xs transition-colors border border-surface-800">
@@ -353,7 +365,7 @@
     </section>
 
     <!-- Footer with Clickable Email & Legal Policies -->
-    <footer class="border-t border-surface-800 bg-surface-950 py-8 px-4 sm:px-8 text-xs text-zinc-500">
+    <footer class="border-t border-surface-800 bg-surface-950 py-8 px-4 sm:px-8 text-xs text-zinc-400">
         <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
             <p>© 2026 ClipForge. All rights reserved. Paris, France.</p>
             <div class="flex flex-wrap items-center justify-center gap-6">
@@ -366,11 +378,11 @@
     </footer>
 
     <!-- User Data Rights Portal Modal (GDPR / CCPA Compliance) -->
-    <div id="privacy-portal-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+    <div id="privacy-portal-modal" role="dialog" aria-modal="true" aria-labelledby="privacy-portal-title" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
         <div class="bg-surface-900 border border-surface-800 max-w-md w-full rounded-lg p-6 relative">
-            <button onclick="closePrivacyPortal()" aria-label="Close modal" class="absolute top-4 right-4 text-zinc-400 hover:text-white text-xl leading-none">&times;</button>
+            <button onclick="closePrivacyPortal()" aria-label="Close User Data Rights modal" class="absolute top-4 right-4 text-zinc-400 hover:text-white text-xl leading-none">&times;</button>
             
-            <h2 class="text-xl font-extrabold text-white mb-1">User Data Rights Portal</h2>
+            <h2 id="privacy-portal-title" class="text-xl font-extrabold text-white mb-1">User Data Rights Portal</h2>
             <p class="text-xs text-zinc-400 mb-6">In compliance with GDPR and CCPA regulations, you have full control over your personal data.</p>
 
             <div class="space-y-4">
@@ -398,11 +410,11 @@
     </div>
 
     <!-- Authentication Modal -->
-    <div id="auth-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+    <div id="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
         <div class="bg-surface-900 border border-surface-800 max-w-md w-full rounded-lg p-6 relative">
-            <button onclick="toggleAuthModal(false)" aria-label="Close modal" class="absolute top-4 right-4 text-zinc-400 hover:text-white text-xl leading-none">&times;</button>
+            <button onclick="toggleAuthModal(false)" aria-label="Close sign in modal" class="absolute top-4 right-4 text-zinc-400 hover:text-white text-xl leading-none">&times;</button>
             
-            <h2 class="text-xl font-extrabold text-white mb-1">Sign in to ClipForge</h2>
+            <h2 id="auth-modal-title" class="text-xl font-extrabold text-white mb-1">Sign in to ClipForge</h2>
             <p class="text-xs text-zinc-400 mb-4">Access your workspace or create a free account.</p>
 
             <!-- Google Sign-In -->
@@ -417,14 +429,14 @@
 
             <div class="flex items-center my-4">
                 <div class="flex-1 border-t border-surface-800"></div>
-                <span class="px-3 text-[10px] font-mono text-zinc-500 uppercase">Or continue with email</span>
+                <span class="px-3 text-[10px] font-mono text-zinc-400 uppercase">Or continue with email</span>
                 <div class="flex-1 border-t border-surface-800"></div>
             </div>
 
             <div class="space-y-3">
                 <div>
                     <label for="email-input" class="block text-xs font-medium text-zinc-300 mb-1">Email</label>
-                    <input type="email" id="email-input" placeholder="you@domain.com" class="w-full bg-surface-950 border border-surface-800 rounded-md px-3.5 py-2 text-white focus:outline-none focus:border-accent-500 text-sm">
+                    <input type="email" id="email-input" autocomplete="email" placeholder="you@domain.com" class="w-full bg-surface-950 border border-surface-800 rounded-md px-3.5 py-2 text-white focus:outline-none focus:border-accent-500 text-sm">
                 </div>
 
                 <div>
@@ -433,14 +445,14 @@
                         <button type="button" onclick="generateStrongPassword()" class="text-[11px] text-accent-400 hover:text-accent-300 font-medium">Generate strong password</button>
                     </div>
                     <div class="relative">
-                        <input type="password" id="password-input" placeholder="Minimum 8 characters" oninput="checkPasswordStrength(this.value)" class="w-full bg-surface-950 border border-surface-800 rounded-md px-3.5 py-2 pr-14 text-white focus:outline-none focus:border-accent-500 text-sm">
-                        <button type="button" onclick="togglePasswordVisibility()" id="toggle-pwd-btn" class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-zinc-400 hover:text-white">Show</button>
+                        <input type="password" id="password-input" autocomplete="current-password" placeholder="Minimum 8 characters" oninput="checkPasswordStrength(this.value)" class="w-full bg-surface-950 border border-surface-800 rounded-md px-3.5 py-2 pr-14 text-white focus:outline-none focus:border-accent-500 text-sm">
+                        <button type="button" onclick="togglePasswordVisibility()" id="toggle-pwd-btn" aria-label="Toggle password visibility" class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-zinc-400 hover:text-white">Show</button>
                     </div>
                     <div class="mt-1.5">
                         <div class="w-full bg-surface-950 h-1 rounded overflow-hidden">
                             <div id="password-strength-bar" class="w-0 h-full transition-all duration-200 bg-red-500"></div>
                         </div>
-                        <p id="password-strength-text" class="text-[10px] text-zinc-500 mt-1">Include uppercase, lowercase, number, and symbol.</p>
+                        <p id="password-strength-text" class="text-[10px] text-zinc-400 mt-1">Include uppercase, lowercase, number, and symbol.</p>
                     </div>
                 </div>
 
@@ -466,11 +478,11 @@
     </div>
 
     <!-- Legal Modals -->
-    <div id="terms-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+    <div id="terms-modal" role="dialog" aria-modal="true" aria-labelledby="terms-modal-title" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
         <div class="bg-surface-900 border border-surface-800 max-w-lg w-full rounded-lg p-6 max-h-[85vh] flex flex-col">
             <div class="flex justify-between items-center mb-3">
-                <h3 class="text-lg font-bold text-white">Terms &amp; Conditions</h3>
-                <button onclick="closeLegalModal('terms')" class="text-zinc-400 hover:text-white text-xl">&times;</button>
+                <h3 id="terms-modal-title" class="text-lg font-bold text-white">Terms &amp; Conditions</h3>
+                <button onclick="closeLegalModal('terms')" aria-label="Close Terms modal" class="text-zinc-400 hover:text-white text-xl">&times;</button>
             </div>
             <div class="overflow-y-auto space-y-3 text-xs text-zinc-300 leading-relaxed flex-1 pr-1">
                 <p><strong>1. Eligibility:</strong> You must be at least 16 years old to create an account and use ClipForge.</p>
@@ -481,11 +493,11 @@
         </div>
     </div>
 
-    <div id="privacy-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+    <div id="privacy-modal" role="dialog" aria-modal="true" aria-labelledby="privacy-modal-title" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
         <div class="bg-surface-900 border border-surface-800 max-w-lg w-full rounded-lg p-6 max-h-[85vh] flex flex-col">
             <div class="flex justify-between items-center mb-3">
-                <h3 class="text-lg font-bold text-white">Privacy Policy</h3>
-                <button onclick="closeLegalModal('privacy')" class="text-zinc-400 hover:text-white text-xl">&times;</button>
+                <h3 id="privacy-modal-title" class="text-lg font-bold text-white">Privacy Policy</h3>
+                <button onclick="closeLegalModal('privacy')" aria-label="Close Privacy modal" class="text-zinc-400 hover:text-white text-xl">&times;</button>
             </div>
             <div class="overflow-y-auto space-y-3 text-xs text-zinc-300 leading-relaxed flex-1 pr-1">
                 <p><strong>1. Data Storage:</strong> We store only your email address, hashed password, subscription tier, and remaining credit balance.</p>
@@ -496,11 +508,11 @@
         </div>
     </div>
 
-    <div id="refund-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+    <div id="refund-modal" role="dialog" aria-modal="true" aria-labelledby="refund-modal-title" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
         <div class="bg-surface-900 border border-surface-800 max-w-lg w-full rounded-lg p-6 max-h-[85vh] flex flex-col">
             <div class="flex justify-between items-center mb-3">
-                <h3 class="text-lg font-bold text-white">Refund Policy</h3>
-                <button onclick="closeLegalModal('refund')" class="text-zinc-400 hover:text-white text-xl">&times;</button>
+                <h3 id="refund-modal-title" class="text-lg font-bold text-white">Refund Policy</h3>
+                <button onclick="closeLegalModal('refund')" aria-label="Close Refund modal" class="text-zinc-400 hover:text-white text-xl">&times;</button>
             </div>
             <div class="overflow-y-auto space-y-3 text-xs text-zinc-300 leading-relaxed flex-1 pr-1">
                 <p>Every account includes 1 free clip to test video quality before subscribing. Unused paid subscriptions can be refunded within 7 days by contacting <a href="mailto:support@clipforge.ai" class="text-accent-400 underline">support@clipforge.ai</a>.</p>
@@ -523,6 +535,16 @@
             updateUIState();
             handleHashRouting();
             window.addEventListener("hashchange", handleHashRouting);
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") {
+                    toggleAuthModal(false);
+                    closePrivacyPortal();
+                    closeLegalModal("terms");
+                    closeLegalModal("privacy");
+                    closeLegalModal("refund");
+                    closeMobileMenu();
+                }
+            });
         });
 
         function showToast(message, type = "info") {
@@ -560,11 +582,16 @@
         }
 
         function toggleMobileMenu() {
-            document.getElementById("mobile-menu").classList.toggle("hidden");
+            const menu = document.getElementById("mobile-menu");
+            const btn = document.getElementById("mobile-menu-btn");
+            const isHidden = menu.classList.toggle("hidden");
+            btn.setAttribute("aria-expanded", String(!isHidden));
         }
 
         function closeMobileMenu() {
             document.getElementById("mobile-menu").classList.add("hidden");
+            const btn = document.getElementById("mobile-menu-btn");
+            if (btn) btn.setAttribute("aria-expanded", "false");
         }
 
         function updateUIState() {
@@ -651,7 +678,10 @@
         }
 
         function toggleDropdown() {
-            document.getElementById("profile-dropdown").classList.toggle("hidden");
+            const dropdown = document.getElementById("profile-dropdown");
+            const btn = document.getElementById("profile-menu-btn");
+            const isHidden = dropdown.classList.toggle("hidden");
+            btn.setAttribute("aria-expanded", String(!isHidden));
         }
 
         function togglePasswordVisibility() {
@@ -680,7 +710,7 @@
             if (password.length === 0) {
                 bar.style.width = "0%";
                 bar.className = "w-0 h-full transition-all duration-200 bg-red-500";
-                text.className = "text-[10px] text-zinc-500 mt-1";
+                text.className = "text-[10px] text-zinc-400 mt-1";
                 text.innerText = "Include uppercase, lowercase, number, and symbol.";
             } else if (score <= 2) {
                 bar.style.width = "33%";
