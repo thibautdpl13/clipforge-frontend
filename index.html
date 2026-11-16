@@ -12,7 +12,6 @@
     <!-- Top Navigation Bar -->
     <header class="flex justify-between items-center px-8 py-5 border-b border-gray-800/80 bg-gray-900/60 backdrop-blur-md sticky top-0 z-40">
         <div class="flex items-center space-x-3">
-            <!-- Professional X-Shaped Scissors Logo Icon -->
             <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-purple-800 border border-purple-500/40 rounded-xl flex items-center justify-center text-white shadow-lg shadow-purple-900/30" aria-hidden="true">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                     <circle cx="6" cy="6" r="3"></circle>
@@ -30,12 +29,11 @@
 
         <!-- Auth / Profile Area -->
         <div id="auth-container" class="relative">
-            <!-- Logged Out State -->
             <button id="open-auth-modal-btn" onclick="toggleAuthModal(true)" class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-bold px-6 py-2.5 rounded-xl transition shadow-lg shadow-purple-900/40 text-sm">
                 Sign In / Sign Up
             </button>
 
-            <!-- Logged In Profile Circle (Hidden by default) -->
+            <!-- Logged In Profile Circle -->
             <div id="profile-container" class="hidden relative">
                 <button onclick="toggleDropdown()" aria-label="Open user profile menu" class="flex items-center space-x-3 focus:outline-none bg-gray-900 hover:bg-gray-800 border border-gray-700/80 p-1.5 pr-4 rounded-full transition shadow-md">
                     <div id="user-avatar" class="w-9 h-9 bg-purple-600 text-white font-bold rounded-full flex items-center justify-center text-sm shadow-inner">
@@ -66,8 +64,6 @@
 
     <!-- Main Content Dashboard -->
     <main class="flex-1 flex flex-col items-center justify-center px-6 py-12 max-w-5xl mx-auto w-full">
-        
-        <!-- Header Text & Description -->
         <div class="text-center mb-12">
             <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tight bg-gradient-to-r from-white via-purple-100 to-purple-400 bg-clip-text text-transparent py-1">
                 Turn Long Videos Into Viral Short Clips
@@ -125,74 +121,44 @@
                 <div class="bg-gray-900/90 border border-gray-800 rounded-3xl p-8 flex flex-col justify-between relative shadow-xl backdrop-blur-sm">
                     <div>
                         <span class="text-xs bg-purple-900/40 text-purple-300 px-3.5 py-1 rounded-full font-extrabold border border-purple-800/60">STARTER</span>
-                        <div class="mt-5 mb-3">
-                            <span class="text-4xl font-black">$19</span>
-                            <span class="text-gray-400 text-sm font-medium">/month</span>
-                        </div>
+                        <div class="mt-5 mb-3"><span class="text-4xl font-black">$19</span><span class="text-gray-400 text-sm font-medium">/month</span></div>
                         <p class="text-gray-400 text-xs mb-8 leading-relaxed">Perfect for solo creators starting out on short-form platforms.</p>
                         <ul class="space-y-4 text-sm text-gray-300 mb-8">
-                            <li class="flex items-center space-x-3">
-                                <span class="text-purple-400 font-bold">✓</span> <span><strong>30 Clips</strong> per month</span>
-                            </li>
-                            <li class="flex items-center space-x-3">
-                                <span class="text-purple-400 font-bold">✓</span> <span><strong>1080p Vertical</strong> rendering</span>
-                            </li>
+                            <li class="flex items-center space-x-3"><span class="text-purple-400 font-bold">✓</span> <span><strong>30 Clips</strong> per month</span></li>
+                            <li class="flex items-center space-x-3"><span class="text-purple-400 font-bold">✓</span> <span><strong>1080p Vertical</strong> rendering</span></li>
                         </ul>
                     </div>
-                    <button onclick="toggleAuthModal(true)" class="w-full bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-bold py-3 rounded-xl transition text-sm shadow-md">
-                        Get Started
-                    </button>
+                    <button onclick="toggleAuthModal(true)" class="w-full bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-bold py-3 rounded-xl transition text-sm shadow-md">Get Started</button>
                 </div>
 
-                <!-- Pro Tier (Highlighted) -->
+                <!-- Pro Tier -->
                 <div class="bg-gradient-to-b from-purple-950/50 to-gray-900 border-2 border-purple-600 rounded-3xl p-8 flex flex-col justify-between relative shadow-2xl shadow-purple-900/30 md:-translate-y-2">
-                    <div class="absolute -top-3.5 left-1/2 transform -translate-x-1/2 bg-purple-600 text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg">
-                        Most Popular
-                    </div>
+                    <div class="absolute -top-3.5 left-1/2 transform -translate-x-1/2 bg-purple-600 text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg">Most Popular</div>
                     <div>
                         <span class="text-xs bg-purple-600 text-white px-3.5 py-1 rounded-full font-extrabold shadow-sm">PRO</span>
-                        <div class="mt-5 mb-3">
-                            <span class="text-4xl font-black">$49</span>
-                            <span class="text-gray-400 text-sm font-medium">/month</span>
-                        </div>
+                        <div class="mt-5 mb-3"><span class="text-4xl font-black">$49</span><span class="text-gray-400 text-sm font-medium">/month</span></div>
                         <p class="text-gray-400 text-xs mb-8 leading-relaxed">For serious creators scaling their channel growth.</p>
                         <ul class="space-y-4 text-sm text-gray-300 mb-8">
-                            <li class="flex items-center space-x-3">
-                                <span class="text-purple-400 font-bold">✓</span> <span><strong>120 Clips</strong> per month</span>
-                            </li>
-                            <li class="flex items-center space-x-3">
-                                <span class="text-purple-400 font-bold">✓</span> <span><strong>1080p High-Bitrate</strong> rendering</span>
-                            </li>
+                            <li class="flex items-center space-x-3"><span class="text-purple-400 font-bold">✓</span> <span><strong>120 Clips</strong> per month</span></li>
+                            <li class="flex items-center space-x-3"><span class="text-purple-400 font-bold">✓</span> <span><strong>1080p High-Bitrate</strong> rendering</span></li>
                         </ul>
                     </div>
-                    <button onclick="toggleAuthModal(true)" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-lg shadow-purple-900/40">
-                        Upgrade to Pro
-                    </button>
+                    <button onclick="toggleAuthModal(true)" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-lg shadow-purple-900/40">Upgrade to Pro</button>
                 </div>
 
                 <!-- Agency Tier -->
                 <div class="bg-gray-900/90 border border-gray-800 rounded-3xl p-8 flex flex-col justify-between relative shadow-xl backdrop-blur-sm">
                     <div>
                         <span class="text-xs bg-purple-900/40 text-purple-300 px-3.5 py-1 rounded-full font-extrabold border border-purple-800/60">AGENCY</span>
-                        <div class="mt-5 mb-3">
-                            <span class="text-4xl font-black">$149</span>
-                            <span class="text-gray-400 text-sm font-medium">/month</span>
-                        </div>
+                        <div class="mt-5 mb-3"><span class="text-4xl font-black">$149</span><span class="text-gray-400 text-sm font-medium">/month</span></div>
                         <p class="text-gray-400 text-xs mb-8 leading-relaxed">Designed for agencies and high-volume content operations.</p>
                         <ul class="space-y-4 text-sm text-gray-300 mb-8">
-                            <li class="flex items-center space-x-3">
-                                <span class="text-purple-400 font-bold">✓</span> <span><strong>Unlimited Clips</strong></span>
-                            </li>
-                            <li class="flex items-center space-x-3">
-                                <span class="text-purple-400 font-bold">✓</span> <span><strong>Priority Queue</strong> rendering</span>
-                            </li>
+                            <li class="flex items-center space-x-3"><span class="text-purple-400 font-bold">✓</span> <span><strong>Unlimited Clips</strong></span></li>
+                            <li class="flex items-center space-x-3"><span class="text-purple-400 font-bold">✓</span> <span><strong>Priority Queue</strong> rendering</span></li>
                         </ul>
                     </div>
-                    <button onclick="toggleAuthModal(true)" class="w-full bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-bold py-3 rounded-xl transition text-sm shadow-md">
-                        Contact Agency
-                    </button>
+                    <button onclick="toggleAuthModal(true)" class="w-full bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-bold py-3 rounded-xl transition text-sm shadow-md">Contact Agency</button>
                 </div>
-
             </div>
         </div>
     </main>
@@ -207,7 +173,7 @@
         <p class="text-gray-500">© 2026 ClipForge AI. Contact &amp; Support: support@clipforge.ai | Paris, France.</p>
     </footer>
 
-    <!-- Authentication Modal (Compact spacing so no scrollbar is needed) -->
+    <!-- Authentication Modal (Zero Scrollbars, Compact Padding) -->
     <div id="auth-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50">
         <div class="bg-gray-900 border border-gray-800 max-w-md w-full rounded-3xl p-6 shadow-2xl relative max-h-[96vh] overflow-y-hidden">
             <button onclick="toggleAuthModal(false)" aria-label="Close authentication modal" class="absolute top-5 right-5 text-gray-400 hover:text-white text-2xl font-light">&times;</button>
@@ -215,7 +181,7 @@
             <h2 class="text-2xl font-black text-center mb-0.5">Welcome to ClipForge</h2>
             <p class="text-xs text-gray-400 text-center mb-4">Sign in or create an account to get your free demo clip.</p>
 
-            <!-- Google Sign-In Button Container (No password required) -->
+            <!-- Google Sign-In Button Container -->
             <div class="flex justify-center mb-4">
                 <div id="g_id_onload"
                      data-client_id="925975701527-647ur1l151irhhiv4ifnunkq8i3s0bd9.apps.googleusercontent.com"
@@ -231,7 +197,7 @@
                 <div class="flex-1 border-t border-gray-800"></div>
             </div>
 
-            <!-- Email & Password Login/Signup Box -->
+            <!-- Email & Password Form -->
             <div class="space-y-3">
                 <div>
                     <label for="email-input" class="block text-xs font-semibold text-gray-400 mb-1">Email Address</label>
@@ -241,18 +207,14 @@
                 <div>
                     <div class="flex justify-between items-center mb-1">
                         <label for="password-input" class="block text-xs font-semibold text-gray-400">Password</label>
-                        <button type="button" onclick="generateStrongPassword()" class="text-[11px] text-purple-400 hover:text-purple-300 font-semibold underline">
-                            Generate Strong Password
-                        </button>
+                        <button type="button" onclick="generateStrongPassword()" class="text-[11px] text-purple-400 hover:text-purple-300 font-semibold underline">Generate Strong Password</button>
                     </div>
                     <div class="relative">
                         <input type="password" id="password-input" placeholder="Create or enter your password" oninput="checkPasswordStrength(this.value)" class="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-2.5 pr-16 text-white focus:outline-none focus:border-purple-500 transition text-sm">
-                        <button type="button" onclick="togglePasswordVisibility()" id="toggle-pwd-btn" class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400 hover:text-white font-medium">
-                            Show
-                        </button>
+                        <button type="button" onclick="togglePasswordVisibility()" id="toggle-pwd-btn" class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400 hover:text-white font-medium">Show</button>
                     </div>
 
-                    <!-- Strong Password Strength Checker -->
+                    <!-- Password Strength Meter -->
                     <div class="mt-1.5 space-y-1">
                         <div class="w-full bg-gray-800 h-1.5 rounded-full overflow-hidden">
                             <div id="password-strength-bar" class="w-0 h-full transition-all duration-300 bg-red-500"></div>
@@ -261,7 +223,7 @@
                     </div>
                 </div>
 
-                <!-- Minimum Age Confirmation Checkbox -->
+                <!-- Age Confirmation Checkbox -->
                 <div class="flex items-start space-x-2.5 pt-0.5">
                     <input type="checkbox" id="age-checkbox" class="mt-0.5 w-4 h-4 rounded border-gray-700 bg-gray-950 text-purple-600 focus:ring-purple-500 cursor-pointer">
                     <label for="age-checkbox" class="text-[11px] text-gray-400 leading-snug cursor-pointer">
@@ -269,7 +231,7 @@
                     </label>
                 </div>
 
-                <!-- Legal Terms & Conditions Checkbox -->
+                <!-- Terms Checkbox -->
                 <div class="flex items-start space-x-2.5">
                     <input type="checkbox" id="terms-checkbox" class="mt-0.5 w-4 h-4 rounded border-gray-700 bg-gray-950 text-purple-600 focus:ring-purple-500 cursor-pointer">
                     <label for="terms-checkbox" class="text-[11px] text-gray-400 leading-snug cursor-pointer">
@@ -290,104 +252,44 @@
     <!-- Terms & Conditions Modal -->
     <div id="terms-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50">
         <div class="bg-gray-900 border border-gray-800 max-w-lg w-full rounded-3xl p-8 shadow-2xl relative max-h-[85vh] flex flex-col">
-            <button onclick="closeLegalModal('terms')" aria-label="Close Terms modal" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl font-light">&times;</button>
+            <button onclick="closeLegalModal('terms')" aria-label="Close modal" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl font-light">&times;</button>
             <h3 class="text-xl font-black mb-1 text-white">Terms &amp; Conditions</h3>
             <p class="text-xs text-gray-500 mb-4">Last updated: November 2026</p>
-            
             <div class="overflow-y-auto pr-2 space-y-4 text-xs text-gray-300 leading-relaxed flex-1">
-                <div>
-                    <h4 class="font-bold text-purple-400 mb-1">1. Acceptance &amp; Eligibility</h4>
-                    <p>By accessing or using ClipForge AI ("the Service"), you confirm that you meet the minimum legal age requirement in your jurisdiction (at least 16 years old in the EU) and agree to be bound by these Terms &amp; Conditions.</p>
-                </div>
-                <div>
-                    <h4 class="font-bold text-purple-400 mb-1">2. Account Security &amp; Acceptable Use</h4>
-                    <p>You are responsible for maintaining the confidentiality of your account credentials (Google or Email/Password login). You agree not to misuse the Service, upload unlawful or infringing material, attempt unauthorized access, or circumvent free demo limits and monthly credit quotas.</p>
-                </div>
-                <div>
-                    <h4 class="font-bold text-purple-400 mb-1">3. User Content &amp; Intellectual Property</h4>
-                    <p>You retain full ownership rights to the videos you upload. By uploading content, you represent that you have the necessary rights to process the video and grant ClipForge AI a temporary, non-exclusive license solely to slice, transcribe, and render your requested clips. Temporary server files are automatically purged after processing.</p>
-                </div>
-                <div>
-                    <h4 class="font-bold text-purple-400 mb-1">4. Subscriptions, Credits &amp; Account Deletion</h4>
-                    <p>Free accounts are strictly limited to one (1) demo clip per user. Paid subscription tiers (Starter, Pro, Agency) are billed monthly in advance via Stripe. When you request account deletion, your account enters a 30-day scheduled deletion grace period; logging back in and canceling deletion within those 30 days restores your account and data intact.</p>
-                </div>
-                <div>
-                    <h4 class="font-bold text-purple-400 mb-1">5. Disclaimer &amp; Limitation of Liability</h4>
-                    <p>ClipForge AI is provided "as is" and "as available" without warranties of any kind. To the maximum extent permitted by law, ClipForge AI shall not be liable for any indirect, incidental, special, or consequential damages resulting from use of the Service, processing errors, or downtime.</p>
-                </div>
+                <div><h4 class="font-bold text-purple-400 mb-1">1. Acceptance</h4><p>By accessing or using ClipForge AI, you agree to these Terms &amp; Conditions.</p></div>
+                <div><h4 class="font-bold text-purple-400 mb-1">2. Account Deletion Policy</h4><p>Account deletion requests initiate a 30-day grace period. Logging back in before 30 days automatically cancels deletion and restores all data.</p></div>
             </div>
-
-            <button onclick="closeLegalModal('terms')" class="w-full mt-6 bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl transition text-sm">
-                Close
-            </button>
+            <button onclick="closeLegalModal('terms')" class="w-full mt-6 bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl transition text-sm">Close</button>
         </div>
     </div>
 
     <!-- Privacy Policy Modal -->
     <div id="privacy-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50">
         <div class="bg-gray-900 border border-gray-800 max-w-lg w-full rounded-3xl p-8 shadow-2xl relative max-h-[85vh] flex flex-col">
-            <button onclick="closeLegalModal('privacy')" aria-label="Close Privacy modal" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl font-light">&times;</button>
+            <button onclick="closeLegalModal('privacy')" aria-label="Close modal" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl font-light">&times;</button>
             <h3 class="text-xl font-black mb-1 text-white">Privacy Policy</h3>
             <p class="text-xs text-gray-500 mb-4">Last updated: November 2026</p>
-            
             <div class="overflow-y-auto pr-2 space-y-4 text-xs text-gray-300 leading-relaxed flex-1">
-                <div>
-                    <h4 class="font-bold text-purple-400 mb-1">1. Information We Collect</h4>
-                    <p>When you sign up or sign in, we collect your email address, hashed password (if signing up via email), and authentication provider details (Google or Email). When you use the clipping tool, we temporarily receive the video files you upload for automated processing.</p>
-                </div>
-                <div>
-                    <h4 class="font-bold text-purple-400 mb-1">2. How We Use Your Information</h4>
-                    <p>We use your email address solely to authenticate your account, enforce fair usage of the free demo, manage your subscription tier, and track remaining clip credits. We never sell, rent, or trade your personal information to third parties.</p>
-                </div>
-                <div>
-                    <h4 class="font-bold text-purple-400 mb-1">3. Video Processing &amp; Data Retention</h4>
-                    <p>Uploaded videos are processed in isolated temporary directories and deleted automatically once rendering completes. If you initiate account deletion, your account data is permanently purged 30 days after your request unless you log back in and cancel deletion prior to that timestamp.</p>
-                </div>
-                <div>
-                    <h4 class="font-bold text-purple-400 mb-1">4. Third-Party Services</h4>
-                    <p>We rely on trusted third-party infrastructure providers—including Google Identity Services for authentication and Stripe for payment processing—which handle data in accordance with their respective privacy policies.</p>
-                </div>
-                <div>
-                    <h4 class="font-bold text-purple-400 mb-1">5. Your Rights &amp; Contact</h4>
-                    <p>Under GDPR, you may request access to, rectification of, or deletion of your account data at any time via the in-app Delete Account option or by contacting support@clipforge.ai.</p>
-                </div>
+                <div><h4 class="font-bold text-purple-400 mb-1">1. Data Collected</h4><p>We collect essential account credentials and temporary video files for processing.</p></div>
             </div>
-
-            <button onclick="closeLegalModal('privacy')" class="w-full mt-6 bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl transition text-sm">
-                Close
-            </button>
+            <button onclick="closeLegalModal('privacy')" class="w-full mt-6 bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl transition text-sm">Close</button>
         </div>
     </div>
 
     <!-- Refund Policy Modal -->
     <div id="refund-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50">
         <div class="bg-gray-900 border border-gray-800 max-w-lg w-full rounded-3xl p-8 shadow-2xl relative max-h-[85vh] flex flex-col">
-            <button onclick="closeLegalModal('refund')" aria-label="Close Refund modal" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl font-light">&times;</button>
+            <button onclick="closeLegalModal('refund')" aria-label="Close modal" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl font-light">&times;</button>
             <h3 class="text-xl font-black mb-1 text-white">Refund Policy</h3>
             <p class="text-xs text-gray-500 mb-4">Last updated: November 2026</p>
-            
             <div class="overflow-y-auto pr-2 space-y-4 text-xs text-gray-300 leading-relaxed flex-1">
-                <div>
-                    <h4 class="font-bold text-purple-400 mb-1">1. Free Demo Evaluation</h4>
-                    <p>Every new account includes one (1) free demo clip so you can evaluate video quality, vertical cropping, and rendering speed before purchasing a paid subscription.</p>
-                </div>
-                <div>
-                    <h4 class="font-bold text-purple-400 mb-1">2. Paid Subscriptions &amp; Refund Window</h4>
-                    <p>If you subscribe to a paid plan and have not used any of your monthly clip credits, you may request a full refund within 7 days of your initial payment by emailing support@clipforge.ai with your account email.</p>
-                </div>
-                <div>
-                    <h4 class="font-bold text-purple-400 mb-1">3. Cancellation</h4>
-                    <p>You may cancel your subscription at any time to prevent future monthly renewals. Once credits have been consumed during a billing cycle, partial-month refunds are not issued unless the Service experienced verified technical downtime.</p>
-                </div>
+                <p>Unused subscription credits are eligible for refunds within 7 days of purchase by contacting support@clipforge.ai.</p>
             </div>
-
-            <button onclick="closeLegalModal('refund')" class="w-full mt-6 bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl transition text-sm">
-                Close
-            </button>
+            <button onclick="closeLegalModal('refund')" class="w-full mt-6 bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl transition text-sm">Close</button>
         </div>
     </div>
 
-    <!-- Frontend Logic Script -->
+    <!-- Frontend Script -->
     <script>
         const API_BASE = "https://clipforge-backend-4t73.onrender.com";
         let currentUser = JSON.parse(localStorage.getItem("clipforge_user")) || null;
@@ -618,17 +520,14 @@
             const confirmed = confirm(
                 "Are you sure you want to delete your account?\n\n" +
                 "Your account deletion will be scheduled for exactly 30 days from now. " +
-                "During these 30 days, you cannot create a new free demo on this account, " +
-                "but you can log back in anytime before the 30 days expire to cancel deletion and restore all your data."
+                "During these 30 days, you can log back in anytime before the 30 days expire to cancel deletion and restore all your data."
             );
             if (!confirmed) return;
 
             try {
                 const res = await fetch(`${API_BASE}/api/account/schedule-deletion`, {
                     method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${authToken}`
-                    }
+                    headers: { "Authorization": `Bearer ${authToken}` }
                 });
                 const data = await res.json();
                 if (res.ok) {
@@ -639,10 +538,7 @@
                         hour: "2-digit",
                         minute: "2-digit"
                     });
-                    alert(
-                        `Account deletion is scheduled for ${localDate} (30 days from now).\n\n` +
-                        `If you log back in before then and choose to cancel deletion, your account and data will be restored.`
-                    );
+                    alert(`Account deletion is scheduled for ${localDate} (30 days from now). If you log back in before then, you can cancel deletion.`);
                     logout();
                 } else {
                     alert(data.detail || "Could not schedule account deletion.");
@@ -659,9 +555,7 @@
             authToken = null;
             updateUIState();
             const dropdown = document.getElementById("profile-dropdown");
-            if (!dropdown.classList.contains("hidden")) {
-                dropdown.classList.add("hidden");
-            }
+            if (!dropdown.classList.contains("hidden")) dropdown.classList.add("hidden");
             resetApp();
         }
 
@@ -685,9 +579,7 @@
             try {
                 const res = await fetch(`${API_BASE}/upload-and-clip`, {
                     method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${authToken}`
-                    },
+                    headers: { "Authorization": `Bearer ${authToken}` },
                     body: formData
                 });
 
