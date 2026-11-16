@@ -6,8 +6,8 @@
     <title>ClipForge | Vertical Video Reframing &amp; Highlight Engine</title>
     <meta name="description" content="Convert horizontal 16:9 videos into crisp 1080x1920 vertical clips automatically. Built for creators, editors, and media teams.">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23F59E0B'/%3E%3Cpath d='M9 9l14 14M23 9L9 23' stroke='%230E1012' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+    <!-- Updated Favicon Matching Exact Ribbon Icon (Amber #F59E0B on Dark Background) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230E1012'/%3E%3Cpath d='M20,40 L50,27 L50,73 L20,60 Z' fill='%23F59E0B'/%3E%3Cpath d='M45,68 L70,35 L90,45 L65,78 Z' fill='%23F59E0B'/%3E%3Cpolygon points='73,53 82,58 74,63' fill='%230E1012'/%3E%3C/svg%3E">
 
     <!-- Editorial Typography: Plus Jakarta Sans & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,14 +50,13 @@
     <!-- Top Navigation Bar -->
     <header class="border-b border-surface-800 bg-surface-950/95 sticky top-0 z-40">
         <div class="max-w-6xl mx-auto px-4 sm:px-8 h-16 flex items-center justify-between">
-            <!-- Clickable Logo (Icon Only with Inverted Colors: Amber background, Dark Charcoal ribbon) -->
-            <a href="#top" onclick="showMainView()" class="flex items-center gap-3 focus:outline-none group">
-                <div class="w-9 h-9 bg-accent-500 rounded-lg flex items-center justify-center shadow-sm overflow-hidden p-1.5">
-                    <!-- Inverted Icon Graphic -->
-                    <svg viewBox="0 0 100 100" class="w-full h-full text-surface-950" fill="currentColor">
-                        <path d="M10,40 L45,25 L45,75 L10,60 Z" opacity="0.9"/>
-                        <path d="M35,68 L65,32 L90,45 L60,82 Z" opacity="0.95"/>
-                        <polygon points="72,55 82,62 72,69" fill="#0E1012"/>
+            <!-- Clickable Logo (Seamless Blend with Transparent Background & Enlarged Icon) -->
+            <a href="#top" onclick="showMainView()" class="flex items-center gap-3.5 focus:outline-none group">
+                <div class="w-10 h-10 bg-transparent flex items-center justify-center p-0.5">
+                    <svg viewBox="0 0 100 100" class="w-full h-full text-accent-500 drop-shadow-sm" fill="currentColor">
+                        <path d="M18,42 L48,28 L48,72 L18,58 Z"/>
+                        <path d="M42,68 L68,34 L88,44 L62,78 Z"/>
+                        <polygon points="71,53 80,58 72,63" fill="#0E1012"/>
                     </svg>
                 </div>
                 <span class="text-base font-extrabold tracking-tight text-white">CLIPFORGE</span>
@@ -245,7 +244,7 @@
             </div>
         </section>
 
-        <!-- 4-Tier Pricing Section (Includes $0/month Dynamic Free Tier) -->
+        <!-- 4-Tier Pricing Section -->
         <section id="pricing" class="border-t border-surface-800 pt-16">
             <div class="mb-10">
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Transparent Monthly Plans</h2>
@@ -341,7 +340,7 @@
         </section>
     </main>
 
-    <!-- Custom 404 View (Triggered on unknown hash routes) -->
+    <!-- Custom 404 View -->
     <section id="not-found-view" class="hidden flex-1 flex flex-col items-center justify-center px-4 py-20 text-center">
         <p class="text-xs font-mono text-accent-400 uppercase tracking-widest mb-2">Error 404</p>
         <h2 class="text-3xl font-extrabold text-white mb-3">Page Not Found</h2>
