@@ -1180,16 +1180,11 @@
             formData.append("file", selectedFile);
 
             try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 130000);
-
                 const res = await fetch(`${API_BASE}/upload-and-clip`, {
                     method: "POST",
                     headers: { "Authorization": `Bearer ${authToken}` },
-                    body: formData,
-                    signal: controller.signal
+                    body: formData
                 });
-                clearTimeout(timeoutId);
 
                 if (res.ok) {
                     const blob = await res.blob();
@@ -1200,7 +1195,6 @@
                     downloadLink.href = videoUrl;
                     downloadLink.download = "clipforge_vertical_highlight.mp4";
 
-                    // Deduct 1 credit regardless of plan or download, and only downgrade free/demo tier
                     currentUser.clips_remaining = Math.max(0, currentUser.clips_remaining - 1);
                     if (["free", "demo"].includes(currentUser.tier)) {
                         currentUser.tier = "free_used";
@@ -1218,11 +1212,7 @@
                     resetApp();
                 }
             } catch (err) {
-                if (err.name === "AbortError") {
-                    showToast("Request timed out. Try a shorter video file.", "error");
-                } else {
-                    showToast("Connection error during video upload.", "error");
-                }
+                showToast("Connection error during video upload.", "error");
                 resetApp();
             } finally {
                 clearInterval(timerInterval);
