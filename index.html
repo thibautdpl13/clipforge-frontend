@@ -1,286 +1,423 @@
 <!DOCTYPE html>
-<html lang="en" class="dark scroll-smooth">
+<html lang="en" class="overflow-x-hidden scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClipForge — Vertical Clip &amp; Subtitle Studio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>ClipForge | Full-Frame 9:16 Letterboxed Clips &amp; Subtitles</title>
+    <meta name="description" content="Place full horizontal 16:9 videos inside a 9:16 portrait frame with black bars on top and bottom, no cutting, random 45-second start points, and subtitles.">
+    
+    <!-- Exact Adjusted Two-Prong Flame Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='16 10 72 80'%3E%3Cdefs%3E%3ClinearGradient id='flameGrad' x1='50%25' y1='0%25' x2='50%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23F59E0B'/%3E%3Cstop offset='100%25' stop-color='%23D97706'/%3E%3C/linearGradient%3E%3ClinearGradient id='flameGrad2' x1='50%25' y1='0%25' x2='50%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23FBBF24'/%3E%3Cstop offset='100%25' stop-color='%23F59E0B'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M44 12C44 12 24 40 24 62C24 77 35 88 50 88C65 88 76 77 76 62C76 40 44 12 44 12Z' fill='url(%23flameGrad)'/%3E%3Cpath d='M62 18C62 18 44 42 44 60C44 72 53 82 62 82C71 82 80 72 80 60C80 42 62 18 62 18Z' fill='url(%23flameGrad2)'/%3E%3C/svg%3E">
+
+    <!-- Editorial Typography: Plus Jakarta Sans & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
                     },
                     colors: {
                         surface: {
-                            950: '#09090b',
-                            900: '#111114',
-                            850: '#18181c',
-                            800: '#222228',
+                            950: '#0E1012',
+                            900: '#15181C',
+                            850: '#1C2026',
+                            800: '#252A32',
                         },
                         accent: {
-                            500: '#f59e0b',
-                            400: '#fbbf24',
-                            600: '#d97706',
+                            400: '#FBBF24',
+                            500: '#F59E0B',
+                            600: '#D97706',
                         }
                     }
                 }
             }
         }
     </script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
-<body class="bg-surface-950 text-zinc-100 font-sans antialiased min-h-screen flex flex-col">
-    <!-- Toast Notifications -->
-    <div id="toast-container" class="fixed top-20 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+<body class="bg-surface-950 text-zinc-100 font-sans min-h-screen flex flex-col overflow-x-hidden antialiased selection:bg-accent-500 selection:text-surface-950">
 
-    <!-- Navigation -->
-    <header id="top" class="border-b border-surface-800 bg-surface-950/90 backdrop-blur sticky top-0 z-40">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-            <a href="#top" onclick="resetRouteToHome()" class="flex items-center gap-2.5 text-white font-bold tracking-tight text-lg">
-                <span class="w-7 h-7 rounded-lg bg-accent-500 text-surface-950 flex items-center justify-center font-mono text-xs font-extrabold">CF</span>
-                <span>ClipForge</span>
+    <!-- Screen-Reader Skip Link (ADA Compliance) -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:bg-accent-500 focus:text-surface-950 focus:px-4 focus:py-2 focus:rounded-lg focus:font-bold focus:text-xs">
+        Skip to main content
+    </a>
+
+    <!-- Non-Blocking Toast Notification Banner -->
+    <div id="toast-container" role="status" aria-live="polite" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full px-4 sm:px-0 pointer-events-none"></div>
+
+    <!-- Top Navigation Bar -->
+    <header class="border-b border-surface-800 bg-surface-950/95 sticky top-0 z-40">
+        <div class="w-full max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 h-18 py-3.5 flex items-center justify-between">
+            <!-- Two-Prong Flame Logo & Wordmark -->
+            <a href="#top" onclick="showMainView()" aria-label="ClipForge Home" class="flex items-center gap-2.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 rounded-lg group">
+                <svg viewBox="22 10 60 80" class="h-9 w-auto drop-shadow-sm shrink-0" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="navFlameGrad" x1="50%" y1="0%" x2="50%" y2="100%">
+                            <stop offset="0%" stop-color="#F59E0B" />
+                            <stop offset="100%" stop-color="#D97706" />
+                        </linearGradient>
+                        <linearGradient id="navFlameGrad2" x1="50%" y1="0%" x2="50%" y2="100%">
+                            <stop offset="0%" stop-color="#FBBF24" />
+                            <stop offset="100%" stop-color="#F59E0B" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M44 12C44 12 24 40 24 62C24 77 35 88 50 88C65 88 76 77 76 62C76 40 44 12 44 12Z" fill="url(#navFlameGrad)"/>
+                    <path d="M62 18C62 18 44 42 44 60C44 72 53 82 62 82C71 82 80 72 80 60C80 42 62 18 62 18Z" fill="url(#navFlameGrad2)"/>
+                </svg>
+                <span class="text-xl sm:text-2xl font-extrabold tracking-tight text-white leading-none">ClipForge</span>
             </a>
 
-            <nav class="hidden md:flex items-center gap-6 text-sm text-zinc-400">
-                <a href="#workspace" onclick="showMainView()" class="hover:text-white transition-colors">Studio</a>
-                <a href="#recent-renders" onclick="showMainView()" class="hover:text-white transition-colors">Recent Clips</a>
-                <a href="#preview-demo" onclick="showMainView()" class="hover:text-white transition-colors">How It Works</a>
-                <a href="#pricing" onclick="showMainView()" class="hover:text-white transition-colors">Pricing</a>
+            <!-- Desktop Navigation -->
+            <nav aria-label="Primary Navigation" class="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
+                <a href="#workspace" onclick="showMainView()" class="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 rounded-lg px-1 transition-colors">Studio</a>
+                <a href="#recent-renders" onclick="showMainView()" class="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 rounded-lg px-1 transition-colors">Recent Renders</a>
+                <a href="#preview-demo" onclick="showMainView()" class="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 rounded-lg px-1 transition-colors">Output Specs</a>
+                <a href="#pricing" onclick="showMainView()" class="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 rounded-lg px-1 transition-colors">Pricing</a>
             </nav>
 
+            <!-- Right Controls + Mobile Hamburger -->
             <div class="flex items-center gap-3">
-                <div id="guest-auth-buttons" class="flex items-center gap-2">
-                    <button type="button" onclick="openAuthModal('login')" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-zinc-300 hover:text-white hover:bg-surface-900 transition-colors">
-                        Log in
-                    </button>
-                    <button type="button" onclick="openAuthModal('signup')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-accent-500 hover:bg-accent-400 text-surface-950 transition-colors">
-                        Start Free
-                    </button>
-                </div>
+                <div id="auth-container" class="relative flex items-center gap-2 sm:gap-3">
+                    <!-- Unauthenticated Auth Buttons -->
+                    <div id="guest-auth-buttons" class="flex items-center gap-2 sm:gap-3">
+                        <button id="open-login-modal-btn" onclick="openAuthModal('login')" class="text-zinc-300 hover:text-white hover:bg-surface-900 border border-transparent hover:border-surface-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 font-medium px-3 py-2 rounded-lg text-xs sm:text-sm transition-colors">
+                            Log in
+                        </button>
+                        <button id="open-signup-modal-btn" onclick="openAuthModal('signup')" class="bg-accent-500 hover:bg-accent-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white text-surface-950 font-bold px-4 py-2 rounded-lg text-xs sm:text-sm transition-colors">
+                            Start Clipping
+                        </button>
+                    </div>
 
-                <div id="profile-container" class="hidden relative">
-                    <button type="button" id="profile-menu-btn" aria-expanded="false" onclick="toggleDropdown()" class="flex items-center gap-2.5 bg-surface-900 hover:bg-surface-850 border border-surface-800 rounded-lg px-3 py-1.5 text-xs transition-colors">
-                        <span id="user-avatar" class="w-6 h-6 rounded-md bg-accent-500 text-surface-950 font-mono font-bold flex items-center justify-center">U</span>
-                        <span id="nav-user-email" class="hidden sm:inline text-zinc-200 font-medium max-w-[160px] truncate">user@domain.com</span>
-                        <span id="nav-user-tier" class="px-1.5 py-0.5 rounded bg-surface-800 text-accent-400 font-mono text-[10px] font-bold">FREE</span>
-                    </button>
+                    <!-- Logged In Profile Pill -->
+                    <div id="profile-container" class="hidden relative">
+                        <button id="profile-menu-btn" onclick="toggleDropdown()" aria-haspopup="true" aria-expanded="false" aria-label="Open account menu" class="flex items-center gap-2.5 bg-surface-900 hover:bg-surface-850 border border-surface-800 px-3 py-1.5 rounded-lg transition-colors">
+                            <span id="user-avatar" aria-hidden="true" class="w-6 h-6 bg-accent-500 text-surface-950 font-mono font-bold rounded-lg text-xs flex items-center justify-center">U</span>
+                            <span id="nav-user-email" class="hidden sm:inline text-xs font-medium text-zinc-200 max-w-[130px] truncate">user@domain.com</span>
+                            <span id="nav-user-tier" class="text-[10px] font-mono uppercase px-1.5 py-0.5 bg-surface-800 text-accent-400 rounded-lg">FREE</span>
+                        </button>
 
-                    <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-60 bg-surface-900 border border-surface-800 rounded-lg shadow-xl p-2 z-50 text-xs">
-                        <div class="px-3 py-2 border-b border-surface-800 mb-1">
-                            <p class="text-[10px] font-mono uppercase text-zinc-400">Available Credits</p>
-                            <p class="text-sm font-bold text-white font-mono mt-0.5"><span id="dropdown-credits">0</span> clip(s)</p>
+                        <!-- Dropdown Menu -->
+                        <div id="profile-dropdown" role="menu" class="hidden absolute right-0 mt-2 w-60 bg-surface-900 border border-surface-800 rounded-lg py-1.5 z-50">
+                            <div class="px-4 py-2 border-b border-surface-800">
+                                <p class="text-[11px] text-zinc-400">Available Credits</p>
+                                <p id="dropdown-credits" class="text-base font-mono font-bold text-white">1</p>
+                            </div>
+                            <button role="menuitem" onclick="openPrivacyPortal()" class="w-full text-left px-4 py-2 text-xs text-zinc-300 hover:bg-surface-850 transition-colors">
+                                User Data Rights (GDPR / CCPA)
+                            </button>
+                            <button role="menuitem" onclick="triggerAccountDeletion()" class="w-full text-left px-4 py-2 text-xs text-accent-400 hover:bg-surface-850 transition-colors">
+                                Schedule Account Deletion
+                            </button>
+                            <button role="menuitem" onclick="logout()" class="w-full text-left px-4 py-2 text-xs text-zinc-300 hover:bg-surface-850 transition-colors">
+                                Sign Out
+                            </button>
                         </div>
-                        <button type="button" onclick="openPrivacyPortal()" class="w-full text-left px-3 py-2 rounded-md text-zinc-300 hover:text-white hover:bg-surface-850 transition-colors">
-                            Privacy &amp; Data Controls
-                        </button>
-                        <button type="button" onclick="logout()" class="w-full text-left px-3 py-2 rounded-md text-zinc-400 hover:text-white hover:bg-surface-850 transition-colors">
-                            Sign out
-                        </button>
                     </div>
                 </div>
 
-                <button type="button" id="mobile-menu-btn" aria-expanded="false" aria-label="Toggle navigation menu" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-surface-900">
-                    ☰
+                <!-- Mobile Menu Toggle -->
+                <button id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle navigation menu" class="md:hidden p-2 rounded-lg border border-surface-800 text-zinc-300 hover:text-white hover:bg-surface-900">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
                 </button>
             </div>
         </div>
 
-        <div id="mobile-menu" class="hidden md:hidden border-t border-surface-800 bg-surface-950 px-4 py-3 space-y-2 text-sm text-zinc-300">
-            <a href="#workspace" onclick="closeMobileMenu(); showMainView();" class="block py-1.5 hover:text-white">Studio</a>
-            <a href="#recent-renders" onclick="closeMobileMenu(); showMainView();" class="block py-1.5 hover:text-white">Recent Clips</a>
-            <a href="#preview-demo" onclick="closeMobileMenu(); showMainView();" class="block py-1.5 hover:text-white">How It Works</a>
-            <a href="#pricing" onclick="closeMobileMenu(); showMainView();" class="block py-1.5 hover:text-white">Pricing</a>
+        <!-- Mobile Menu Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-surface-800 bg-surface-900 px-5 py-4 space-y-3">
+            <a href="#workspace" onclick="closeMobileMenu(); showMainView();" class="block text-sm font-medium text-zinc-300 hover:text-white">Studio Workspace</a>
+            <a href="#recent-renders" onclick="closeMobileMenu(); showMainView();" class="block text-sm font-medium text-zinc-300 hover:text-white">Recent Renders</a>
+            <a href="#preview-demo" onclick="closeMobileMenu(); showMainView();" class="block text-sm font-medium text-zinc-300 hover:text-white">Output Specs</a>
+            <a href="#pricing" onclick="closeMobileMenu(); showMainView();" class="block text-sm font-medium text-zinc-300 hover:text-white">Pricing Plans</a>
         </div>
     </header>
 
-    <!-- Fallback Route View -->
-    <section id="not-found-view" class="hidden flex-1 flex items-center justify-center px-4 py-20">
-        <div class="max-w-md w-full bg-surface-900 border border-surface-800 rounded-lg p-8 text-center">
-            <p class="text-xs font-mono uppercase text-accent-400 mb-2">404</p>
-            <h1 class="text-2xl font-extrabold text-white mb-2">Page not found</h1>
-            <p class="text-xs text-zinc-400 mb-6">That section link does not exist in ClipForge.</p>
-            <button type="button" onclick="resetRouteToHome()" class="w-full bg-accent-500 hover:bg-accent-400 text-surface-950 font-bold py-2.5 rounded-lg text-xs transition-colors">
-                Back to Studio
-            </button>
-        </div>
-    </section>
-
     <!-- Main Application View -->
-    <main id="main-content" class="flex-1">
-        <!-- Studio Workspace -->
-        <section id="workspace" class="max-w-4xl mx-auto px-4 sm:px-6 pt-12 pb-16">
-            <div class="text-center max-w-2xl mx-auto mb-10">
-                <span class="inline-block px-2.5 py-1 rounded bg-surface-900 border border-surface-800 text-[11px] font-mono text-accent-400 mb-3">
-                    9:16 VERTICAL CLIP RENDERER
-                </span>
-                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-3">
-                    Turn long-form video into vertical clips fast
+    <main id="main-content" class="flex-1 w-full max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 py-10 sm:py-16">
+        
+        <!-- Hero & Uploader Split Layout -->
+        <section id="workspace" aria-labelledby="hero-heading" class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center mb-24">
+            
+            <!-- Left Column: Crisp Editorial Copy -->
+            <div class="lg:col-span-6 space-y-6">
+                <div class="inline-block px-2.5 py-1 bg-surface-900 border border-surface-800 rounded-lg text-[11px] font-mono text-accent-400 uppercase tracking-wider">
+                    FFmpeg Letterbox &amp; Subtitle Engine v3.2
+                </div>
+                <h1 id="hero-heading" class="text-4xl sm:text-5xl xl:text-6xl font-extrabold tracking-tight text-white leading-[1.1]">
+                    Full landscape inside 9:16 portrait with black bars.
                 </h1>
-                <p class="text-sm text-zinc-400">
-                    Upload your source footage to generate a 9:16 vertical clip ready for preview and download.
+                <p class="text-zinc-400 text-base sm:text-lg leading-relaxed max-w-2xl">
+                    Upload MP4, MOV, or WebM footage. ClipForge picks a random 45-second start point across the video, fits the entire frame inside a 1080x1920 portrait canvas with black bars on top and bottom and zero cutting, and adds subtitles.
                 </p>
+
+                <!-- Technical Spec Strip -->
+                <div class="grid grid-cols-3 gap-4 pt-4 border-t border-surface-800/80 max-w-xl">
+                    <div>
+                        <p class="text-[11px] font-mono text-zinc-400 uppercase">Canvas</p>
+                        <p class="text-sm sm:text-base font-bold text-zinc-200 mt-0.5">1080 x 1920</p>
+                    </div>
+                    <div>
+                        <p class="text-[11px] font-mono text-zinc-400 uppercase">Clip Length</p>
+                        <p class="text-sm sm:text-base font-bold text-zinc-200 mt-0.5">Random 45s</p>
+                    </div>
+                    <div>
+                        <p class="text-[11px] font-mono text-zinc-400 uppercase">Framing</p>
+                        <p class="text-sm sm:text-base font-bold text-zinc-200 mt-0.5">No Cutting</p>
+                    </div>
+                </div>
             </div>
 
-            <div class="bg-surface-900 border border-surface-800 rounded-xl p-6 sm:p-8">
-                <div class="flex items-center justify-between gap-4 pb-4 mb-6 border-b border-surface-800">
-                    <div>
-                        <p class="text-xs font-mono uppercase text-zinc-400">Clipper Queue</p>
-                        <h2 class="text-base font-bold text-white">Source Video &amp; Render</h2>
-                    </div>
-                    <span id="status-badge" class="px-2.5 py-1 rounded bg-surface-850 border border-surface-800 font-mono text-xs text-accent-400">
-                        Ready
-                    </span>
-                </div>
-
-                <!-- Upload Stage -->
+            <!-- Right Column: Architectural Uploader Box -->
+            <div class="lg:col-span-6 bg-surface-900 border border-surface-800 rounded-lg p-6 sm:p-10">
                 <div id="upload-section">
-                    <label for="video-file-input" class="block border-2 border-dashed border-surface-800 hover:border-accent-500/60 bg-surface-950/70 rounded-xl p-8 text-center cursor-pointer transition-colors">
-                        <input id="video-file-input" type="file" accept="video/mp4,video/quicktime,video/webm" onchange="handleFileSelected(event)" class="sr-only">
-                        <p id="file-label" class="text-sm font-semibold text-white mb-1">
-                            Drop a video file or browse (MP4, MOV, WebM)
-                        </p>
-                        <p id="file-meta" class="text-xs font-mono text-zinc-400">
-                            Up to 250 MB • 45s auto-cut • 9:16 format
-                        </p>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-mono uppercase tracking-wider text-zinc-400">Input Source</span>
+                        <span id="status-badge" class="text-[11px] font-mono text-zinc-400">Ready</span>
+                    </div>
+
+                    <label for="video-file-input" class="block border border-dashed border-surface-800 hover:border-accent-500 focus-within:border-accent-500 rounded-lg p-10 sm:p-12 text-center cursor-pointer transition-colors bg-surface-950">
+                        <input type="file" id="video-file-input" accept="video/mp4,video/quicktime,video/webm" class="sr-only" onchange="handleFileSelected(event)">
+                        <div class="flex flex-col items-center">
+                            <svg class="w-9 h-9 text-zinc-400 mb-3" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 16V4m0 0l-4 4m4-4l4 4M4 20h16"></path>
+                            </svg>
+                            <p id="file-label" class="text-sm sm:text-base font-semibold text-zinc-200 break-all">Select a video file (MP4, MOV, WebM)</p>
+                            <p id="file-meta" class="text-xs text-zinc-400 mt-1.5">Maximum file size: 250 MB • Random 45s start • Black bars top &amp; bottom</p>
+                        </div>
                     </label>
 
-                    <button type="button" id="generate-btn" disabled onclick="uploadAndClip()" class="mt-5 w-full bg-accent-500 hover:bg-accent-400 disabled:bg-surface-800 disabled:text-zinc-500 text-surface-950 font-bold py-3 rounded-lg text-sm transition-colors">
-                        Generate 9:16 Clip
+                    <button id="generate-btn" onclick="uploadAndClip()" disabled class="w-full mt-6 bg-accent-500 hover:bg-accent-400 disabled:bg-surface-800 disabled:text-zinc-400 disabled:cursor-not-allowed text-surface-950 font-bold py-4 rounded-lg text-sm transition-colors">
+                        Render Vertical Clip
                     </button>
                 </div>
 
-                <!-- Processing Stage -->
-                <div id="loading-section" class="hidden py-10 text-center space-y-3">
-                    <div class="w-8 h-8 border-2 border-accent-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
-                    <p class="text-sm font-bold text-white">Rendering your vertical clip...</p>
-                    <p class="text-xs font-mono text-zinc-400">Elapsed time: <span id="elapsed-timer">0s</span></p>
+                <!-- Skeleton & Progress Loader State -->
+                <div id="loading-section" role="status" aria-live="polite" class="hidden py-6 space-y-4">
+                    <div class="flex items-center justify-between text-xs font-mono text-accent-400">
+                        <span>ENCODING 1080x1920 LETTERBOX + SUBTITLES...</span>
+                        <span id="elapsed-timer">0s</span>
+                    </div>
+                    <div class="w-full bg-surface-950 h-2 rounded-lg overflow-hidden border border-surface-800">
+                        <div class="bg-accent-500 h-full w-2/3 animate-pulse"></div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 pt-2" aria-hidden="true">
+                        <div class="h-24 bg-surface-850 rounded-lg animate-pulse border border-surface-800"></div>
+                        <div class="h-24 bg-surface-850 rounded-lg animate-pulse border border-surface-800"></div>
+                    </div>
+                    <p class="text-xs text-zinc-400">Do not refresh this tab while FFmpeg processes your stream.</p>
                 </div>
 
-                <!-- Result Stage -->
-                <div id="result-section" class="hidden space-y-5">
-                    <div class="max-w-xs mx-auto bg-black rounded-lg overflow-hidden border border-surface-800 aspect-[9/16]">
-                        <video id="output-video-player" controls playsinline class="w-full h-full object-contain"></video>
+                <!-- Portrait Preview & Download Result State -->
+                <div id="result-section" class="hidden space-y-4">
+                    <div class="flex items-center justify-between border-b border-surface-800 pb-3">
+                        <span class="text-xs font-mono text-accent-400 uppercase">9:16 Portrait Preview</span>
+                        <button onclick="resetApp()" class="text-xs text-zinc-400 hover:text-white underline">Reset Workspace</button>
                     </div>
-
-                    <div class="flex flex-col sm:flex-row gap-3">
-                        <a id="download-link" href="#" download="clipforge_vertical_highlight.mp4" class="flex-1 text-center bg-accent-500 hover:bg-accent-400 text-surface-950 font-bold py-2.5 px-4 rounded-lg text-xs transition-colors">
-                            Download MP4
-                        </a>
-                        <button type="button" onclick="resetApp()" class="flex-1 bg-surface-800 hover:bg-surface-850 text-white font-semibold py-2.5 px-4 rounded-lg text-xs transition-colors">
-                            Clip Another Video
-                        </button>
+                    <div class="flex justify-center bg-surface-950 border border-surface-800 rounded-lg p-4">
+                        <video id="output-video-player" controls playsinline aria-label="Portrait 9:16 video clip preview" class="aspect-[9/16] max-h-[440px] w-auto rounded-lg bg-black border border-surface-800"></video>
                     </div>
+                    <a id="download-link" class="block w-full text-center bg-accent-500 hover:bg-accent-400 text-surface-950 font-bold py-3 rounded-lg text-sm transition-colors">
+                        Download MP4 File
+                    </a>
                 </div>
             </div>
         </section>
 
-        <!-- Recent Renders -->
-        <section id="recent-renders" class="max-w-5xl mx-auto px-4 sm:px-6 py-12 border-t border-surface-800/80">
-            <div class="flex items-center justify-between mb-6">
+        <!-- Recent Renders History Section -->
+        <section id="recent-renders" aria-labelledby="recent-renders-heading" class="mb-24 border-t border-surface-800 pt-16">
+            <div class="flex items-center justify-between mb-8">
                 <div>
-                    <h2 class="text-xl font-extrabold text-white">Recent Clips</h2>
-                    <p class="text-xs text-zinc-400 mt-0.5">Preview or download previously rendered vertical clips.</p>
+                    <h2 id="recent-renders-heading" class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Recent Renders</h2>
+                    <p class="text-sm text-zinc-400 mt-1">Preview or re-download your 9:16 letterboxed clips without spending additional credits.</p>
                 </div>
-            </div>
-
-            <div id="recent-renders-guest" class="bg-surface-900 border border-surface-800 rounded-lg p-6 text-center">
-                <p class="text-xs text-zinc-400 mb-3">Sign in to view and re-download your recent vertical clips.</p>
-                <button type="button" onclick="openAuthModal('login')" class="px-4 py-2 rounded-lg bg-surface-800 hover:bg-surface-850 text-white font-semibold text-xs transition-colors">
-                    Log in to View Clips
+                <button onclick="fetchRecentRenders()" class="bg-surface-900 hover:bg-surface-850 border border-surface-800 text-zinc-200 font-semibold px-3.5 py-2 rounded-lg text-xs transition-colors">
+                    Refresh
                 </button>
             </div>
 
-            <div id="recent-renders-empty" class="hidden bg-surface-900 border border-surface-800 rounded-lg p-6 text-center">
-                <p class="text-xs text-zinc-400">No clips rendered yet. Upload a video above to get started.</p>
+            <div id="recent-renders-guest" class="bg-surface-900 border border-surface-800 rounded-lg p-6 text-sm text-zinc-400 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <span>Sign in to view and re-download your rendered vertical clips.</span>
+                <button onclick="openAuthModal('login')" class="bg-accent-500 hover:bg-accent-400 text-surface-950 font-bold px-4 py-2 rounded-lg text-xs transition-colors shrink-0">
+                    Log in
+                </button>
             </div>
 
-            <div id="recent-renders-grid" class="hidden grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+            <div id="recent-renders-empty" class="hidden bg-surface-900 border border-surface-800 rounded-lg p-6 text-sm text-zinc-400">
+                No rendered clips yet. Upload a video above to create a 45-second 9:16 letterboxed clip.
+            </div>
+
+            <div id="recent-renders-grid" class="hidden grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
         </section>
 
-        <!-- Workflow Overview -->
-        <section id="preview-demo" class="max-w-5xl mx-auto px-4 sm:px-6 py-12 border-t border-surface-800/80">
-            <h2 class="text-xl font-extrabold text-white mb-2">How ClipForge Works</h2>
-            <p class="text-xs text-zinc-400 mb-6">A streamlined flow from raw video file to vertical social export.</p>
+        <!-- Full-Frame Letterbox Output Preview Section -->
+        <section id="preview-demo" aria-labelledby="preview-heading" class="mb-24 border-t border-surface-800 pt-16">
+            <div class="mb-8">
+                <h2 id="preview-heading" class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Full-Frame 9:16 Letterboxing &amp; Subtitles</h2>
+                <p class="text-sm text-zinc-400 mt-1">Your entire landscape frame stays intact with black bars on top and bottom—zero cutting—plus subtitles.</p>
+            </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-surface-900 border border-surface-800 rounded-lg p-5">
-                    <span class="text-xs font-mono text-accent-400">01 / UPLOAD</span>
-                    <h3 class="text-sm font-bold text-white mt-1 mb-1.5">Select Source Footage</h3>
-                    <p class="text-xs text-zinc-400">Choose an MP4, MOV, or WebM video up to 250 MB directly in the studio queue.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Landscape Source Frame -->
+                <div class="bg-surface-900 border border-surface-800 rounded-lg p-6">
+                    <div class="flex justify-between items-center mb-3 text-xs font-mono text-zinc-400">
+                        <span>INPUT: LANDSCAPE (16:9)</span>
+                        <span>100% FRAME KEPT</span>
+                    </div>
+                    <div class="aspect-video bg-surface-950 border-2 border-accent-500 rounded-lg flex flex-col items-center justify-center p-4 text-center">
+                        <span class="text-xs font-mono font-bold text-accent-400 uppercase">Full Source Video</span>
+                        <span class="text-xs text-zinc-300 mt-1">Nothing cropped or cut off</span>
+                        <span class="text-[11px] font-mono text-zinc-400 mt-1">Random 45s start across full video</span>
+                    </div>
                 </div>
-                <div class="bg-surface-900 border border-surface-800 rounded-lg p-5">
-                    <span class="text-xs font-mono text-accent-400">02 / RENDER</span>
-                    <h3 class="text-sm font-bold text-white mt-1 mb-1.5">Generate 9:16 Clip</h3>
-                    <p class="text-xs text-zinc-400">Your video is processed in an ephemeral worker into a vertical 45-second clip.</p>
-                </div>
-                <div class="bg-surface-900 border border-surface-800 rounded-lg p-5">
-                    <span class="text-xs font-mono text-accent-400">03 / EXPORT</span>
-                    <h3 class="text-sm font-bold text-white mt-1 mb-1.5">Preview &amp; Download</h3>
-                    <p class="text-xs text-zinc-400">Inspect the rendered video in the built-in player and save the MP4 file.</p>
+
+                <!-- 9:16 Portrait Export Frame with Top/Bottom Black Bars & Subtitles -->
+                <div class="bg-surface-900 border border-surface-800 rounded-lg p-6">
+                    <div class="flex justify-between items-center mb-3 text-xs font-mono text-zinc-400">
+                        <span>OUTPUT: 1080x1920 (9:16)</span>
+                        <span class="text-accent-400">BLACK BARS + SUBTITLES</span>
+                    </div>
+                    <div class="h-64 bg-surface-950 border border-surface-800 rounded-lg flex items-center justify-center p-3">
+                        <div class="h-full aspect-[9/16] bg-black border-2 border-accent-500 rounded-lg flex flex-col justify-between p-2 text-center">
+                            <div class="flex-1 flex items-center justify-center text-[10px] font-mono text-zinc-400">
+                                BLACK BAR TOP
+                            </div>
+                            <div class="w-full bg-surface-850 border border-surface-800 py-4 px-1.5 rounded flex flex-col items-center justify-center">
+                                <span class="text-[10px] font-mono text-white font-bold">FULL LANDSCAPE</span>
+                                <span class="text-[9px] font-mono text-accent-400 mt-0.5">NO CUTTING</span>
+                            </div>
+                            <div class="flex-1 flex flex-col items-center justify-center gap-1">
+                                <span class="text-[10px] font-mono font-bold text-white bg-black/90 px-1.5 py-0.5 rounded">SUBTITLES</span>
+                                <span class="text-[9px] font-mono text-zinc-400">BLACK BAR BOTTOM</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Pricing -->
-        <section id="pricing" class="max-w-5xl mx-auto px-4 sm:px-6 py-12 border-t border-surface-800/80">
-            <h2 class="text-xl font-extrabold text-white mb-2">Plans &amp; Clip Credits</h2>
-            <p class="text-xs text-zinc-400 mb-6">Start free with 1 clip, then scale up when you need more renders.</p>
+        <!-- 4-Tier Pricing Section -->
+        <section id="pricing" aria-labelledby="pricing-heading" class="border-t border-surface-800 pt-16">
+            <div class="mb-10">
+                <h2 id="pricing-heading" class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Transparent Monthly Plans</h2>
+                <p class="text-sm text-zinc-400 mt-1">Start with a free account or scale up based on your monthly publishing volume.</p>
+            </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Tier 0: Free ($0/month) -->
                 <div class="bg-surface-900 border border-surface-800 rounded-lg p-6 flex flex-col justify-between">
                     <div>
-                        <p class="text-xs font-mono uppercase text-zinc-400">Starter</p>
-                        <h3 class="text-lg font-bold text-white mt-1">Free</h3>
-                        <p class="text-2xl font-extrabold text-white font-mono mt-2">$0</p>
-                        <p class="text-xs text-zinc-400 mt-2">1 complimentary 9:16 clip to test rendering speed and quality.</p>
+                        <span class="text-xs font-mono uppercase text-zinc-400">Free</span>
+                        <div class="mt-3 mb-2">
+                            <span class="text-3xl font-extrabold text-white">$0</span>
+                            <span class="text-xs text-zinc-400">/month</span>
+                        </div>
+                        <p class="text-xs text-zinc-400 mb-6 leading-relaxed">Test the rendering pipeline with zero commitment.</p>
+                        <ul class="space-y-2.5 text-xs text-zinc-300 mb-8 border-t border-surface-800 pt-4">
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-zinc-500 rounded-full"></span><span>1 clip included</span></li>
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-zinc-500 rounded-full"></span><span>1080x1920 letterbox + subtitles</span></li>
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-zinc-500 rounded-full"></span><span>250 MB upload cap</span></li>
+                        </ul>
                     </div>
-                    <button type="button" id="free-plan-btn" onclick="handleFreeTierClick()" class="mt-6 w-full bg-surface-800 hover:bg-surface-850 text-white font-semibold py-2.5 rounded-lg text-xs transition-colors border border-surface-800">
-                        Start Free
+                    <button id="free-plan-btn" onclick="handleFreeTierClick()" class="w-full bg-surface-800 hover:bg-surface-850 text-white font-bold py-2.5 rounded-lg text-xs transition-colors border border-surface-800">
+                        Start Clipping Free
                     </button>
                 </div>
 
-                <div class="bg-surface-900 border border-accent-500/50 rounded-lg p-6 flex flex-col justify-between">
-                    <div>
-                        <p class="text-xs font-mono uppercase text-accent-400">Creator</p>
-                        <h3 class="text-lg font-bold text-white mt-1">Pro</h3>
-                        <p class="text-2xl font-extrabold text-white font-mono mt-2">$19<span class="text-xs font-normal text-zinc-400">/mo</span></p>
-                        <p class="text-xs text-zinc-400 mt-2">Monthly batch of vertical clip credits and priority render history.</p>
-                    </div>
-                    <button type="button" onclick="handlePaidTierClick('Pro')" class="mt-6 w-full bg-accent-500 hover:bg-accent-400 text-surface-950 font-bold py-2.5 rounded-lg text-xs transition-colors">
-                        Choose Pro
-                    </button>
-                </div>
-
+                <!-- Tier 1: Starter ($19/month) -->
                 <div class="bg-surface-900 border border-surface-800 rounded-lg p-6 flex flex-col justify-between">
                     <div>
-                        <p class="text-xs font-mono uppercase text-zinc-400">Teams &amp; Agencies</p>
-                        <h3 class="text-lg font-bold text-white mt-1">Studio</h3>
-                        <p class="text-2xl font-extrabold text-white font-mono mt-2">$49<span class="text-xs font-normal text-zinc-400">/mo</span></p>
-                        <p class="text-xs text-zinc-400 mt-2">High-volume monthly clip credits for frequent multi-video publishing.</p>
+                        <span class="text-xs font-mono uppercase text-zinc-400">Starter</span>
+                        <div class="mt-3 mb-2">
+                            <span class="text-3xl font-extrabold text-white">$19</span>
+                            <span class="text-xs text-zinc-400">/month</span>
+                        </div>
+                        <p class="text-xs text-zinc-400 mb-6 leading-relaxed">For solo creators posting daily short-form clips.</p>
+                        <ul class="space-y-2.5 text-xs text-zinc-300 mb-8 border-t border-surface-800 pt-4">
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>30 clips per month</span></li>
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>1080p letterbox + subtitles</span></li>
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>Standard queue</span></li>
+                        </ul>
                     </div>
-                    <button type="button" onclick="handlePaidTierClick('Studio')" class="mt-6 w-full bg-surface-800 hover:bg-surface-850 text-white font-semibold py-2.5 rounded-lg text-xs transition-colors border border-surface-800">
-                        Choose Studio
+                    <button onclick="handlePaidTierClick('Starter')" class="w-full bg-surface-800 hover:bg-surface-850 text-white font-bold py-2.5 rounded-lg text-xs transition-colors border border-surface-800">
+                        Select Starter
                     </button>
                 </div>
+
+                <!-- Tier 2: Pro ($49/month) -->
+                <div class="bg-surface-900 border-2 border-accent-500 rounded-lg p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-mono uppercase text-accent-400 font-bold">Pro</span>
+                            <span class="text-[10px] font-mono bg-accent-500/15 text-accent-400 px-2 py-0.5 rounded-lg">POPULAR</span>
+                        </div>
+                        <div class="mt-3 mb-2">
+                            <span class="text-3xl font-extrabold text-white">$49</span>
+                            <span class="text-xs text-zinc-400">/month</span>
+                        </div>
+                        <p class="text-xs text-zinc-400 mb-6 leading-relaxed">For multi-channel creators scaling output volume.</p>
+                        <ul class="space-y-2.5 text-xs text-zinc-300 mb-8 border-t border-surface-800 pt-4">
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>120 clips per month</span></li>
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>High-bitrate H.264 + subtitles</span></li>
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>Fast-start web muxing</span></li>
+                        </ul>
+                    </div>
+                    <button onclick="handlePaidTierClick('Pro')" class="w-full bg-accent-500 hover:bg-accent-400 text-surface-950 font-bold py-2.5 rounded-lg text-xs transition-colors">
+                        Select Pro
+                    </button>
+                </div>
+
+                <!-- Tier 3: Agency ($149/month) -->
+                <div class="bg-surface-900 border border-surface-800 rounded-lg p-6 flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-mono uppercase text-zinc-400">Agency</span>
+                        <div class="mt-3 mb-2">
+                            <span class="text-3xl font-extrabold text-white">$149</span>
+                            <span class="text-xs text-zinc-400">/month</span>
+                        </div>
+                        <p class="text-xs text-zinc-400 mb-6 leading-relaxed">For media agencies and high-volume editing teams.</p>
+                        <ul class="space-y-2.5 text-xs text-zinc-300 mb-8 border-t border-surface-800 pt-4">
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>Unlimited monthly clips</span></li>
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>Priority worker allocation</span></li>
+                            <li class="flex items-center gap-2"><span aria-hidden="true" class="w-1.5 h-1.5 bg-accent-500 rounded-full"></span><span>Direct email support</span></li>
+                        </ul>
+                    </div>
+                    <button onclick="handlePaidTierClick('Agency')" class="w-full bg-surface-800 hover:bg-surface-850 text-white font-bold py-2.5 rounded-lg text-xs transition-colors border border-surface-800">
+                        Select Agency
+                    </button>
+                </div>
+
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="border-t border-surface-800 bg-surface-950 py-6">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-400">
-            <p>ClipForge — Vertical video clipping workspace.</p>
-            <div class="flex items-center gap-5">
-                <button type="button" onclick="openLegalModal('terms')" class="hover:text-zinc-200 transition-colors">Terms</button>
-                <button type="button" onclick="openLegalModal('privacy')" class="hover:text-zinc-200 transition-colors">Privacy</button>
-                <button type="button" onclick="openLegalModal('refund')" class="hover:text-zinc-200 transition-colors">Refunds</button>
+    <!-- Custom 404 View -->
+    <section id="not-found-view" class="hidden flex-1 flex flex-col items-center justify-center px-4 py-20 text-center">
+        <p class="text-xs font-mono text-accent-400 uppercase tracking-widest mb-2">Error 404</p>
+        <h2 class="text-3xl font-extrabold text-white mb-3">Page Not Found</h2>
+        <p class="text-sm text-zinc-400 max-w-md mb-6">The route you requested does not exist or has been moved.</p>
+        <button onclick="resetRouteToHome()" class="bg-accent-500 hover:bg-accent-400 text-surface-950 font-bold px-5 py-2.5 rounded-lg text-xs transition-colors">
+            Return to Studio
+        </button>
+    </section>
+
+    <!-- Footer with Clickable Email & Legal Policies -->
+    <footer class="border-t border-surface-800 bg-surface-950 py-8 px-5 sm:px-8 lg:px-12 text-xs text-zinc-400">
+        <div class="w-full max-w-[1440px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>ClipForge</p>
+            <div class="flex flex-wrap items-center justify-center gap-6">
+                <a href="mailto:support@clipforge.ai" class="hover:text-zinc-200 transition-colors">support@clipforge.ai</a>
+                <button onclick="openLegalModal('terms')" class="hover:text-zinc-200 transition-colors">Terms</button>
+                <button onclick="openLegalModal('privacy')" class="hover:text-zinc-200 transition-colors">Privacy</button>
+                <button onclick="openLegalModal('refund')" class="hover:text-zinc-200 transition-colors">Refunds</button>
             </div>
         </div>
     </footer>
@@ -288,31 +425,31 @@
     <!-- User Data Rights Portal Modal (GDPR / CCPA Compliance) -->
     <div id="privacy-portal-modal" role="dialog" aria-modal="true" aria-labelledby="privacy-portal-title" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
         <div class="bg-surface-900 border border-surface-800 max-w-md w-full rounded-lg p-6 relative">
-            <button type="button" onclick="closePrivacyPortal()" aria-label="Close User Data Rights modal" class="absolute top-4 right-4 text-zinc-400 hover:text-white text-xl leading-none">&times;</button>
-
-            <h2 id="privacy-portal-title" class="text-xl font-extrabold text-white mb-1">Privacy &amp; Data Controls</h2>
-            <p class="text-xs text-zinc-400 mb-6">Export your profile details or schedule account deletion anytime under GDPR and CCPA.</p>
+            <button onclick="closePrivacyPortal()" aria-label="Close User Data Rights modal" class="absolute top-4 right-4 text-zinc-400 hover:text-white text-xl leading-none">&times;</button>
+            
+            <h2 id="privacy-portal-title" class="text-xl font-extrabold text-white mb-1">User Data Rights Portal</h2>
+            <p class="text-xs text-zinc-400 mb-6">In compliance with GDPR and CCPA regulations, you have full control over your personal data.</p>
 
             <div class="space-y-4">
                 <div class="bg-surface-950 border border-surface-800 rounded-lg p-4">
-                    <h3 class="text-xs font-mono font-bold text-white uppercase mb-1">1. Export Account Data</h3>
-                    <p class="text-xs text-zinc-400 mb-3">Download a portable JSON copy of your account profile and credit balance.</p>
-                    <button type="button" onclick="downloadUserData()" class="w-full bg-surface-800 hover:bg-surface-850 text-white font-semibold py-2 rounded-lg text-xs transition-colors border border-surface-800">
-                        Download Account Data (JSON)
+                    <h3 class="text-xs font-mono font-bold text-white uppercase mb-1">1. Data Access &amp; Export</h3>
+                    <p class="text-xs text-zinc-400 mb-3">Download a portable JSON file containing your account profile and credit ledger.</p>
+                    <button onclick="downloadUserData()" class="w-full bg-surface-800 hover:bg-surface-850 text-white font-semibold py-2 rounded-lg text-xs transition-colors border border-surface-800">
+                        Download My Personal Data (JSON)
                     </button>
                 </div>
 
                 <div class="bg-surface-950 border border-surface-800 rounded-lg p-4">
-                    <h3 class="text-xs font-mono font-bold text-accent-400 uppercase mb-1">2. Delete Account</h3>
-                    <p class="text-xs text-zinc-400 mb-3">Schedule permanent removal of your account and data with a 30-day recovery window.</p>
-                    <button type="button" onclick="closePrivacyPortal(); triggerAccountDeletion();" class="w-full bg-accent-500/10 hover:bg-accent-500/20 text-accent-400 font-semibold py-2 rounded-lg text-xs transition-colors border border-accent-500/30">
+                    <h3 class="text-xs font-mono font-bold text-accent-400 uppercase mb-1">2. Right to Erasure</h3>
+                    <p class="text-xs text-zinc-400 mb-3">Schedule your account and data for permanent deletion (30-day recovery grace period).</p>
+                    <button onclick="closePrivacyPortal(); triggerAccountDeletion();" class="w-full bg-accent-500/10 hover:bg-accent-500/20 text-accent-400 font-semibold py-2 rounded-lg text-xs transition-colors border border-accent-500/30">
                         Schedule Account Deletion
                     </button>
                 </div>
             </div>
 
-            <button type="button" onclick="closePrivacyPortal()" class="mt-6 w-full bg-accent-500 hover:bg-accent-400 text-surface-950 font-bold py-2.5 rounded-lg text-xs transition-colors">
-                Done
+            <button onclick="closePrivacyPortal()" class="mt-6 w-full bg-accent-500 hover:bg-accent-400 text-surface-950 font-bold py-2.5 rounded-lg text-xs transition-colors">
+                Close Portal
             </button>
         </div>
     </div>
@@ -320,10 +457,10 @@
     <!-- Dual-Mode Authentication Modal (Log In vs Start Clipping) -->
     <div id="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
         <div class="bg-surface-900 border border-surface-800 max-w-md w-full rounded-lg p-6 relative">
-            <button type="button" onclick="closeAuthModal()" aria-label="Close authentication modal" class="absolute top-4 right-4 text-zinc-400 hover:text-white text-xl leading-none">&times;</button>
-
-            <h2 id="auth-modal-title" class="text-xl font-extrabold text-white mb-1">Create your ClipForge account</h2>
-            <p id="auth-modal-subtitle" class="text-xs text-zinc-400 mb-4">Start free with 1 vertical clip and synced subtitles included.</p>
+            <button onclick="closeAuthModal()" aria-label="Close authentication modal" class="absolute top-4 right-4 text-zinc-400 hover:text-white text-xl leading-none">&times;</button>
+            
+            <h2 id="auth-modal-title" class="text-xl font-extrabold text-white mb-1">Start clipping with ClipForge</h2>
+            <p id="auth-modal-subtitle" class="text-xs text-zinc-400 mb-4">Create your free workspace account with 1 complimentary clip.</p>
 
             <!-- Google Sign-In / Sign-Up (Available on both modes) -->
             <div class="flex justify-center mb-4">
@@ -382,8 +519,8 @@
                     </div>
                 </div>
 
-                <button type="button" id="email-submit-btn" onclick="handleEmailAuthSubmit()" class="w-full bg-accent-500 hover:bg-accent-400 text-surface-950 font-bold py-2.5 rounded-lg text-sm transition-colors mt-1">
-                    Create Free Account
+                <button id="email-submit-btn" onclick="handleEmailAuthSubmit()" class="w-full bg-accent-500 hover:bg-accent-400 text-surface-950 font-bold py-2.5 rounded-lg text-sm transition-colors mt-1">
+                    Start Clipping
                 </button>
 
                 <!-- Mode Switcher Link -->
@@ -401,14 +538,14 @@
         <div class="bg-surface-900 border border-surface-800 max-w-lg w-full rounded-lg p-6 max-h-[85vh] flex flex-col">
             <div class="flex justify-between items-center mb-3">
                 <h3 id="terms-modal-title" class="text-lg font-bold text-white">Terms &amp; Conditions</h3>
-                <button type="button" onclick="closeLegalModal('terms')" aria-label="Close Terms modal" class="text-zinc-400 hover:text-white text-xl">&times;</button>
+                <button onclick="closeLegalModal('terms')" aria-label="Close Terms modal" class="text-zinc-400 hover:text-white text-xl">&times;</button>
             </div>
             <div class="overflow-y-auto space-y-3 text-xs text-zinc-300 leading-relaxed flex-1 pr-1">
                 <p><strong>1. Eligibility:</strong> You must be at least 16 years old to create an account and use ClipForge.</p>
-                <p><strong>2. Content Ownership:</strong> You retain full ownership of your uploaded footage and rendered clips.</p>
-                <p><strong>3. Account Deletion:</strong> Deletion requests trigger a 30-day grace period. Signing back in within 30 days cancels deletion and restores your account.</p>
+                <p><strong>2. Content Ownership:</strong> You retain full ownership of uploaded footage. Temporary files are deleted automatically after rendering.</p>
+                <p><strong>3. Account Deletion:</strong> Deletion requests trigger a 30-day grace period. Signing back in before 30 days cancels deletion and restores your account.</p>
             </div>
-            <button type="button" onclick="closeLegalModal('terms')" class="mt-4 w-full bg-surface-800 hover:bg-surface-850 text-white font-semibold py-2 rounded-lg text-xs">Close</button>
+            <button onclick="closeLegalModal('terms')" class="mt-4 w-full bg-surface-800 hover:bg-surface-850 text-white font-semibold py-2 rounded-lg text-xs">Close</button>
         </div>
     </div>
 
@@ -416,14 +553,14 @@
         <div class="bg-surface-900 border border-surface-800 max-w-lg w-full rounded-lg p-6 max-h-[85vh] flex flex-col">
             <div class="flex justify-between items-center mb-3">
                 <h3 id="privacy-modal-title" class="text-lg font-bold text-white">Privacy Policy</h3>
-                <button type="button" onclick="closeLegalModal('privacy')" aria-label="Close Privacy modal" class="text-zinc-400 hover:text-white text-xl">&times;</button>
+                <button onclick="closeLegalModal('privacy')" aria-label="Close Privacy modal" class="text-zinc-400 hover:text-white text-xl">&times;</button>
             </div>
             <div class="overflow-y-auto space-y-3 text-xs text-zinc-300 leading-relaxed flex-1 pr-1">
-                <p><strong>1. Account Information:</strong> We store only your email address, encrypted password, subscription plan, credit balance, and recent renders.</p>
-                <p><strong>2. Source Video Handling:</strong> Uploaded source files are removed automatically once your vertical clip is generated.</p>
-                <p><strong>3. Privacy Inquiries:</strong> For data access or GDPR requests, contact <a href="mailto:support@clipforge.ai" class="text-accent-400 underline">support@clipforge.ai</a>.</p>
+                <p><strong>1. Data Storage:</strong> We store only your email address, hashed password, subscription tier, and remaining credit balance.</p>
+                <p><strong>2. Video Retention:</strong> Uploaded videos are processed in ephemeral containers and purged immediately after download.</p>
+                <p><strong>3. Contact:</strong> For GDPR inquiries, email <a href="mailto:support@clipforge.ai" class="text-accent-400 underline">support@clipforge.ai</a>.</p>
             </div>
-            <button type="button" onclick="closeLegalModal('privacy')" class="mt-4 w-full bg-surface-800 hover:bg-surface-850 text-white font-semibold py-2 rounded-lg text-xs">Close</button>
+            <button onclick="closeLegalModal('privacy')" class="mt-4 w-full bg-surface-800 hover:bg-surface-850 text-white font-semibold py-2 rounded-lg text-xs">Close</button>
         </div>
     </div>
 
@@ -431,12 +568,12 @@
         <div class="bg-surface-900 border border-surface-800 max-w-lg w-full rounded-lg p-6 max-h-[85vh] flex flex-col">
             <div class="flex justify-between items-center mb-3">
                 <h3 id="refund-modal-title" class="text-lg font-bold text-white">Refund Policy</h3>
-                <button type="button" onclick="closeLegalModal('refund')" aria-label="Close Refund modal" class="text-zinc-400 hover:text-white text-xl">&times;</button>
+                <button onclick="closeLegalModal('refund')" aria-label="Close Refund modal" class="text-zinc-400 hover:text-white text-xl">&times;</button>
             </div>
             <div class="overflow-y-auto space-y-3 text-xs text-zinc-300 leading-relaxed flex-1 pr-1">
-                <p>Every new account includes 1 complimentary clip so you can test output quality before upgrading. Unused paid subscriptions can be refunded within 7 days by emailing <a href="mailto:support@clipforge.ai" class="text-accent-400 underline">support@clipforge.ai</a>.</p>
+                <p>Every account includes 1 free clip to test video quality before subscribing. Unused paid subscriptions can be refunded within 7 days by contacting <a href="mailto:support@clipforge.ai" class="text-accent-400 underline">support@clipforge.ai</a>.</p>
             </div>
-            <button type="button" onclick="closeLegalModal('refund')" class="mt-4 w-full bg-surface-800 hover:bg-surface-850 text-white font-semibold py-2 rounded-lg text-xs">Close</button>
+            <button onclick="closeLegalModal('refund')" class="mt-4 w-full bg-surface-800 hover:bg-surface-850 text-white font-semibold py-2 rounded-lg text-xs">Close</button>
         </div>
     </div>
 
@@ -446,7 +583,6 @@
         let currentUser = JSON.parse(localStorage.getItem("clipforge_user")) || null;
         let authToken = localStorage.getItem("clipforge_token") || null;
         let selectedFile = null;
-        let activeVideoObjectUrl = null;
         let isSubmittingAuth = false;
         let isUploadingVideo = false;
         let timerInterval = null;
@@ -468,24 +604,6 @@
                 }
             });
         });
-
-        function setPreviewVideoUrl(nextUrl) {
-            if (activeVideoObjectUrl && activeVideoObjectUrl !== nextUrl) {
-                URL.revokeObjectURL(activeVideoObjectUrl);
-            }
-            activeVideoObjectUrl = nextUrl;
-            const player = document.getElementById("output-video-player");
-            const downloadLink = document.getElementById("download-link");
-            if (nextUrl) {
-                player.src = nextUrl;
-                downloadLink.href = nextUrl;
-                downloadLink.download = "clipforge_vertical_highlight.mp4";
-            } else {
-                player.removeAttribute("src");
-                player.load();
-                downloadLink.href = "#";
-            }
-        }
 
         function showToast(message, type = "info") {
             const container = document.getElementById("toast-container");
@@ -557,7 +675,7 @@
             } else {
                 guestButtons.classList.remove("hidden");
                 profileContainer.classList.add("hidden");
-                freePlanBtn.innerText = "Start Free";
+                freePlanBtn.innerText = "Start Clipping Free";
                 freePlanBtn.classList.remove("text-accent-400", "border-accent-500/40");
             }
         }
@@ -575,7 +693,7 @@
                 openAuthModal("signup");
                 return;
             }
-            showToast(`Upgrade checkout for ${planName} is ready to connect.`, "info");
+            showToast(`Checkout integration for ${planName} is ready to link to Stripe.`, "info");
         }
 
         function setAuthMode(mode, prefillEmail = "") {
@@ -595,23 +713,23 @@
 
             if (mode === "login") {
                 title.innerText = "Log in to ClipForge";
-                subtitle.innerText = "Welcome back. Jump back into your studio.";
+                subtitle.innerText = "Welcome back. Access your vertical video studio.";
                 pwdInput.autocomplete = "current-password";
                 pwdInput.placeholder = "Enter your password";
                 genPwdBtn.classList.add("hidden");
                 strengthContainer.classList.add("hidden");
                 complianceFields.classList.add("hidden");
                 submitBtn.innerText = "Log in";
-                switchPrompt.innerHTML = `Don't have an account? <button type="button" onclick="setAuthMode('signup')" class="text-accent-400 hover:text-accent-300 font-semibold underline">Create free account</button>`;
+                switchPrompt.innerHTML = `Don't have an account? <button type="button" onclick="setAuthMode('signup')" class="text-accent-400 hover:text-accent-300 font-semibold underline">Start clipping</button>`;
             } else {
-                title.innerText = "Create your ClipForge account";
-                subtitle.innerText = "Start free with 1 vertical clip and synced subtitles included.";
+                title.innerText = "Start clipping with ClipForge";
+                subtitle.innerText = "Create your free workspace account with 1 complimentary clip.";
                 pwdInput.autocomplete = "new-password";
                 pwdInput.placeholder = "Minimum 8 characters";
                 genPwdBtn.classList.remove("hidden");
                 strengthContainer.classList.remove("hidden");
                 complianceFields.classList.remove("hidden");
-                submitBtn.innerText = "Create Free Account";
+                submitBtn.innerText = "Start Clipping";
                 switchPrompt.innerHTML = `Already have an account? <button type="button" onclick="setAuthMode('login')" class="text-accent-400 hover:text-accent-300 font-semibold underline">Log in</button>`;
                 checkPasswordStrength(pwdInput.value);
             }
@@ -642,13 +760,13 @@
         function downloadUserData() {
             if (!currentUser) return;
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentUser, null, 2));
-            const downloadAnchor = document.createElement("a");
+            const downloadAnchor = document.createElement('a');
             downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `clipforge_user_data_${currentUser.email.split("@")[0]}.json`);
+            downloadAnchor.setAttribute("download", `clipforge_user_data_${currentUser.email.split('@')[0]}.json`);
             document.body.appendChild(downloadAnchor);
             downloadAnchor.click();
             downloadAnchor.remove();
-            showToast("Account data downloaded.", "success");
+            showToast("User data downloaded successfully.", "success");
         }
 
         function openLegalModal(type) {
@@ -759,8 +877,8 @@
             selectedFile = file;
             const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
             document.getElementById("file-label").innerText = file.name;
-            document.getElementById("file-meta").innerText = `${sizeMb} MB • Ready to generate`;
-            document.getElementById("status-badge").innerText = "Ready";
+            document.getElementById("file-meta").innerText = `Size: ${sizeMb} MB | Ready to render`;
+            document.getElementById("status-badge").innerText = "File Loaded";
             document.getElementById("generate-btn").removeAttribute("disabled");
         }
 
@@ -801,7 +919,7 @@
                 ) {
                     const attemptedEmail = provider === "email" ? payload.email : "";
                     setAuthMode("signup", attemptedEmail);
-                    showToast("No account found with that email. Complete sign up below to create your free clip!", "info");
+                    showToast("No account found with that email. Complete sign up below to start clipping!", "info");
                 } else if (res.status === 409 && data.detail && data.detail.code === "DELETION_PENDING") {
                     const localDate = new Date(data.detail.scheduled_at).toLocaleString([], {
                         year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit"
@@ -860,7 +978,6 @@
                     return;
                 }
             }
-
             authenticateBackend({ email, password }, "email", false);
         }
 
@@ -880,7 +997,7 @@
         async function triggerAccountDeletion() {
             if (!authToken) return;
             const confirmed = confirm(
-                "Schedule account deletion for 30 days from now?\n\nYou can sign back in anytime before 30 days to cancel deletion and restore your account."
+                "Schedule account deletion for 30 days from now?\n\nYou can log back in anytime before 30 days to cancel deletion and restore your data."
             );
             if (!confirmed) return;
 
@@ -968,13 +1085,11 @@
                     actionsEl.className = "flex items-center gap-2 pt-2 border-t border-surface-800";
 
                     const previewBtn = document.createElement("button");
-                    previewBtn.type = "button";
                     previewBtn.className = "flex-1 bg-surface-800 hover:bg-surface-850 text-white font-semibold py-2 rounded-lg text-xs transition-colors";
                     previewBtn.innerText = "Preview";
                     previewBtn.onclick = () => loadSavedRenderIntoPreview(item.id);
 
                     const dlBtn = document.createElement("button");
-                    dlBtn.type = "button";
                     dlBtn.className = "flex-1 bg-accent-500 hover:bg-accent-400 text-surface-950 font-bold py-2 rounded-lg text-xs transition-colors";
                     dlBtn.innerText = "Download";
                     dlBtn.onclick = () => downloadSavedRender(item.id);
@@ -1008,7 +1123,10 @@
             try {
                 const blob = await fetchSavedRenderBlob(renderId, false);
                 const videoUrl = URL.createObjectURL(blob);
-                setPreviewVideoUrl(videoUrl);
+                document.getElementById("output-video-player").src = videoUrl;
+                const downloadLink = document.getElementById("download-link");
+                downloadLink.href = videoUrl;
+                downloadLink.download = "clipforge_vertical_highlight.mp4";
                 document.getElementById("upload-section").classList.add("hidden");
                 document.getElementById("loading-section").classList.add("hidden");
                 document.getElementById("result-section").classList.remove("hidden");
@@ -1042,7 +1160,7 @@
                 return;
             }
             if (currentUser.clips_remaining <= 0) {
-                showToast("No clip credits remaining. Upgrade your plan to keep rendering.", "error");
+                showToast("No credits remaining. Upgrade your plan to continue.", "error");
                 return;
             }
             if (!selectedFile) return;
@@ -1071,7 +1189,11 @@
                 if (res.ok) {
                     const blob = await res.blob();
                     const videoUrl = URL.createObjectURL(blob);
-                    setPreviewVideoUrl(videoUrl);
+
+                    document.getElementById("output-video-player").src = videoUrl;
+                    const downloadLink = document.getElementById("download-link");
+                    downloadLink.href = videoUrl;
+                    downloadLink.download = "clipforge_vertical_highlight.mp4";
 
                     currentUser.clips_remaining = Math.max(0, currentUser.clips_remaining - 1);
                     if (["free", "demo"].includes(currentUser.tier)) {
@@ -1083,14 +1205,14 @@
 
                     document.getElementById("loading-section").classList.add("hidden");
                     document.getElementById("result-section").classList.remove("hidden");
-                    showToast("Your 9:16 clip is ready.", "success");
+                    showToast("Vertical clip rendered successfully.", "success");
                 } else {
                     const err = await res.json();
                     showToast(err.detail || "Video rendering failed.", "error");
                     resetApp();
                 }
             } catch (err) {
-                showToast("Connection error during upload.", "error");
+                showToast("Connection error during video upload.", "error");
                 resetApp();
             } finally {
                 clearInterval(timerInterval);
@@ -1100,10 +1222,9 @@
 
         function resetApp() {
             selectedFile = null;
-            setPreviewVideoUrl(null);
             document.getElementById("video-file-input").value = "";
-            document.getElementById("file-label").innerText = "Drop a video file or browse (MP4, MOV, WebM)";
-            document.getElementById("file-meta").innerText = "Up to 250 MB • 45s auto-cut • 9:16 format";
+            document.getElementById("file-label").innerText = "Select a video file (MP4, MOV, WebM)";
+            document.getElementById("file-meta").innerText = "Maximum file size: 250 MB • Random 45s start • Black bars top & bottom";
             document.getElementById("status-badge").innerText = "Ready";
             document.getElementById("generate-btn").setAttribute("disabled", "true");
             document.getElementById("result-section").classList.add("hidden");
@@ -1112,4 +1233,4 @@
         }
     </script>
 </body>
-</html>
+</html>       
